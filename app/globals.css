@@ -3,6 +3,13 @@
 @import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+@layer utilities{
+  .scrollbar-hide{
+
+    &::-webkit-scrollbar{
+      display: none;
+    }
+  }}
 
 @theme inline {
  --color-primary:#0e7a5f;   
