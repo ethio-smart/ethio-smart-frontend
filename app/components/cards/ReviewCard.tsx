@@ -1,4 +1,4 @@
-// components/worker/WorkerReviewCard.tsx
+
 
 import { Card, CardContent } from "@/app/components/ui/card"
 import { Avatar, AvatarFallback } from "@/app/components/ui/avatar"
@@ -36,7 +36,7 @@ export default function ReviewCard({
         {/* Rating */}
         <RatingStars rating={review.rating} />
 
-        {/* Comment */}
+        {/* review */}
         <p className="text-sm text-muted-foreground leading-relaxed">
           {review.comment}
         </p>
