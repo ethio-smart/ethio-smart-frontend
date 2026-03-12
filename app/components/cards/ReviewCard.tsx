@@ -1,7 +1,7 @@
 
 
-import { Card, CardContent } from "@/app/components/ui/card"
-import { Avatar, AvatarFallback } from "@/app/components/ui/avatar"
+import { Card, CardContent } from "@/components/ui/card"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { ReviewType } from "@/app/types/types"
 import RatingStars from "../common/RatingStars"
 
