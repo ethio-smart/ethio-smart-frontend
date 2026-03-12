@@ -7,7 +7,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/app/components/ui/pagination"
+} from "@/components/ui/pagination"
 
 type AppPaginationProps = {
   currentPage: number
