@@ -11,7 +11,7 @@ function ServiceCategoryCard({icon,bgColor,name}:ServiceCategoryCardProps) {
   return (
     <div className="bg-white h-40 rounded-lg shadow flex justify-center items-center">
       <div className="flex flex-col items-center gap-2">
-      <div className={`bg-${bgColor} flex items-center justify-center size-16 rounded-md `} style={{background:bgColor}}>
+      <div className={`bg-secondary flex items-center justify-center size-16 rounded-md text-primary`} style={{background:bgColor}}>
         {icon}
       </div>
         <Link href={'/tasks/create'} className="font-semibold hover:underline">{name}</Link >
