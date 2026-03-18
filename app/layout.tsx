@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import {  Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
-import Header from "@/app/components/landing/Header";
+import ReduxProvider from "./store/Provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -28,10 +29,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${poppins.variable} ${geistMono.variable} antialiased`}
-      >
-      
-        {children}
+      >  
+        <ReduxProvider>{children}</ReduxProvider>
+        <Toaster/>
       </body>
+        
     </html>
   );
 }
