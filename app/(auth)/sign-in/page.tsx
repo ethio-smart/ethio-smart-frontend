@@ -5,11 +5,90 @@ import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 import { Label } from "@/app/components/ui/label"
 import Link from "next/link"
-import { useState } from "react"
+import { Mail, Phone, Lock, Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
+import { setUser, setEmail, setLoading, setError } from "@/app/store/slices/authSlice"
+import { api } from "@/app/utils/axiosinstance"
+import { validateEmail, validatePhoneET, validatePassword } from "@/app/utils/validation"
 
 function SignIn() {
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+
+  const loading = useAppSelector((state) => state.auth.loading)
+  const error = useAppSelector((state) => state.auth.error)
+
   const [authMethod, setAuthMethod] = useState<"phone" | "email">("phone")
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmailInput] = useState("")
+  const [phone, setPhone] = useState("")
+  const [password, setPassword] = useState("")
+
+  useEffect(() => {
+    dispatch(setError(""))
+    dispatch(setLoading(false))
+  }, [dispatch])
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    dispatch(setError("")) 
+
+    // -------- Validation --------
+    let errorMessage: string | null = null
+
+    if (authMethod === "email") {
+      errorMessage = validateEmail(email)
+    } else {
+      errorMessage = validatePhoneET(phone)
+    }
+
+    if (!errorMessage) {
+      errorMessage = validatePassword(password)
+    }
+
+    if (errorMessage) {
+      dispatch(setError(errorMessage))
+      return
+    }
+
+    
+    dispatch(setLoading(true))
+
+    try {
+      const res = await api.post("/auth/login", {
+        identifier: authMethod === "email" ? email : phone,
+        password,
+      })
+
+      const { user, access_token } = res.data
+
+      dispatch(setUser(user))
+      dispatch(setEmail(user.email || ""))
+
+      localStorage.setItem("user", JSON.stringify(user))
+      localStorage.setItem("accessToken", access_token)
+
+      // Role routing
+      if (user.role === "USER") {
+        router.push("/")
+      } else if (user.role === "TASKER") {
+        router.push("/tasker/dashboard")
+      } else if (user.role === "SUPER_ADMIN" || user.role === "SYSTEM_ADMIN") {
+        router.push("/admin/dashboard")
+      } else {
+        router.push("/")
+      }
+
+    } catch (err: any) {
+      dispatch(setError(err?.response?.data?.message || "Login failed"))
+    } finally {
+      dispatch(setLoading(false))
+    }
+  }
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-muted">
