@@ -1,45 +1,44 @@
 
 
 import { Card, CardContent } from "@/components/ui/card"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { ReviewType } from "@/app/types/types"
-import RatingStars from "../common/RatingStars"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Star } from "lucide-react"
 
-
-export default function ReviewCard({
-  review,
-}: {
-  review: ReviewType
-}) {
+export const ReviewCard = ({ review }) => {
   return (
-    <Card className="shadow-none">
-      <CardContent className="p- space-y-2 ">
+    <Card className="shadow-sm">
+      <CardContent className="p- flex gap-4">
+        
+        <Avatar size="lg">
+          <AvatarImage src={review.avatarUrl} alt={review.userName} />
+          <AvatarFallback  className={review.avatarColor}>
+            {review.initials}
+          </AvatarFallback>
+        </Avatar>
 
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <Avatar>
-            <AvatarFallback>
-              {review.user.name.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
+        <div className="flex-1">
+          <div className="flex justify-between">
+            
+            <div>
+              <p className="font-semibold">{review.userName}</p>
+              <p className="text-sm flex items-center gap-1">
+                {review.rating}
+                <Star className="inline-block w-4 h-4 fill-yellow-400 text-yellow-400" />
+              </p>
+            </div>
 
-          <div>
-            <p className="font-medium text-sm">
-              {review.user.name}
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {new Date(review.createdAt).toDateString()}
-            </p>
+            <div className="text-xs text-muted-foreground text-right">
+              <p>{review.date}</p>
+              <Badge variant="secondary">{review.service}</Badge>
+            </div>
+
           </div>
+
+          <p className="text-sm text-muted-foreground mt-2">
+            {review.comment}
+          </p>
         </div>
-
-        {/* Rating */}
-        <RatingStars rating={review.rating} />
-
-        {/* review */}
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {review.comment}
-        </p>
 
       </CardContent>
     </Card>
