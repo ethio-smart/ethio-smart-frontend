@@ -117,9 +117,9 @@ export default function SearchBar() {
       <div className="flex flex-wrap gap-4 pt-4">
         {categories.map((category,index)=>(
 
-   <button key={index}
-    className={`text-sm rounded-full py-1 px-4 bg-neutral-200 ${selectedCategory === category ? 'bg-primary text-white':''}`}
-   onClick={()=>setSelectedCategory(category)}
+     <button key={index}
+      className={`text-sm rounded-full py-1 px-4 bg-neutral-200 ${selectedCategory === category ? 'bg-primary text-white':''}`}
+        onClick={()=>setSelectedCategory(category)}
     >
       
       {category}</button>
