@@ -1,212 +1,194 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
 import { toast } from 'sonner';
+
 import Icon from '@/components/ui/AppIcon';
-import { DataTable, DataTableColumnDef } from '@/components/ui/data-table/DataTable';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { DataTable } from '@/components/ui/data-table/DataTable';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { EditServiceModal, Service, ServiceFormData } from '@/app/components/dashboard/tasker/services/EditServiceModal';
+
+import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
+import { fetchServiceById } from '@/app/store/slices/serviceSlice';
+
 import { CreateServiceModal } from '@/app/components/dashboard/tasker/services/CreateServiceModal';
+import { EditServiceModal } from '@/app/components/dashboard/tasker/services/EditServiceModal';
 import { ServiceDetailModal } from '@/app/components/dashboard/tasker/services/ServiceDetailModal';
+import { Service } from '@/app/types/types';
+import { Key } from 'lucide-react';
 
-const CATEGORIES = ['Cleaning','Plumbing','Electrical','Moving','Gardening','Painting','Carpentry','IT Support','Tutoring','Cooking'];
-
-
-const MOCK_SERVICES: Service[] = [
-  {
-    id: 'SVC-001',
-    title: 'Deep House Cleaning',
-    category: 'Cleaning',
-    price: 45,
-    priceType: 'HOURLY',
-    serviceType: 'Per Hour',
-    status: 'Active',
-    createdDate: '2025-01-15',
-    description: 'Professional deep cleaning service.',
-  },
-  {
-    id: 'SVC-002',
-    title: 'Pipe Leak Repair',
-    category: 'Plumbing',
-    price: 120,
-    priceType: 'FIXED HOURLY',
-    serviceType: 'Per Service',
-    status: 'Active',
-    createdDate: '2025-02-03',
-    description: 'Fix leaking pipes and faucets.',
-  },
-  {
-    id: 'SVC-003',
-    title: 'Electrical Wiring',
-    category: 'Electrical',
-    price: 80,
-    priceType: 'HOURLY',
-    serviceType: 'Per Hour',
-    status: 'Active',
-    createdDate: '2025-02-18',
-    description: 'Safe electrical wiring installation.',
-  },
-  {
-    id: 'SVC-004',
-    title: 'Furniture Moving',
-    category: 'Moving',
-    price: 200,
-    priceType: 'DAILY',
-    serviceType: 'Per Service',
-    status: 'Inactive',
-    createdDate: '2025-03-01',
-    description: 'Careful furniture relocation.',
-  },
-  {
-    id: 'SVC-005',
-    title: 'Garden Landscaping',
-    category: 'Gardening',
-    price: 60,
-    priceType: 'HOURLY',
-    serviceType: 'Per Hour',
-    status: 'Active',
-    createdDate: '2025-03-10',
-    description: 'Beautiful garden design and maintenance.',
-  },
-  {
-    id: 'SVC-006',
-    title: 'Interior Painting',
-    category: 'Painting',
-    price: 350,
-    priceType: 'FIXED HOURLY',
-    serviceType: 'Fixed',
-    status: 'Active',
-    createdDate: '2025-03-22',
-    description: 'Professional interior painting.',
-  },
-];
 
 export default function ServicesPage() {
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [services, setServices] = useState<Service[]>(MOCK_SERVICES);
+  const dispatch = useAppDispatch();
+
+  const { services,currentService, loading } = useAppSelector(
+    (state) => state.service
+  );
+console.log('current services redux state',currentService)
+  const { categories } = useAppSelector(
+    (state) => state.category
+  );
+
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
   const [editService, setEditService] = useState<Service | null>(null);
   const [viewService, setViewService] = useState<Service | null>(null);
 
-  useEffect(() => setIsHydrated(true), []);
+console.log('services page states✨✨✨',{
+ editService,viewService
+})
+  // Fetch data
+  useEffect(() => {
+    dispatch(fetchServiceById());
+  }, [dispatch]);
 
+
+  // Category Map
+
+  const categoryMap = useMemo(() => {
+    return (categories || []).reduce((acc: any, cat: any) => {
+      acc[cat.id] = cat.name;
+      return acc;
+    }, {});
+  }, [categories]);
+
+  const safeServices: Service[] = Array.isArray(services) ? services : [];
+
+
+  // Filter
   const filteredServices = useMemo(() => {
-    return services.filter(s => {
-      const matchSearch = s.title.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchCat = categoryFilter === 'All' || s.category === categoryFilter;
-      const matchStatus = statusFilter === 'All' || s.status === statusFilter;
-      return matchSearch && matchCat && matchStatus;
-    });
-  }, [services, searchQuery, categoryFilter, statusFilter]);
+    return safeServices.filter((service) => {
+      const matchSearch = service.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
 
-  const handleToggleStatus = (id: string) => {
-    setServices(prev =>
-      prev.map(s =>
-        s.id === id
-          ? { ...s, status: s.status === 'Active' ? 'Inactive' : 'Active' }
-          : s
-      )
-    );
+      const categoryName = categoryMap[service.categoryId];
+
+      const matchCategory =
+        categoryFilter === 'All' ||
+        categoryName === categoryFilter;
+
+      const matchStatus =
+        statusFilter === 'All' ||
+        service.isActive === (statusFilter === 'Active');
+
+      return matchSearch && matchCategory && matchStatus;
+    });
+  }, [safeServices, searchQuery, categoryFilter, statusFilter, categoryMap]);
+
+
+  // Actions
+  const handleUpdateService = (id: string) => {
     toast.success('Service status updated');
   };
 
-  const handleDelete = (id: string) => {
-    setServices(prev => prev.filter(s => s.id !== id));
-    toast.success('Service deleted');
+  const handleDeactivate = (id: string) => {
+    toast.success('Service deactivated');
   };
 
-  const handleSaveEdit = (data: ServiceFormData) => {
-    if (!editService) return;
-
-    setServices(prev =>
-      prev.map(s =>
-        s.id === editService.id
-          ? {
-              ...s,
-              ...data,
-              price: Number(data.price),
-              status: data.active ? 'Active' : 'Inactive',
-            }
-          : s
-      )
-    );
-  };
-
-  const columns: DataTableColumnDef<Service>[] = [
+  const columns = [
+    //    {
+    //   id: 'nowId',
+    //   header: ' number',
+    //   cell: ({ row }: any) => (
+    //     <div>
+    //       <p className="font-medium text-foreground">
+    //         {row.index + 1}
+    //       </p>
+            
+    //     </div>
+    //   ),
+    // },
     {
       id: 'title',
       header: 'Service Title',
-      accessorKey: 'title',
-      cell: ({ row }) => (
+      cell: ({ row }: any) => (
         <div>
-          <p className="font-medium text-foreground">{row.original.title}</p>
-          <p className="text-xs text-muted-foreground">{row.original.id}</p>
+          <p className="font-medium text-foreground">
+            {row.original.title}
+          </p>
+            {/* <p className="text-xs text-muted-foreground">
+              {row.original.id}
+            </p> */}
         </div>
       ),
     },
     {
       id: 'category',
       header: 'Category',
-      accessorKey: 'category',
-      cell: ({ row }) => (
+      cell: ({ row }: any) => (
         <span className="px-2 py-1 rounded-md bg-muted text-xs font-medium">
-          {row.original.category}
+          {categoryMap[row.original.categoryId] || '—'}
         </span>
       ),
     },
     {
       id: 'price',
       header: 'Price',
-      accessorKey: 'price',
-      cell: ({ row }) => (
-        <span className="font-mono font-medium">${row.original.price}</span>
+      cell: ({ row }: any) => (
+        <span className="font-mono font-medium">
+          br{row.original.price}
+        </span>
       ),
     },
     {
       id: 'priceType',
       header: 'Price Type',
-      accessorKey: 'priceType',
-      cell: ({ row }) => (
+      cell: ({ row }: any) => (
         <span className="px-2 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700">
           {row.original.priceType}
         </span>
       ),
     },
-    {
-      id: 'serviceType',
-      header: 'Service Type',
-      accessorKey: 'serviceType',
-      cell: ({ row }) => (
-        <span className="px-2 py-1 rounded-md text-xs font-medium">
-          {row.original.serviceType}
-        </span>
-      ),
-    },
-    {
-      id: 'status',
-      header: 'Status',
-      accessorKey: 'status',
-      cell: ({ row }) => (
-        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${row.original.status==='Active'?'bg-emerald-50 text-emerald-700':'bg-gray-100 text-gray-600'}`}>
-          <span className={`w-1.5 h-1.5 rounded-full ${row.original.status==='Active'?'bg-emerald-500':'bg-gray-400'}`} />
-          {row.original.status}
-        </span>
-      ),
-    },
+   {
+  id: 'status',
+  header: 'Status',
+  cell: ({ row }: any) => {
+    const isActive = row.original.isActive;
+
+    return (
+      <span
+        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
+          isActive
+            ? 'bg-emerald-50 text-emerald-700'
+            : 'bg-gray-100 text-gray-600'
+        }`}
+      >
+        <span
+          className={`w-1.5 h-1.5 rounded-full ${
+            isActive ? 'bg-emerald-500' : 'bg-gray-400'
+          }`}
+        />
+        {isActive ? 'Active' : 'Inactive'}
+      </span>
+    );
+  },
+},
     {
       id: 'createdDate',
       header: 'Created Date',
-      accessorKey: 'createdDate',
+      cell: ({ row }: any) => row.original.createdAt.split('T')[0],
     },
     {
       id: 'actions',
       header: 'Actions',
-      cell: ({ row }) => {
+      cell: ({ row }: any) => {
         const service = row.original;
 
         return (
@@ -218,28 +200,29 @@ export default function ServicesPage() {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem onClick={() => setEditService(service)}>
-              <Icon name="PencilSquareIcon" size={14} className="mr-2" />
+              <DropdownMenuItem onClick={() => setEditService(service)}> 
+                  <Icon name="PencilSquareIcon" size={14} className="mr-2" />
                 Edit
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => handleToggleStatus(service.id)}>
-                <Icon name={service.status === 'Active' ? 'XMarkIcon' : 'CheckIcon'} size={14} className="mr-2" />
-                {service.status === 'Active' ? 'Deactivate' : 'Activate'}
+              <DropdownMenuItem onClick={() => handleDeactivate(service.id)}>
+                  <Icon name={service.status === 'Active' ? 'XMarkIcon' : 'CheckIcon'} size={14} className="mr-2" />
+                  <span>{service.status === 'Active' ? 'Deactivate' : 'Activate'  }</span>
+               
               </DropdownMenuItem>
 
               <DropdownMenuItem onClick={() => setViewService(service)}>
-                <Icon name="EyeIcon" size={14} className="mr-2" />
+                  <Icon name="EyeIcon" size={14} className="mr-2" />
                 View Details
               </DropdownMenuItem>
 
-              <DropdownMenuItem
+              {/* <DropdownMenuItem
                 onClick={() => handleDelete(service.id)}
                 className="text-red-600"
               >
                 <Icon name="TrashIcon" size={14} className="mr-2" />
                 Delete
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -247,46 +230,55 @@ export default function ServicesPage() {
     },
   ];
 
-  if (!isHydrated) {
+
+  // Loading
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
+
   return (
-    <div className="min-h-screen p-4 lg:p-6">
-      <div className="flex justify-between mb-4">
+    <div className="min-h-screen p-4 lg:p-6 space-y-4">
+      {/* Header */}
+      <div className="flex justify-between">
         <h1 className="text-xl font-bold">Services</h1>
 
-        <CreateServiceModal
-          categories={CATEGORIES}
-          onSave={s => setServices(prev => [...prev, s])}
-        >
+        <CreateServiceModal>
           <Button>Create New Service</Button>
         </CreateServiceModal>
       </div>
 
-      <div className="flex gap-4 mb-4 bg-white rounded-lg shadow-xs px-5 py-4">
+      {/* Filters */}
+      <div className="flex  gap-4 bg-white rounded-lg shadow-xs px-5 py-4">
         <Input
           placeholder="Search service..."
           value={searchQuery}
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-          <SelectTrigger className='w-35'><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-40">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All</SelectItem>
-            {CATEGORIES.map(c => (
-              <SelectItem key={c} value={c}>{c}</SelectItem>
+            {categories.map((c: any) => (
+              <SelectItem key={c.id} value={c.name}>
+                {c.name}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
 
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className='w-35'><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-40">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All</SelectItem>
             <SelectItem value="Active">Active</SelectItem>
@@ -295,15 +287,17 @@ export default function ServicesPage() {
         </Select>
       </div>
 
+      {/* Table */}
       <DataTable columns={columns} data={filteredServices} />
 
+      {/* Modals */}
       {editService && (
         <EditServiceModal
-          categories={CATEGORIES}
+        categories={categories}
           service={editService}
+          // key={Key}
           open={!!editService}
           onClose={() => setEditService(null)}
-          onSave={handleSaveEdit}
         />
       )}
 
