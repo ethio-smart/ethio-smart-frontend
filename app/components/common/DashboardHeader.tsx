@@ -10,9 +10,9 @@ import { RootState } from "@/app/store/store"
 
 
 export default function DashboardHeader() {
-  console.log('first')
+
     const user = useAppSelector((state: RootState) => state.auth.user)
-  console.log('user from header',user)
+  // console.log('user from header',user)
 //flallback profile name incase image is null
   const getInitials = () => {
     if (!user) return ""
