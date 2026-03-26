@@ -1,6 +1,5 @@
 
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit"
-
 import { User } from "@/app/types/types"
 import { api } from "@/app/utils/axiosinstance"
 
@@ -17,6 +16,7 @@ export const fetchUser = createAsyncThunk<User>(
           Authorization: `Bearer ${token}`,
         },
       })
+      // console.log('fetched user',response)
       return response.data 
     } catch (err: any) {
       return rejectWithValue(err.response?.data || err.message || "Failed to fetch user")
