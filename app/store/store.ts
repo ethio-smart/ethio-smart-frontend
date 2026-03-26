@@ -4,12 +4,18 @@ import storage from "redux-persist/lib/storage"
 
 import authReducer from "./slices/authSlice"
 import taskerReducer from "./slices/taskerSlice"
+import serviceReducer from "./slices/serviceSlice"
+import categoryReducer from "./slices/categorySlice"
+import requestReducer from "./slices/requestSlice"
+
 
 
 const rootReducer = combineReducers({
   auth: authReducer,
-   tasker: taskerReducer
-
+   tasker: taskerReducer,
+   service: serviceReducer,
+   category: categoryReducer,
+   request: requestReducer,
 })
 
 const persistConfig = {
