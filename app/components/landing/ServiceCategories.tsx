@@ -32,26 +32,8 @@ const categoryIcons: Record<string, JSX.Element> = {
 }
 
 function ServiceCategories() {
-  const [categories, setCategories] = useState<Category[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const res = await api.get("/categories")
-
-        console.log('categories response👍👍',res)
-        setCategories(res.data.data)
-
-      } catch (error) {
-        console.error("Failed to fetch categories", error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchCategories()
-  }, [])
+ 
+  const { categories, loading } = useAppSelector((state) => state.category);
 
   return (
     <section id="categories" className="bg-secondary w-full py-20">
