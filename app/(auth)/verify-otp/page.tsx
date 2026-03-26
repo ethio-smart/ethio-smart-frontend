@@ -45,7 +45,7 @@ function VerifyOtp() {
       console.log('response from verify otp',res)
 
       if (res.status === 201) {
-        router.push("/")
+        router.push("/sign-in")
       }
     } catch (error) {
       setOtp(' ')
