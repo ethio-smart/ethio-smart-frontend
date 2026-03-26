@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import {  Geist_Mono, Poppins } from "next/font/google";
+import { Geist_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "./store/Provider";
 import { Toaster } from "@/components/ui/sonner";
+import AppInitializer from "./AppInitializer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,18 +23,20 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${poppins.variable} ${geistMono.variable} antialiased`}
-      >  
-        <ReduxProvider>{children}</ReduxProvider>
-        <Toaster/>
-      </body>
+      <body className={`${poppins.variable} ${geistMono.variable} antialiased`}>
         
+        <ReduxProvider>
+          <AppInitializer />   
+          {children}
+        </ReduxProvider>
+
+        <Toaster />
+      </body>
     </html>
   );
 }
