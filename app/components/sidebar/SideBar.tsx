@@ -57,11 +57,12 @@ export default function Sidebar({ role }: SidebarProps) {
 
       {/* Bottom */}
       <div className="p-4 border-t text-sm">
-        <button className="w-full text-left text-red-500 hover:text-red-600">
+        <button className="w-full text-left text-red-500 hover:text-red-600" onClick={handleLogout} disabled={loggingOut}>
           Sign Out
         </button>
       </div>
 
     </aside>
+    </>
   )
 }
