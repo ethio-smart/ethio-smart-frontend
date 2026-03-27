@@ -1,10 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import ServiceCategoryCard from "../cards/ServiceCategoryCard"
-import { ChevronRight } from "lucide-react"
+import { BookMinus, BrushCleaning, ChevronRight } from "lucide-react"
 
 import {
   Wrench,
@@ -17,13 +16,15 @@ import {
   ChefHat,
 } from "lucide-react"
 
-import { api } from "@/app/utils/axiosinstance"
-import { Category } from "@/app/types/types"
+
+import { useAppSelector } from "@/app/hooks/hooks"
+
 
 const categoryIcons: Record<string, JSX.Element> = {
   plumbing: <Wrench className="w-6 h-6 text-primary" />,
   electrical: <Zap className="w-6 h-6 text-primary" />,
-  cleaning: <Sparkles className="w-6 h-6 text-primary" />,
+  tutoring: <BookMinus className="w-6 h-6 text-primary" />,
+  cleaning: <BrushCleaning  className="w-6 h-6 text-primary" />,
   it: <Laptop className="w-6 h-6 text-primary" />,
   carpentry: <Hammer className="w-6 h-6 text-primary" />,
   painting: <Paintbrush className="w-6 h-6 text-primary" />,
@@ -79,9 +80,10 @@ function ServiceCategories() {
                 key={category.id}
                 name={category.name}
                 icon={
-                  categoryIcons[category.name.toLowerCase()] || (
-                    <Sparkles className="w-6 h-6 text-primary" />
-                  )
+                  categoryIcons[category.name.toLowerCase()] 
+                  // || (
+                    // <Sparkles className="w-6 h-6 text-primary" />
+                  // )
                 }
                 bgColor="bg-secondary"
               />
