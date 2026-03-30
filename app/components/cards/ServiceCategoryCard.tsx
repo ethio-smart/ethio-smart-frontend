@@ -6,6 +6,7 @@ type ServiceCategoryCardProps={
   icon:LucideIcon,
   bgColor:string,
   name:string,
+  categoryId:string
 }
 
 function ServiceCategoryCard({icon,bgColor,name}:ServiceCategoryCardProps) {
