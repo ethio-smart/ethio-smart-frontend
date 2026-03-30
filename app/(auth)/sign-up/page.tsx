@@ -90,6 +90,7 @@ function SignUp() {
               <Input
                 name="firstName"
                 value={formData.firstName}
+                placeholder="enter your first name"
                 onChange={handleChange}
                 className="pl-9 py-5 border-2 shadow-none focus:border-primary"
               />
@@ -103,6 +104,7 @@ function SignUp() {
               <Input
                 name="lastName"
                 value={formData.lastName}
+                placeholder="enter your last name"
                 onChange={handleChange}
                 className="pl-9 py-5 border-2 shadow-none focus:border-primary"
               />
@@ -117,6 +119,7 @@ function SignUp() {
                 name="email"
                 type="email"
                 value={formData.email}
+                placeholder="enter your email"
                 onChange={handleChange}
                 className="pl-9 py-5 border-2 shadow-none focus:border-primary"
               />
@@ -131,6 +134,7 @@ function SignUp() {
                 name="phone"
                 type="tel"
                 value={formData.phone}
+                placeholder="enter your phone number"
                 onChange={handleChange}
                 className="pl-9 py-5 border-2 shadow-none focus:border-primary"
               />
@@ -147,6 +151,7 @@ function SignUp() {
                 type={showPassword ? "text" : "password"}
                 value={formData.password}
                 onChange={handleChange}
+                placeholder="enter your password"
                 className="pl-9 pr-9 border-2 shadow-none py-5 focus:border-primary"
               />
 
