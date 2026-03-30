@@ -31,7 +31,7 @@ export default function RootLayout({
       <body className={`${poppins.variable} ${geistMono.variable} antialiased`}>
         
         <ReduxProvider>
-          <AppInitializer />   
+          {/* <AppInitializer />    */}
           {children}
         </ReduxProvider>
 
