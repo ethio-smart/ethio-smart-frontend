@@ -6,7 +6,7 @@ import SearchBar from "../common/SearchBar"
 import { Card } from "@/components/ui/card"
 
 
-type Worker = {
+type tasker = {
   id: number
   name: string
   role: string
@@ -15,7 +15,7 @@ type Worker = {
   avatar: string
 }
 
-const workers: Worker[] = [
+const taskers: tasker[] = [
   {
     id: 1,
     name: "Abraham Tadesse",
@@ -60,7 +60,7 @@ export default function Hero() {
 
           <h1 className="md:text-6xl text-5xl font-bold leading-tight">
             Find Verified Skilled <br />
-            Workers in <span className="text-primary">Ethiopia</span>
+            taskers in <span className="text-primary">Ethiopia</span>
           </h1>
 
           <p className="text-xl text-[#343841]">
@@ -76,39 +76,39 @@ export default function Hero() {
 
         {/* RIGHT CARDS */}
         <div className="hidden lg:flex flex-col space-y-6  ">
-          {workers.map((worker, index) => (
+          {taskers.map((tasker, index) => (
             <Card
-              key={worker.id}
+              key={tasker.id}
               className={`w-[20rem] p-4 border-none shadow-md transform transition duration-300 ${offsets[index]}`}
             >
               <div className="flex gap-4">
                 <Image
-                  src={worker.avatar}
+                  src={tasker.avatar}
                   width={56}
                   height={56}
-                  alt={worker.name}
+                  alt={tasker.name}
                   className="rounded-full object-cover"
                 />
 
                 <div className="flex-1">
                   <div className="flex justify-between w-full">
-                    <p className="font-medium text-base">{worker.name}</p>
+                    <p className="font-medium text-base">{tasker.name}</p>
                     <Badge variant={"secondary"} className="text-xs border border-neutral-400 py-0.5 rounded-2xl px-3 font-medium">
                       verified
                     </Badge>
                   </div>
 
                   <p className="text-xs font-semibold text-neutral-700">
-                    {worker.role}
+                    {tasker.role}
                   </p>
 
                   <div className="mt-1 flex items-center text-xs gap-4">
                     <div className="flex items-center gap-1 font-medium">
                       <Star size={12} />
-                      {worker.rating}
+                      {tasker.rating}
                     </div>
                     <span className="text-neutral-700">
-                      · {worker.jobs} Jobs Done
+                      · {tasker.jobs} Jobs Done
                     </span>
                   </div>
                 </div>

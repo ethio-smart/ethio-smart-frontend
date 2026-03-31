@@ -18,7 +18,7 @@ const features = [
   {
     title: "Verified Professionals",
     description:
-      "Every worker undergoes a rigorous background check, including identity verification and skill assessment.",
+      "Every tasker undergoes a rigorous background check, including identity verification and skill assessment.",
     icon: <ShieldCheck/>,
     
   },
