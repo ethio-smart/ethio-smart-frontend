@@ -30,7 +30,7 @@ const stats = [
   {
     title: "Pending Responses",
     value: "08",
-    description: "waiting worker action",
+    description: "waiting tasker action",
     icon: Clock,
   },
   {

@@ -14,7 +14,7 @@ const payments = [
     id: 1,
     service: "House Cleaning",
     date: "June 24, 2024",
-    worker: "Selamawit T.",
+    tasker: "Selamawit T.",
     method: "Chapa Pay",
     amount: "ETB 1,800",
     status: "Escrow",
@@ -23,7 +23,7 @@ const payments = [
     id: 2,
     service: "Plumbing Repair",
     date: "June 20, 2024",
-    worker: "Abebe B.",
+    tasker: "Abebe B.",
     method: "Bank Transfer",
     amount: "ETB 4,500",
     status: "Released",
@@ -32,7 +32,7 @@ const payments = [
     id: 3,
     service: "Electrical Wiring",
     date: "June 15, 2024",
-    worker: "Kaleb H.",
+    tasker: "Kaleb H.",
     method: "CBE Birr",
     amount: "ETB 12,000",
     status: "Pending",
@@ -55,7 +55,7 @@ export default function PaymentHistory() {
         <TableHeader className="p-10">
           <TableRow className="p-10 font-semibold">
             <TableHead>Service</TableHead>
-            <TableHead>Worker</TableHead>
+            <TableHead>tasker</TableHead>
             <TableHead>Payment Method</TableHead>
             <TableHead>Amount</TableHead>
             <TableHead>Status</TableHead>
@@ -83,7 +83,7 @@ export default function PaymentHistory() {
                   </div>
                 </TableCell>
 
-                <TableCell>{payment.worker}</TableCell>
+                <TableCell>{payment.tasker}</TableCell>
 
                 <TableCell>{payment.method}</TableCell>
 
