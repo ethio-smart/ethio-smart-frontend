@@ -15,8 +15,8 @@ import Image from "next/image"
 const reviewHistory = [
   {
     id: 1,
-    worker: "Selamawit T.",
-    workerAvatar: "/profile.png",
+    tasker: "Selamawit T.",
+    taskerAvatar: "/profile.png",
     serviceCategory: "House Cleaning",
     rating: 5,
     feedback: "Excellent work, very thorough and punctual!",
@@ -24,8 +24,8 @@ const reviewHistory = [
   },
   {
     id: 2,
-    worker: "Abebe B.",
-    workerAvatar: "/profile.png",
+    tasker: "Abebe B.",
+    taskerAvatar: "/profile.png",
     serviceCategory: "Plumbing",
     rating: 4,
     feedback: "Fixed the sink quickly but arrived late.",
@@ -33,8 +33,8 @@ const reviewHistory = [
   },
   {
     id: 3,
-    worker: "Kaleb H.",
-    workerAvatar: "/profile.png",
+    tasker: "Kaleb H.",
+    taskerAvatar: "/profile.png",
     serviceCategory: "Electrical Wiring",
     rating: 3,
     feedback: "Average service, some wires were loose.",
@@ -48,7 +48,7 @@ export default function ReviewHistoryTable() {
       <Table>
         <TableHeader>
           <TableRow className="font-semibold">
-            <TableHead>Worker</TableHead>
+            <TableHead>tasker</TableHead>
             <TableHead>Service Category</TableHead>
             <TableHead>Rating</TableHead>
             <TableHead>Feedback</TableHead>
@@ -62,13 +62,13 @@ export default function ReviewHistoryTable() {
             <TableRow key={review.id} className="hover:bg-gray-50">
               <TableCell className="flex items-center gap-2 px-4 py-2">
                 <Image
-                  src={review.workerAvatar}
-                  alt={review.worker}
+                  src={review.taskerAvatar}
+                  alt={review.tasker}
                   width={32}
                   height={32}
                   className="rounded-full object-cover size-9"
                 />
-                <span className="font-medium">{review.worker}</span>
+                <span className="font-medium">{review.tasker}</span>
               </TableCell>
 
               <TableCell>{review.serviceCategory}</TableCell>
