@@ -32,15 +32,16 @@ useEffect(() => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle>Service Details</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="flex justify-between items-start">
-            <div>
-              <h3 className="text-lg font-semibold">{service.title}</h3>
+            <div className="bg-muted/ rounded-lg p-3 flex-">
+                <p className="text-xs text-muted-foreground">Title</p>
+              <h3 className="text-base font-semibold">{service.title}</h3>
           
             </div>
            <Badge variant={service.isActive ? 'secondary' : 'destructive'}>
@@ -48,8 +49,10 @@ useEffect(() => {
            </Badge>
 
           </div>
-
-          <p className="text-sm text-muted-foreground">{service.description || 'No description provided.'}</p>
+          <div className="bg-muted/50 rounded-lg p-3">
+            <p className="text-xs text-muted-foreground">Description</p>
+            <p className="text-sm font-medium mt-0.5 leading-5  ">{service.description || 'No description provided.'}</p>
+          </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="p-3 rounded-lg bg-muted/50">
