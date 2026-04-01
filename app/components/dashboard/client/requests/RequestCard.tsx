@@ -38,9 +38,9 @@ export default function RequestCard({ request }: any) {
             </span>
           </div>
 
-          {request.worker && (
+          {request.tasker && (
             <p className="text-sm">
-              Assigned to <b>{request.worker}</b>
+              Assigned to <b>{request.tasker}</b>
             </p>
           )}
         </div>
@@ -79,7 +79,7 @@ export default function RequestCard({ request }: any) {
 
           {request.status === "ACCEPTED" && (
             <>
-              <Button size="lg" variant="outline" className="border-black border ">Message Worker</Button>
+              <Button size="lg" variant="outline" className="border-black border ">Message tasker</Button>
               <RescheduleRequestDialog
                 // onConfirm={(data) => console.log("Reschedule:", request.id, data)}
               >
