@@ -22,7 +22,15 @@ const initialState: TaskerState = {
   loading: false,
   success: false,
   error: null,
-};
+
+  taskersByCategory: {},
+  fetchLoading: false,
+  fetchError: null,
+}
+
+/*
+   CREATE TASKER
+ */
 
 export const createTasker = createAsyncThunk(
   "tasker/createTasker",
