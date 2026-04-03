@@ -54,7 +54,34 @@ export const createTasker = createAsyncThunk(
       );
     }
   },
-);
+)
+   
+//FETCH TASKERS BY CATEGORY
+export const fetchTaskersByCategory = createAsyncThunk(
+  "tasker/fetchTaskersByCategory",
+  async (categoryId: string, { rejectWithValue }) => {
+    try {
+      const response = await api.get(
+        `/users/taskers/category/${categoryId}`,
+      )
+      console.log('fetch tasker by category response',response)
+
+      return {
+        categoryId,
+        data: response.data,
+      }
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch taskers",
+      )
+    }
+  },
+)
+
+/*
+   SLICE
+ */
 
 const taskerSlice = createSlice({
   name: "tasker",
