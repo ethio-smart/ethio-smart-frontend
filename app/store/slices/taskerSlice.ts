@@ -3,10 +3,20 @@ import { api } from "@/app/utils/axiosinstance";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 interface TaskerState {
-  loading: boolean;
-  success: boolean;
-  error: string | null;
+  // CREATE TASKER
+  loading: boolean
+  success: boolean
+  error: string | null
+
+  // FETCH TASKERS
+  taskersByCategory: Record<string, Tasker[]>
+  fetchLoading: boolean
+  fetchError: string | null
 }
+
+/*
+   INITIAL STATE
+ */
 
 const initialState: TaskerState = {
   loading: false,
