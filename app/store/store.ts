@@ -10,12 +10,14 @@ import requestReducer from "./slices/requestSlice"
 
 
 
+
 const rootReducer = combineReducers({
   auth: authReducer,
    tasker: taskerReducer,
    service: serviceReducer,
    category: categoryReducer,
    request: requestReducer,
+  
 })
 
 const persistConfig = {
