@@ -22,7 +22,7 @@ const testimonials = [
   {
     rating: 5,
     content:
-      "I was hesitant at first, but the worker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
+      "I was hesitant at first, but the tasker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
@@ -31,7 +31,7 @@ const testimonials = [
   {
     rating: 2,
     content:
-      "I was hesitant at first, but the worker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
+      "I was hesitant at first, but the tasker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
@@ -40,7 +40,7 @@ const testimonials = [
   {
     rating: 5,
     content:
-      "I was hesitant at first, but the worker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
+      "I was hesitant at first, but the tasker verification gave me confidence. The gardener I hired was professional and did an excellent job on our lawn.",
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
