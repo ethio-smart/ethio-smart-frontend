@@ -31,30 +31,6 @@ import { toast } from "sonner"
 import { locations } from "@/app/utils/constant"
 
 
-/* locations dataset */
-// const locations = [
-//   "Addis Ketema, Addis Ababa",
-//   "Akaki Kality, Addis Ababa",
-//   "Arada, Addis Ababa",
-//   "Bole, Addis Ababa",
-//   "Gullele, Addis Ababa",
-//   "Kirkos, Addis Ababa",
-//   "Kolfe Keranio, Addis Ababa",
-//   "Lemi Kura, Addis Ababa",
-//   "Lideta, Addis Ababa",
-//   "Nifas Silk-Lafto, Addis Ababa",
-//   "Yeka, Addis Ababa",
-//   "Burayu, Sheger City",
-//   "Sebeta, Sheger City",
-//   "Sululta, Sheger City",
-//   "Dire Dawa City, Dire Dawa",
-//   "Adama City, Oromia",
-//   "Bahir Dar City, Amhara",
-//   "Gondar City, Amhara",
-//   "Mekelle City, Tigray",
-//   "Jimma City, Oromia",
-// ]
-
 const commonLanguages = ["English", "Amharic", "Oromo", "Tigrinya", "Arabic", "French"]
 
 interface Props {
