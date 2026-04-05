@@ -8,13 +8,13 @@ export const fetchUser = createAsyncThunk<User>(
   "auth/fetchUser",
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem("accessToken") 
-      if (!token) throw new Error("No token found")
+      // const token = localStorage.getItem("accessToken") 
+      // if (!token) throw new Error("No token found")
       
       const response = await api.get("/users/me", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       })
       // console.log('fetched user',response)
       return response.data 
