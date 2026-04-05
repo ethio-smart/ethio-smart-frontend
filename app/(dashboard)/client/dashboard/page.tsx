@@ -1,4 +1,4 @@
-import StatsOverview from "@/app/components/dashboard/client/profile/StatsOverview";
+import StatsOverview from "@/app/components/dashboard/client/dashboard/StatsOverview";
 
 
 export default function ClientDashboard() {
