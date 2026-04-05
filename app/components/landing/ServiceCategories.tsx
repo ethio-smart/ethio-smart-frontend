@@ -79,6 +79,7 @@ function ServiceCategories() {
               <ServiceCategoryCard
                 key={category.id}
                 name={category.name}
+                categoryId={category.id}
                 icon={
                   categoryIcons[category.name.toLowerCase()] 
                   // || (
