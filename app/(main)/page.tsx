@@ -1,4 +1,4 @@
-
+'use client '
 import AboutUs from "../components/landing/AboutUs";
 import BecomeTaskerSection from "../components/landing/BecomeTaskerSection";
 
