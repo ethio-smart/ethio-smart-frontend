@@ -33,17 +33,17 @@ export const navigation = {
     { name: "Profile", href: "/tasker/profile", icon: User },
   ],
 
-  SUPER_ADMIN: [
+  ADMIN: [
     { name: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
     { name: "Users", href: "/super-admin/users", icon: Users },
     { name: "Services", href: "/super-admin/services", icon: Briefcase },
     { name: "Disputes", href: "/super-admin/disputes", icon: AlertTriangle },
     { name: "Transactions", href: "/super-admin/transactions", icon: Wallet },
-    { name: "Reviews", href: "/super-admin/reviews", icon: Star },
+    { name: "Booking", href: "/admin/booking-managent", icon: Star },
     { name: "Settings", href: "/super-admin/settings", icon: Shield },
   ],
 
-  SYSTEM_ADMIN: [
+  OFFICER: [
     { name: "Dashboard", href: "/system-admin/dashboard", icon: LayoutDashboard },
     { name: "Users", href: "/system-admin/users", icon: Users },
     { name: "Services", href: "/system-admin/services", icon: Briefcase },
