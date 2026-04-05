@@ -37,7 +37,7 @@ return ( <Dialog>
       </DialogTitle>
 
       <DialogDescription>
-        Once confirmed, the payment will be released to the worker
+        Once confirmed, the payment will be released to the tasker
         and the service request will be marked as completed.
         This action cannot be undone.
       </DialogDescription>
