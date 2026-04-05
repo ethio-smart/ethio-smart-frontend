@@ -30,9 +30,9 @@ export default function EditRequestDialog({ children, request }: Props) {
   const [title, setTitle] = useState(request.title)
   const [description, setDescription] = useState(request.description)
   const [location, setLocation] = useState(request.location)
-  const [price, setPrice] = useState(request.price)
-  const [date, setDate] = useState(request.date || "")
-  const [time, setTime] = useState(request.time || "")
+  const [price, setPrice] = useState(request.budget)
+  const [date, setDate] = useState(request.preferedDate ? request.preferedDate.split("T")[0] : "")
+  const [time, setTime] = useState(request.preferedDate ? request.preferedDate.split("T")[1] : "")
 
   const handleSave = () => {
     console.log({
