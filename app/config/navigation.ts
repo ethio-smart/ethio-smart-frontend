@@ -27,7 +27,7 @@ export const navigation = {
     { name: "Dashboard", href: "/tasker/dashboard", icon: LayoutDashboard },
     { name: "Services", href: "/tasker/services", icon: Briefcase },
     { name: "Bookings", href: "/tasker/bookings", icon: CalendarCheck },
-   
+     { name: " Requests", href: "/tasker/request", icon: FileText },
     { name: "Reviews", href: "/tasker/reviews", icon: Star },
     { name: "Transactions", href: "/tasker/transactions", icon: Wallet },
     { name: "Profile", href: "/tasker/profile", icon: User },
