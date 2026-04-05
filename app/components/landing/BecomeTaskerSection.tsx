@@ -53,7 +53,7 @@ export default function BecomeTaskerSection() {
 
               {/* Info below the button */}
               <div className="text-sm text-white/80 text-left md:text-center">
-                <p className="font-medium">AI-Powered Worker Matching</p>
+                <p className="font-medium">AI-Powered tasker Matching</p>
                 <p className="text-white/70">
                   Find verified professionals faster and smarter
                 </p>
