@@ -6,6 +6,7 @@ import { useAppSelector } from "@/app/hooks/hooks"
 import { Role } from "../types/types"
 import Sidebar from "../components/sidebar/SideBar"
 import { useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 
 export default function DashboardLayout({
@@ -16,7 +17,14 @@ export default function DashboardLayout({
  const router = useRouter()
   const role = useAppSelector((state) => state.auth.user?.role) as Role
   console.log('role 🎉🎉🎉',role)
-  if (!role) return router.push('/')
+  // if (!role) return router.push('/')
+    useEffect(() => {
+    if (!role) {
+      router.push('/')
+    }
+  }, [role, router])
+
+  if (!role) return null
 
   return (
     <div className="flex h-screen overflow-hidden">
