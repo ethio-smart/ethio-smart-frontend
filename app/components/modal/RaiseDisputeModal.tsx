@@ -59,7 +59,7 @@ export default function RaiseDisputeModal({ children }: Props) {
                             </SelectTrigger>
 
                             <SelectContent >
-                                <SelectItem value="no-show">Worker did not show up</SelectItem>
+                                <SelectItem value="no-show">tasker did not show up</SelectItem>
                                 <SelectItem value="quality">Poor service quality</SelectItem>
                                 <SelectItem value="price">Incorrect pricing</SelectItem>
                                 <SelectItem value="incomplete">Work not completed</SelectItem>
