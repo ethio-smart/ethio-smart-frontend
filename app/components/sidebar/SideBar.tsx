@@ -1,10 +1,17 @@
 "use client"
 
 import { navigation } from "@/app/config/navigation"
+import { useAppDispatch } from "@/app/hooks/hooks"
+import { logout } from "@/app/store/slices/authSlice"
 import { Role } from "@/app/types/types"
+import { Loader2 } from "lucide-react"
+
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+
+import { useState } from "react"
+
 
 
 interface SidebarProps {
@@ -14,13 +21,35 @@ interface SidebarProps {
 export default function Sidebar({ role }: SidebarProps) {
   const pathname = usePathname()
   const navItems = navigation[role]
+  const router=useRouter()
+  const dispatch = useAppDispatch()
+    const [loggingOut, setLoggingOut] = useState(false)
+    //handle logout
+   const handleLogout = () => {
+    setLoggingOut(true)
+
+    setTimeout(() => {
+      dispatch(logout())
+      router.push("/")
+    }, 800) 
+  }
 
   return (
+    <>
+    {/* Logout Spinner */}
+     {loggingOut && (
+        <div className="fixed inset-0 z-999 flex items-center justify-center bg-white">
+          <Loader2 className="size-10 animate-spin text-primary" />
+          <span>logging out...</span>
+        </div>
+      )}
+      {/* Sidebar Content  */}
+
     <aside className="w-64 h-screen border-r flex flex-col bg-white">
 
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b">
-        <Link href="/dashboard" className="text-lg font-semibold text-primary">
+        <Link href="/" className="text-lg font-semibold text-primary">
           Ethio Smart
         </Link>
       </div>
@@ -31,7 +60,7 @@ export default function Sidebar({ role }: SidebarProps) {
         {navItems.map((item) => {
           const Icon = item.icon
           const isActive = pathname.startsWith(item.href)
-        console.log('current route',isActive)
+        // console.log('current route',isActive)
           return (
             <Link
               key={item.name}
