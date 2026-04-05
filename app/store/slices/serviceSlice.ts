@@ -47,13 +47,13 @@ export const createService = createAsyncThunk(
   'service/createService',
   async (data: Partial<Service>, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) throw new Error('No token found');
+      // const token = localStorage.getItem('accessToken');
+      // if (!token) throw new Error('No token found');
 
       const res = await api.post('/services', data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
 
       console.log('createService response:', res.data);
@@ -74,13 +74,13 @@ export const fetchServicesByTaskerId = createAsyncThunk(
   'service/fetchServicesByTaskerId',
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('accessToken');
-      if (!token) throw new Error('No token found');
+      // const token = localStorage.getItem('accessToken');
+      // if (!token) throw new Error('No token found');
 
       const res = await api.get(`/services/tasker`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   Authorization: `Bearer ${token}`,
+        // },
       });
       console.log('fetchServicesByTaskerId response:', res.data);
       console.log('fetchServicesByTaskerId response:', res.data.data);
