@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import RescheduleRequestDialog from "./RescheduleRequestDialog"
 import { Clock } from "lucide-react"
 import ConfirmCompletionModal from "@/app/components/modal/ConfimCompletionModal"
-import RateWorkerModal from "@/app/components/modal/RateWorkerModal"
+import RatetaskerModal from "@/app/components/modal/RateWorkerModal"
+// import RatetaskerModal from "@/app/components/modal/RatetaskerModal"
 
 
 
@@ -53,7 +54,7 @@ export default function RequestHeader() {
         </ConfirmCompletionModal>
 
         {/* Rating modal opens  */}
-        <RateWorkerModal
+        <RatetaskerModal
           open={rateOpen}
           onClose={() => setRateOpen(false)}
         />
