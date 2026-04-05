@@ -5,7 +5,7 @@ const stats = [
   {
     icon: Users,
     title: "500+",
-    subtitle: "Verified Workers",
+    subtitle: "Verified taskers",
   },
   {
     icon: ShieldCheck,
