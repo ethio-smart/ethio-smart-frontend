@@ -19,14 +19,37 @@ import { Request } from "@/app/types/types"
 interface RequestState {
   request: Request | null
   selectedRequestId: string | null
-  loading: boolean
+
+  loading: {
+    create: boolean
+    invite: boolean
+    fetchOutgoing: boolean
+    fetchIncoming: boolean
+    accept: boolean
+    reject: boolean
+  }
+
+  outgoingInvitations: Invitation[]
+  incomingInvitations: Invitation[]
+
   error: string | null
 }
 
 const initialState: RequestState = {
   request: null,
   selectedRequestId: null,
-  loading: false,
+  loading: {
+    create: false,
+    invite: false,
+    fetchOutgoing: false,
+    fetchIncoming: false,
+    accept: false,
+    reject: false,
+  },
+
+  outgoingInvitations: [],
+  incomingInvitations: [],
+
   error: null,
 }
 
