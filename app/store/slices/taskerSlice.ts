@@ -35,7 +35,6 @@ const initialState: TaskerState = {
 export const createTasker = createAsyncThunk(
   "tasker/createTasker",
   async (formData: any, { rejectWithValue }) => {
-    console.log("form data🙄🙄🙄", formData);
     try {
       
 
@@ -45,10 +44,9 @@ export const createTasker = createAsyncThunk(
 
       return response.data
     } catch (error: any) {
-      console.log("error💥💥", error);
       return rejectWithValue(
         error.response?.data?.message || "Failed to create tasker",
-      );
+      )
     }
   },
 )
