@@ -90,19 +90,22 @@ const taskerSlice = createSlice({
       state.error = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
 
+      /*
+         CREATE TASKER
+      */
       .addCase(createTasker.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true
+        state.error = null
+        state.success = false
       })
-
       .addCase(createTasker.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
+        state.loading = false
+        state.success = true
       })
-
       .addCase(createTasker.rejected, (state, action: any) => {
         state.loading = false
         state.error = action.payload
