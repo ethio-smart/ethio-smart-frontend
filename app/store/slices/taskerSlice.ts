@@ -85,9 +85,16 @@ const taskerSlice = createSlice({
   initialState,
   reducers: {
     resetTaskerState: (state) => {
-      state.loading = false;
-      state.success = false;
-      state.error = null;
+      state.loading = false
+      state.success = false
+      state.error = null
+    },
+
+    clearTaskersByCategory: (
+      state,
+      action: PayloadAction<string>,
+    ) => {
+      delete state.taskersByCategory[action.payload]
     },
   },
 
