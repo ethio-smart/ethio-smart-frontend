@@ -104,11 +104,40 @@ const taskerSlice = createSlice({
       })
 
       .addCase(createTasker.rejected, (state, action: any) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
-});
+        state.loading = false
+        state.error = action.payload
+      })
 
-export const { resetTaskerState } = taskerSlice.actions;
-export default taskerSlice.reducer;
+      /*
+         FETCH TASKERS
+      */
+      .addCase(fetchTaskersByCategory.pending, (state) => {
+        state.fetchLoading = true
+        state.fetchError = null
+      })
+      .addCase(
+        fetchTaskersByCategory.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          const { categoryId, data } = action.payload
+
+          state.taskersByCategory[categoryId] = data
+          state.fetchLoading = false
+        },
+      )
+      .addCase(
+        fetchTaskersByCategory.rejected,
+        (state, action: any) => {
+          state.fetchLoading = false
+          state.fetchError = action.payload
+        },
+      )
+  },
+})
+
+
+export const {
+  resetTaskerState,
+  clearTaskersByCategory,
+} = taskerSlice.actions
+
+export default taskerSlice.reducer
