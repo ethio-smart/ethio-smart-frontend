@@ -37,16 +37,13 @@ export const createTasker = createAsyncThunk(
   async (formData: any, { rejectWithValue }) => {
     console.log("form data🙄🙄🙄", formData);
     try {
-      const token = localStorage.getItem("accessToken");
-      console.log("access-token0000", token);
+      
+
       const response = await api.post("/users/tasker", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("response to create tasker", response);
-      return response.data;
+       
+      })
+
+      return response.data
     } catch (error: any) {
       console.log("error💥💥", error);
       return rejectWithValue(
