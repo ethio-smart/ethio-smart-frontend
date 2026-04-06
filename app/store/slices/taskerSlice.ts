@@ -1,6 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { api } from "@/app/utils/axiosinstance";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+import { api } from "@/app/utils/axiosinstance"
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit"
+
+/*
+   TYPES
+ */
+
+export interface Tasker {
+  taskerId: string
+  name: string
+  image: string | null
+  bio: string
+  location: string
+  rating: number
+  isVerified: boolean
+  service: any
+}
 
 interface TaskerState {
   // CREATE TASKER
