@@ -60,12 +60,8 @@ export const createRequest = createAsyncThunk(
   async (data: Partial<Request>, { rejectWithValue }) => {
           const token = localStorage.getItem("accessToken") 
     try {
-      const res = await api.post("/requests", data,
-        {headers:{
-            Authorization: `Bearer ${token}`,
-        }}
-    )
-    console.log('request response',res)
+      const res = await api.post("/requests", data)
+      console.log('create request response', res.data)
       return res.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data)
@@ -82,16 +78,9 @@ export const inviteTasker = createAsyncThunk(
       console.log('invite tasker✨✨📯')
       const res = await api.post(
         // requests/23456709/invite-taskers/987456789
-        `/requests/${requestId}/invite-taskers/${taskerId}`,
-         
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `/requests/${requestId}/invite-taskers/${taskerId}`
       )
-      console.log('invite tasker response',res)
-      // return res.data
+      return res.data
     }
       catch (err: any) {
       return rejectWithValue(err.response?.data)
