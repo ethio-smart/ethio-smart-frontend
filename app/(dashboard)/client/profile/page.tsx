@@ -1,29 +1,58 @@
-import AccountDetailForm from "@/app/components/dashboard/client/profile/AccountDetailForm";
-import ActivityMetrics from "@/app/components/dashboard/client/profile/ActivityMetrics";
-import ProfileCard from "@/app/components/dashboard/client/profile/ProfileCard";
-import ProfileHeader from "@/app/components/dashboard/client/profile/ProfileHeader";
-import VerificationStatus from "@/app/components/dashboard/client/profile/VerificationStatus";
+
+
+
+'use client';
+
+import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
+import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/ProfileDetailCard';
+import ProfileHeaderCard from '@/app/components/dashboard/tasker/profile/ProfileHeaderCard';
+import { useAppSelector } from '@/app/hooks/hooks';
+import { User } from '@/app/types/types';
+import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
+
 
 
 export default function ClientProfilePage() {
+  const{user}=useAppSelector((state)=>state.auth)
+  console.log('user from client profile',user)
+  // const [user, setUser] = useState<UserProfile>(DUMMY_USER);
+  const [editUser, setEditUser] = useState<User>(user as User);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    setEditUser(user);
+  }, [user]);
+
+  const handleSave = () => {
+    // setUser(editUser);
+    setIsEditing(false);
+    toast.success('Profile updated');
+  };
+
   return (
-    <div className="p-6 space-y-6">
-      <ProfileHeader />
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <h1 className="text-2xl font-bold">Client Profile</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left column */}
-        <div className="space-y-6">
-          <ProfileCard/>
-          <ActivityMetrics/>
-          
-        </div>
+      <ProfileHeaderCard
+        user={isEditing ? editUser : user}
+        isEditing={isEditing}
+        onEditClick={() => setIsEditing(true)}
+      />
 
-        {/* Right column */}
-        <div className=" lg:col-span-2 flex flex-col gap-10">
-          <AccountDetailForm/>
-          <VerificationStatus/>
-        </div>
-      </div>
+      <ProfileDetailCard
+        user={user}
+        isEditing={isEditing}
+        editUser={editUser}
+        setEditUser={setEditUser}
+        onSave={handleSave}
+        onCancel={() => setIsEditing(false)}
+      />
+
+      <AccountSettingsCard
+        user={user}
+        onChangePassword={() => {}}
+      />
     </div>
-  )
+  );
 }
