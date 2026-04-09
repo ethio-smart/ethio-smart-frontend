@@ -19,8 +19,7 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   const user = useSelector((state: RootState) => state.auth.user)
-  console.log('user from header',user)
-//flallback profile name incase image is null
+ 
   const getInitials = () => {
     if (!user) return ""
     const first = user.firstName?.[0] || ""
