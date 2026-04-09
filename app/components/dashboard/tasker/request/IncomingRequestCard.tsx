@@ -25,7 +25,7 @@ export default function IncomingRequestCard({
 }: Props) {
   const request = invitation.serviceRequest
   const{incomingInvitations,loading}=useAppSelector(state=>state.request)
-    // console.log('incoming invite from incoming request card ',incomingInvitations)
+    console.log('incoming invite from incoming request card ',incomingInvitations)
   const date = request.preferedDate
     ? new Date(request.preferedDate)
     : null
@@ -92,8 +92,8 @@ const handleRequestReject = async (id: string) => {
             <span className="flex items-center gap-2">
               <Clock size={15} className="text-primary" />
               {date?.toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
+                hour: "numeric",
+                minute: "numeric",
               })}
             </span>
           </div>
