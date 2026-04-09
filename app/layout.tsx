@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Poppins } from "next/font/google";
-import "./globals.css";
+// import "./globals.css";
 import ReduxProvider from "./store/Provider";
 import { Toaster } from "@/components/ui/sonner";
-import AppInitializer from "./AppInitializer";
+
+
 
 const poppins = Poppins({
   subsets: ["latin"],
