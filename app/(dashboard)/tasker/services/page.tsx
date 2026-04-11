@@ -99,6 +99,8 @@ console.log('services page states✨✨✨',{
   };
 
   const handleDeactivate = (id: string) => {
+    dispatch(deactivateService(id));
+      dispatch(fetchServicesByTaskerId());
     toast.success('Service deactivated');
   };
 
