@@ -7,17 +7,20 @@ import taskerReducer from "./slices/taskerSlice"
 import serviceReducer from "./slices/serviceSlice"
 import categoryReducer from "./slices/categorySlice"
 import requestReducer from "./slices/requestSlice"
+import bookingReducer from "./slices/bookingSlice"
+import paymentReducer from "./slices/paymentSlice"
 
 
 
 
 const rootReducer = combineReducers({
   auth: authReducer,
-   tasker: taskerReducer,
-   service: serviceReducer,
-   category: categoryReducer,
-   request: requestReducer,
-  
+  tasker: taskerReducer,
+  service: serviceReducer,
+  category: categoryReducer,
+  request: requestReducer,
+  booking: bookingReducer,
+  payment: paymentReducer,
 })
 
 const persistConfig = {
