@@ -14,7 +14,7 @@ interface AwaitngPaymentCardProps {
   onViewDetails?: (bookingId: string) => void
 }
 
-export default function AwaitngPaymentCard({ booking, onPayNow,onViewDetails }: AwaitngPaymentCardProps) {
+export default function AwaitngPaymentCard({ booking,onViewDetails }: AwaitngPaymentCardProps) {
   // Extract tasker name 
   const taskerName = booking.tasker.user 
     ? `${booking.tasker.user.firstName} ${booking.tasker.user.lastName}`
