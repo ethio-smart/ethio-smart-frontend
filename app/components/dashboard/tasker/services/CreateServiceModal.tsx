@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import {
   Dialog,
@@ -24,11 +23,9 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
-import { createService } from '@/app/store/slices/serviceSlice';
+import { createService, fetchServicesByTaskerId } from '@/app/store/slices/serviceSlice';
 
-// --------------------
-// Type
-// --------------------
+
 type ServiceForm = {
   title: string;
   description: string;
@@ -96,6 +93,7 @@ export function CreateServiceModal({
       await dispatch(createService(payload)).unwrap();
       toast.success('Service created successfully');
       setForm(defaultForm);
+        dispatch(fetchServicesByTaskerId());
       setOpen(false);
     } catch (error: any) {
       toast.error(error || 'Failed to create service');
