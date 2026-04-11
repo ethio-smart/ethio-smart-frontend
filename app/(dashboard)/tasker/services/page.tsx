@@ -22,27 +22,23 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
-import { fetchServiceById } from '@/app/store/slices/serviceSlice';
-
+import { deactivateService, fetchServicesByTaskerId } from '@/app/store/slices/serviceSlice';
 import { CreateServiceModal } from '@/app/components/dashboard/tasker/services/CreateServiceModal';
 import { EditServiceModal } from '@/app/components/dashboard/tasker/services/EditServiceModal';
 import { ServiceDetailModal } from '@/app/components/dashboard/tasker/services/ServiceDetailModal';
 import { Service } from '@/app/types/types';
-import { Key } from 'lucide-react';
 
 
 export default function ServicesPage() {
   const dispatch = useAppDispatch();
-
-  const { services,currentService, loading } = useAppSelector(
+  const { services, loading } = useAppSelector(
     (state) => state.service
   );
-console.log('current services redux state',currentService)
   const { categories } = useAppSelector(
     (state) => state.category
   );
+  console.log(' services🎯🎯',services)
 
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -55,12 +51,11 @@ console.log('services page states✨✨✨',{
 })
   // Fetch data
   useEffect(() => {
-    dispatch(fetchServiceById());
+    dispatch(fetchServicesByTaskerId());
   }, [dispatch]);
 
 
   // Category Map
-
   const categoryMap = useMemo(() => {
     return (categories || []).reduce((acc: any, cat: any) => {
       acc[cat.id] = cat.name;
@@ -73,7 +68,9 @@ console.log('services page states✨✨✨',{
 
   // Filter
   const filteredServices = useMemo(() => {
-    return safeServices.filter((service) => {
+  return (safeServices || [])
+    .filter((service): service is Service => !!service && !!service.title)
+    .filter((service) => {
       const matchSearch = service.title
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
@@ -90,13 +87,8 @@ console.log('services page states✨✨✨',{
 
       return matchSearch && matchCategory && matchStatus;
     });
-  }, [safeServices, searchQuery, categoryFilter, statusFilter, categoryMap]);
+}, [safeServices, searchQuery, categoryFilter, statusFilter, categoryMap]);
 
-
-  // Actions
-  const handleUpdateService = (id: string) => {
-    toast.success('Service status updated');
-  };
 
   const handleDeactivate = (id: string) => {
     dispatch(deactivateService(id));
@@ -208,8 +200,8 @@ console.log('services page states✨✨✨',{
               </DropdownMenuItem>
 
               <DropdownMenuItem onClick={() => handleDeactivate(service.id)}>
-                  <Icon name={service.status === 'Active' ? 'XMarkIcon' : 'CheckIcon'} size={14} className="mr-2" />
-                  <span>{service.status === 'Active' ? 'Deactivate' : 'Activate'  }</span>
+                  <Icon name={service.isActive === true ? 'XMarkIcon' : 'CheckIcon'} size={14} className="mr-2" />
+                  <span>{service.isActive === true ? 'Deactivate' : 'Activate'  }</span>
                
               </DropdownMenuItem>
 
@@ -235,13 +227,13 @@ console.log('services page states✨✨✨',{
 
   // Loading
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen">
+  //       <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+  //     </div>
+  //   );
+  // }
 
 
   return (
