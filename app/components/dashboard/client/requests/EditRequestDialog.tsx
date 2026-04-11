@@ -27,22 +27,29 @@ interface Props {
 }
 
 export default function EditRequestDialog({ children, request }: Props) {
-  const [title, setTitle] = useState(request.title)
-  const [description, setDescription] = useState(request.description)
-  const [location, setLocation] = useState(request.location)
-  const [price, setPrice] = useState(request.budget)
-  const [date, setDate] = useState(request.preferedDate ? request.preferedDate.split("T")[0] : "")
-  const [time, setTime] = useState(request.preferedDate ? request.preferedDate.split("T")[1] : "")
+  // console.log('EditRequestDialog received request:', request)
+  // console.log('request.title:', request?.title)
+  // console.log('request.description:', request?.description)
+  // console.log('request.location:', request?.location)
+  // console.log('request.budget:', request?.budget)
+  // console.log('request.preferedDate:', request?.preferedDate)
+
+  const [title, setTitle] = useState(request?.title || '')
+  const [description, setDescription] = useState(request?.description)
+  const [location, setLocation] = useState(request?.location)
+  const [price, setPrice] = useState(request?.budget)
+  const [date, setDate] = useState(request?.preferedDate ? request?.preferedDate.split("T")[0] : "")
+  const [time, setTime] = useState(request?.preferedDate ? request?.preferedDate.split("T")[1] : "")
 
   const handleSave = () => {
-    console.log({
-      title,
-      description,
-      location,
-      price,
-      date,
-      time,
-    })
+    // console.log({
+    //   // title,
+    //   description,
+    //   location,
+    //   price,
+    //   date,
+    //   time,
+    // })
   }
 
   return (
@@ -63,13 +70,13 @@ export default function EditRequestDialog({ children, request }: Props) {
         <div className="grid gap-6 mt-4">
 
           {/* Title */}
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Label className="text-sm font-medium">Service Title</Label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
             />
-          </div>
+          </div> */}
 
           {/* Description */}
           <div className="space-y-2">
