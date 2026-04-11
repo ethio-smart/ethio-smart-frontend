@@ -16,7 +16,8 @@ import {
 export const navigation = {
   USER: [
     { name: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
-    { name: "Service Requests", href: "/client/requests", icon: FileText },
+    { name: "Requests", href: "/client/requests", icon: FileText },
+      { name: "Booking", href: "/client/bookings", icon: Star },
     { name: "Payments", href: "/client/payments", icon: CreditCard },
     { name: "Reviews", href: "/client/reviews", icon: Star },
     { name: "Disputes", href: "/client/disputes", icon: AlertTriangle },
