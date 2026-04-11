@@ -115,7 +115,7 @@ export default function RescheduleRequestDialog({ children }: Props) {
             </div>
 
             <p className="text-xs text-muted-foreground bg-gray-100 rounded-md p-3">
-              Worker is available during these weekday hours.
+              tasker is available during these weekday hours.
             </p>
 
           </div>
