@@ -1,3 +1,5 @@
+import { Invitation } from '@/app/types/types';
+import { locations } from './../utils/constant';
 import { LucideIcon } from "lucide-react"
 
 //user
@@ -64,9 +66,11 @@ export type Request= {
   userId: string
   categoryId: string
   description: string
+  category:Category
   budget?: number
   location: string
   preferedDate?: string
+  invitations?: Invitation[]
   dynamicData?: Record<string, any>
   status?: RequestStatus
 
@@ -89,10 +93,21 @@ export type Service= {
 export type Invitation = {
   id: string
   serviceRequestId: string
+  location:string
+  budget: number
+  description: string
   taskerId: string
   status: string
   serviceRequest: Request
   tasker: Tasker
+  userId:string
+  preferedDate?: string
+  user: User,
+  category?: {
+    id: string
+    name: string
+    description: string
+  }
 }
 
 
@@ -155,4 +170,45 @@ export type TaskerType = {
   services: ServiceType[]
   bookings: BookingType[]
   reviews: ReviewType[]
+}
+
+// Booking types based on API response
+export type PaymentResponse = {
+  message: string
+  status: string
+  data: {
+    checkout_url: string
+  }
+}
+
+export type BookingStatus = "AWAITING_PAYMENT" | "CONFIRMED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "DISPUTED"
+
+export type PaymentState = {
+  paymentResponse: PaymentResponse | null
+  loading: {
+    createPayment: boolean
+  }
+  error: string | null
+}
+
+export type Payment = {
+  id: string
+  amount: number
+  status: string
+  paymentMethod: string
+  createdAt: string
+  updatedAt: string
+}
+
+export type Booking = {
+  id: string
+  status: BookingStatus
+  serviceRequestId: string
+  userId: string
+  taskerId: string
+  createdAt: string
+  updatedAt: string
+  serviceRequest: Request
+  tasker: Tasker
+  payment: Payment | null
 }
