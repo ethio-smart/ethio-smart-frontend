@@ -15,14 +15,11 @@ import { acceptRequest, cancelRequest } from "@/app/store/slices/requestSlice"
 import { toast } from "sonner"
 
 
-type Props = {
+type IncomingRequestCardProps = {
   invitation: Invitation
-
 }
 
-export default function IncomingRequestCard({
-  invitation,
-}: Props) {
+export default function IncomingRequestCard({invitation,}: IncomingRequestCardProps) {
   const request = invitation.serviceRequest
   const{incomingInvitations,loading}=useAppSelector(state=>state.request)
     console.log('incoming invite from incoming request card ',incomingInvitations)
@@ -30,13 +27,14 @@ export default function IncomingRequestCard({
     ? new Date(request.preferedDate)
     : null
     const dispatch=useAppDispatch()
-    
+
+// accept request
 const handleRequestAccept = async (id: string) => {
   try {
     await dispatch(acceptRequest(id)).unwrap()
-
     toast.success("Request accepted successfully!")
   } catch (error) {
+    console.log(error)
     toast.error("Failed to accept request")
   }
 }
@@ -45,9 +43,9 @@ const handleRequestAccept = async (id: string) => {
 const handleRequestReject = async (id: string) => {
   try {
     await dispatch(cancelRequest(id)).unwrap()
-
     toast.success("Request rejected successfully!")
   } catch (error) {
+     console.log(error)
     toast.error("Failed to reject request")
   }
 }
@@ -55,7 +53,7 @@ const handleRequestReject = async (id: string) => {
     <Card className="shadow-none border h-full flex flex-col justify-between">
       <CardContent className="px-8 flex flex-col gap-4 flex-1">
 
-        {/* Header */}
+        {/* Header with name+category+status badge+description */}
         <div className="space-y-3 max-w-3xl">
           <div className="flex items-center gap-3">
             <span className="text-xs px-2 py-1 rounded bg-secondary">
@@ -72,23 +70,24 @@ const handleRequestReject = async (id: string) => {
             {request.description}
           </p>
 
-          {/* Info */}
+          {/* Info  */}
           <div className="flex gap-6 text-sm text-muted-foreground flex-wrap">
+            {/* location */}
             <span className="flex items-center gap-2">
               <MapPin size={15} className="text-primary" />
               {request.location}
             </span>
-
+            {/* budget */}
             <span className="flex items-center gap-2">
               <CircleDollarSign size={15} className="text-primary" />
               {request.budget}
             </span>
-
+            {/* date */}
             <span className="flex items-center gap-2">
               <CalendarDays size={15} className="text-primary" />
               {date?.toLocaleDateString()}
             </span>
-
+            {/* time */}
             <span className="flex items-center gap-2">
               <Clock size={15} className="text-primary" />
               {date?.toLocaleTimeString([], {
@@ -105,7 +104,9 @@ const handleRequestReject = async (id: string) => {
           {/* Left: status */}
           <p className="text-sm text-muted-foreground">
             {/* {invitation.serviceRequest.dynamicData} */}
-            {/* Incoming request from <b>{request.serviceRequest.user.firstname} {request.serviceRequest.user.lastname}</b> */}
+            Incoming request from <b>{request.invitations?.serviceRequest.user.firstName} 
+              {/* {request.serviceRequest.user.lastname} */}
+              </b>
           </p>
           
 
