@@ -1,6 +1,7 @@
 import { MessageSquare, BadgeCheck, ShieldCheck, UserCheck, Settings, CheckCircle, DollarSign } from "lucide-react"
 import HowItWorksCard from "../cards/HowItworksCard"
 import { Button } from "@/components/ui/button"
+import BecomeTaskerModal from "../modal/BecometaskerModal"
 
 // Client flow steps
 const clientSteps = [
@@ -70,9 +71,9 @@ function HowItWorks() {
         <div className="mb-20">
           <div className="text-center mb-12">
             <h3 className="w-fit bg-secondary text-primary text-2xl font-bold px-4 py-1 rounded-full">For Clients</h3>
-            <p className="text-gray-600 max-w-xl mx-auto">
+            {/* <p className="text-gray-600 max-w-xl mx-auto">
               Get your tasks done in three simple steps with verified professionals
-            </p>
+            </p> */}
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -91,9 +92,9 @@ function HowItWorks() {
         <div>
           <div className="text-center mb-12">
             <h3 className="w-fit bg-secondary text-primary text-2xl font-bold px-4 py-1 rounded-full mb-4">For Taskers</h3>
-            <p className="text-gray-600 max-w-xl mx-auto">
+            {/* <p className="text-gray-600 max-w-xl mx-auto">
               Start your journey as a professional service provider and earn on your terms
-            </p>
+            </p> */}
           </div>
           
           <div className="grid md:grid-cols-3 gap-6 ">
@@ -118,10 +119,12 @@ function HowItWorks() {
         {/* CTA Section */}
         <div className="mt-20 text-center">
           <div className="inline-flex flex-col sm:flex-row gap-4">
-           
+           <BecomeTaskerModal>
+
             <Button className="px-8 py-5 bg-primary text-white  hover:bg-primary/80 transition-colors ">
               Become a Tasker
             </Button>
+           </BecomeTaskerModal>
           </div>
           <p className="text-gray-600 mt-4 text-sm">
             Join thousands of satisfied clients and successful taskers
