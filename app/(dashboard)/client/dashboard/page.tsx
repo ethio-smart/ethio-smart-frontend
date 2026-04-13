@@ -1,10 +1,7 @@
 import StatsOverview from "@/app/components/dashboard/client/dashboard/StatsOverview";
-
-
 export default function ClientDashboard() {
   return (
     <div className="space-y-6">
-
       <div>
        
         <p className="text-sm text-gray-500">
