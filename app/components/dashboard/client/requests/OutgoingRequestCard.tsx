@@ -69,7 +69,8 @@ export default function OutgoingRequestCard({
             </span>
 
             <h3 className="font-bold text-xl">
-              {invitation?.description?.slice(0, 40) || "No description"}
+              {/* {invitation?.description?.slice(0, 40) || "No description"} */}
+              {invitation?.tittle || "No title"}
             </h3>
 
             <StatusBadge status={invitation.status} />
