@@ -201,14 +201,14 @@ export type Payment = {
 }
 
 export type Booking = {
-  id: string
-  status: BookingStatus
-  serviceRequestId: string
-  userId: string
-  taskerId: string
-  createdAt: string
-  updatedAt: string
-  serviceRequest: Request
-  tasker: Tasker
-  payment: Payment | null
-}
+  id: string;
+  status: BookingStatus;
+  serviceRequestId: string;
+  userId: string;
+  taskerId: string;
+  createdAt: string;
+  updatedAt: string;
+  serviceRequest: Request;
+  tasker: Tasker;
+  payment: Payment | null;
+};
