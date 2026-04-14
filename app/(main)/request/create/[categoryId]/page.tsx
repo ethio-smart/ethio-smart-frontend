@@ -21,20 +21,30 @@ type FormDataType = {
   preferedDate: string
   dynamicData: Record<string, string>
   description: string
-  budget: string
+  budget: string,
+  
+tittle
+:string
 }
 
 
 function ReviewRequest({ formData }: { formData: FormDataType }) {
   return (
-    <div className="space-y-4 text-sm">
+   <div className="space-y-4 text-sm">
 
-      
+  {/* TITLE */}
+  <div className="bg-gray-50 w-full p-3 rounded-md">
+    <h3 className="font-semibold">Title</h3>
+    <p>{formData.
+tittle
+ || "-"}</p>
+  </div>
 
-      <div className="bg-gray-50 w-full p-3 rounded-md">
-        <h3 className="font-semibold">Location</h3>
-        <p>{formData.location}</p>
-      </div>
+  {/* LOCATION */}
+  <div className="bg-gray-50 w-full p-3 rounded-md">
+    <h3 className="font-semibold">Location</h3>
+    <p>{formData.location || "-"}</p>
+  </div>
 
       <div className="bg-gray-50 w-full p-3 rounded-md">
         <h3 className="font-semibold ">Preferred Date</h3>
