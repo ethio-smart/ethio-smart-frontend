@@ -105,6 +105,15 @@ export function RequestForm({ formData, setFormData }: any) {
 
         {/* Description */}
         <div className="space-y-4">
+           <Label className="flex items-center gap-2 font-medium">
+           <NotebookPen size={18} className="text-primary" />
+            Title
+          </Label>
+          <Input
+            placeholder="eg Deep cleaning for 2-bedroom apartment"
+            className="w-full py-5"
+            onChange={(e) => handleChange("title", e.target.value)}
+          />
           <Label className="font-medium flex items-center gap-2">
             <FileText size={18} className="text-primary" />
             <span>Description</span>
