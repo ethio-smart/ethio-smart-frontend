@@ -1,9 +1,7 @@
-import { Invitation } from '@/app/types/types';
-import { locations } from './../utils/constant';
-import { LucideIcon } from "lucide-react"
+import { LucideIcon } from "lucide-react";
 
 //user
-export type Role = "USER" | "SUPER_ADMIN" | "TASKER" |" SYSTEM_ADMIN"
+export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | " SYSTEM_ADMIN";
 export type User = {
   id: string;
   firstName: string;
@@ -29,11 +27,11 @@ export enum RequestStatus {
   ACCEPTED = "ACCEPTED",
   REJECTED = "REJECTED",
   EXPIRED = "EXPIRED",
-  CANCELLED = "CANCELLED"
+  CANCELLED = "CANCELLED",
 }
 //tasker
-export type Tasker ={
-  id:string,
+export type Tasker = {
+  id: string;
   status: TaskerStatus;
   location?: string;
   bio?: string;
@@ -42,7 +40,7 @@ export type Tasker ={
   bankName?: string;
   bankAccountNumber?: string;
   nationalIdNumber?: string;
-  certifications: string[]; 
+  certifications: string[];
   proposalVideoUrl?: string;
   availability: boolean;
   rating: number;
@@ -51,34 +49,34 @@ export type Tasker ={
   isVerified: boolean;
   user?: User;
   services?: Service[];
-}
+};
 //category
-export type Category= {
-  id: string
-  name: string
-  description: string
-}
+export type Category = {
+  id: string;
+  name: string;
+  description: string;
+};
 //service request
 
-
-export type Request= {
-  id: string
-  userId: string
-  categoryId: string
-  description: string
-  category:Category
-  budget?: number
-  location: string
-  preferedDate?: string
-  invitations?: Invitation[]
-  dynamicData?: Record<string, any>
-  status?: RequestStatus
-
-}
-export type PriceType = 'HOURLY' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'FIXED';
+export type Request = {
+  id: string;
+  userId: string;
+  user?: User;
+  tittle: string;
+  categoryId: string;
+  description: string;
+  category: Category;
+  budget?: number;
+  location: string;
+  preferedDate?: string;
+  invitations?: Invitation[];
+  dynamicData?: Record<string, any>;
+  status?: RequestStatus;
+};
+export type PriceType = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "FIXED";
 
 //service
-export type Service= {
+export type Service = {
   id: string;
   title: string;
   description: string;
@@ -88,117 +86,122 @@ export type Service= {
   categoryId: string;
   taskerId: string;
   createdAt: string;
-}
+};
 
 export type Invitation = {
-  id: string
-  serviceRequestId: string
-  location:string
-  budget: number
-  description: string
-  taskerId: string
-  status: string
-  serviceRequest: Request
-  tasker: Tasker
-  userId:string
-  preferedDate?: string
-  user: User,
+  id: string;
+  tittle: string;
+  serviceRequestId: string;
+  location: string;
+  budget: number;
+  description: string;
+  taskerId: string;
+  status: string;
+  serviceRequest: Request;
+  tasker: Tasker;
+  userId: string;
+  preferedDate?: string;
+  user: User;
   category?: {
-    id: string
-    name: string
-    description: string
-  }
-}
-
+    id: string;
+    name: string;
+    description: string;
+  };
+};
 
 //type for dummy data's
 export type Notification = {
-  id: string
-  title: string
-  description: string
-  time: string
-  icon: LucideIcon
-  iconColor?: string
-  unread?: boolean
-}
-
+  id: string;
+  title: string;
+  description: string;
+  time: string;
+  icon: LucideIcon;
+  iconColor?: string;
+  unread?: boolean;
+};
 
 export type ReviewType = {
-  id: string
-  rating: number
-  comment: string
-  createdAt: Date
+  id: string;
+  rating: number;
+  comment: string;
+  createdAt: Date;
   user: {
-    id: string
-    name: string
-  }
-}
+    id: string;
+    name: string;
+  };
+};
 
 export type ServiceType = {
-  id: string
-  name: string
-  hourlyRate: number
-  taskerId: string
-}
+  id: string;
+  name: string;
+  hourlyRate: number;
+  taskerId: string;
+};
 
 export type BookingType = {
-  id: string
-  status: string
-  totalPrice: number
-  createdAt: Date
-}
+  id: string;
+  status: string;
+  totalPrice: number;
+  createdAt: Date;
+};
 
 export type TaskerType = {
-  id: string
-  userId: string
+  id: string;
+  userId: string;
   user: {
-    id: string
-    name: string
-    email: string
-    image?: string
-  }
-  status: string
-  location?: string
-  bio?: string
-  languages: string[]
-  resumeUrl?: string | null
-  availability: boolean
-  rating: number
-  totalReviews: number
-  totalEarnings: number
-  isVerified: boolean
-  services: ServiceType[]
-  bookings: BookingType[]
-  reviews: ReviewType[]
-}
+    id: string;
+    name: string;
+    email: string;
+    image?: string;
+  };
+  status: string;
+  location?: string;
+  bio?: string;
+  languages: string[];
+  resumeUrl?: string | null;
+  availability: boolean;
+  rating: number;
+  totalReviews: number;
+  totalEarnings: number;
+  isVerified: boolean;
+  services: ServiceType[];
+  bookings: BookingType[];
+  reviews: ReviewType[];
+};
 
 // Booking types based on API response
 export type PaymentResponse = {
-  message: string
-  status: string
+  message: string;
+  status: string;
   data: {
-    checkout_url: string
-  }
-}
+    checkout_url: string;
+  };
+};
 
-export type BookingStatus = "AWAITING_PAYMENT" | "CONFIRMED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "DISPUTED"
+export type BookingStatus =
+  | "AWAITING_PAYMENT"
+  | "CONFIRMED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "CANCELLED"
+  | "DISPUTED";
 
 export type PaymentState = {
-  paymentResponse: PaymentResponse | null
+  paymentResponse: PaymentResponse | null;
   loading: {
-    createPayment: boolean
-  }
-  error: string | null
-}
+    createPayment: boolean;
+  };
+  error: string | null;
+};
 
 export type Payment = {
-  id: string
-  amount: number
-  status: string
-  paymentMethod: string
-  createdAt: string
-  updatedAt: string
-}
+  id: string;
+  amount: number;
+  status: string;
+  paymentMethod: string;
+  createdAt: string;
+  updatedAt: string;
+};
 
 export type Booking = {
   id: string;
