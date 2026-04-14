@@ -17,7 +17,7 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 
-interface Worker {
+interface tasker {
   name: string
   avgRating: number
   profileImg: string
@@ -26,44 +26,44 @@ interface Worker {
 interface Props {
   open: boolean
   onClose: () => void
-  worker?: Worker
+  tasker?: tasker
 }
 
 
-const dummyWorker: Worker = {
+const dummytasker: tasker = {
   name: "John Doe",
   avgRating: 4.7,
   profileImg: "/profile.png",
 }
 
-export default function RateWorkerModal({ open, onClose, worker }: Props) {
+export default function RatetaskerModal({ open, onClose, tasker }: Props) {
   const [rating, setRating] = useState(0)
 
-  const displayWorker = worker || dummyWorker
+  const displaytasker = tasker || dummytasker
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md">
 
-        {/* Worker Info */}
+        {/* tasker Info */}
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200">
             <Image
-              src={displayWorker.profileImg}
-              alt={displayWorker.name}
+              src={displaytasker.profileImg}
+              alt={displaytasker.name}
               width={64}
               height={64}
               className="object-cover"
             />
           </div>
           <div>
-            <p className="font-semibold text-lg">{displayWorker.name}</p>
+            <p className="font-semibold text-lg">{displaytasker.name}</p>
             
           </div>
         </div>
 
         <DialogHeader>
-          <DialogTitle className="text-center">Rate the Worker</DialogTitle>
+          <DialogTitle className="text-center">Rate the tasker</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
