@@ -28,6 +28,9 @@ export default function IncomingRequestCard({invitation,}: IncomingRequestCardPr
     : null
     const dispatch=useAppDispatch()
 
+  // Get user information from the correct nested structure
+  const user = request.invitations?.[0]?.user
+
 // accept request
 const handleRequestAccept = async (id: string) => {
   try {
@@ -60,13 +63,13 @@ const handleRequestReject = async (id: string) => {
               {request.category?.name}
             </span>
 
-            <h3 className="font-bold text-xl">
-              {request.description.slice(0, 40)}
+            <h3 className="font-bold text-xl line-clamp-3">
+              {request.tittle || "No title"}
             </h3>
              <StatusBadge status={invitation.status } />
           </div>
 
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground line-clamp-4">
             {request.description}
           </p>
 
@@ -104,9 +107,10 @@ const handleRequestReject = async (id: string) => {
           {/* Left: status */}
           <p className="text-sm text-muted-foreground">
             {/* {invitation.serviceRequest.dynamicData} */}
-            Incoming request from <b>{request.invitations?.serviceRequest.user.firstName} 
-              {/* {request.serviceRequest.user.lastname} */}
-              </b>
+            Incoming request from 
+            <b>{request.user?.firstName} 
+              {request.user?.lastName}</b>
+             
           </p>
           
 
