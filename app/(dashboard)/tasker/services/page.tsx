@@ -85,16 +85,25 @@ console.log('services page states✨✨✨',{
         statusFilter === 'All' ||
         service.isActive === (statusFilter === 'Active');
 
-      return matchSearch && matchCategory && matchStatus;
-    });
-}, [safeServices, searchQuery, categoryFilter, statusFilter, categoryMap]);
-
-
-  const handleDeactivate = (id: string) => {
-    dispatch(deactivateService(id));
-      dispatch(fetchServicesByTaskerId());
-    toast.success('Service deactivated');
+        return matchSearch && matchCategory && matchStatus;
+      });
+  }, [safeServices, searchQuery, categoryFilter, statusFilter, categoryMap]);
+  //handle activate/deactivate service
+  const handleToggleService = async (service: Service) => {
+    try {
+      if (service.isActive) {
+        await dispatch(deactivateService(service.id)).unwrap();
+        toast.success('Service deactivated');
+      } else {
+        await dispatch(activateService(service.id)).unwrap();
+        toast.success('Service activated');
+      }
+    } catch (err: any) {
+      toast.error(err || 'Action failed');
+    }
   };
+
+
 
   const columns = [
     //    {
