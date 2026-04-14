@@ -46,39 +46,64 @@ tittle
     <p>{formData.location || "-"}</p>
   </div>
 
-      <div className="bg-gray-50 w-full p-3 rounded-md">
-        <h3 className="font-semibold ">Preferred Date</h3>
-        <p>{formData.preferedDate.split('T')[0]}</p>
-        <p>{formData.preferedDate.split('T')[1]}</p>
-      </div>
+  {/* PREFERRED DATE */}
+  <div className="bg-gray-50 w-full p-3 rounded-md">
+    <h3 className="font-semibold">Preferred Date and Time</h3>
 
-      <div className="bg-gray-50 w-full p-3 rounded-md">
-        <h3 className="font-semibold">Budget</h3>
-        <p>{formData.budget}</p>
-      </div>
+    {formData.preferedDate ? (
+      <>
+        <p>
+          {new Date(formData.preferedDate).toLocaleDateString()}
+        </p>
+        <p>
+          {new Date(formData.preferedDate).toLocaleTimeString()}
+        </p>
+      </>
+    ) : (
+      <p className="text-gray-500">Not selected</p>
+    )}
+  </div>
 
-      <div className="bg-gray-50 w-full p-3 rounded-md">
-        <h3 className="font-semibold">Description</h3>
-        <p>{formData.description}</p>
-      </div>
+  {/* BUDGET */}
+  <div className="bg-gray-50 w-full p-3 rounded-md">
+    <h3 className="font-semibold">Budget</h3>
+    <p>{formData.budget ?? "-"}</p>
+  </div>
 
-      <div className="bg-gray-50 p-3 rounded-md">
-        <h3 className="font-semibold">Additional Details</h3>
-        <div className="">
-          {Object.entries(formData.dynamicData).length === 0 ? (
-            <p className="text-gray-500">No additional data</p>
-          ) : (
-            Object.entries(formData.dynamicData).map(([key, value]) => (
-              <div key={key} className="flex justify-between">
-                <span className=" capitalize">{key}</span>
-                <span>{value}</span>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
+  {/* DESCRIPTION */}
+  <div className="bg-gray-50 w-full p-3 rounded-md">
+    <h3 className="font-semibold">Description</h3>
+    <p>{formData.description || "-"}</p>
+  </div>
 
+  {/* DYNAMIC DETAILS */}
+  <div className="bg-gray-50 p-3 rounded-md">
+    <h3 className="font-semibold">Additional Details</h3>
+
+    <div className="space-y-1 mt-2">
+      {Object.keys(formData.dynamicData || {}).length === 0 ? (
+        <p className="text-gray-500">No additional data</p>
+      ) : (
+        Object.entries(formData.dynamicData || {}).map(([key, value]) => (
+          <div key={key} className="flex justify-between gap-4">
+            <span className="capitalize text-gray-600">{key}</span>
+
+            <span className="text-right font-medium">
+              {typeof value === "boolean"
+                ? value
+                  ? "Yes"
+                  : "No"
+                : value === null || value === undefined || value === ""
+                ? "-"
+                : String(value)}
+            </span>
+          </div>
+        ))
+      )}
     </div>
+  </div>
+
+</div>
   )
 }
 
@@ -100,6 +125,7 @@ export default function Page() {
     dynamicData: {},
     description: "",
     budget: "",
+    title:""
   })
 
   const fields = categoryFields[name] || []
