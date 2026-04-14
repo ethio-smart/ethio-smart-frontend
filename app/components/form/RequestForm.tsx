@@ -1,6 +1,6 @@
 "use client"
 
-import { MapPin, Calendar, FileText, DollarSign } from "lucide-react"
+import { MapPin, FileText, DollarSign, Calendar1, NotebookPen } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/command"
 import { useParams } from "next/navigation"
 
+
 export function RequestForm({ formData, setFormData }: any) {
   const [locationOpen, setLocationOpen] = useState(false)
   const [location, setLocation] = useState("")
@@ -24,11 +25,10 @@ export function RequestForm({ formData, setFormData }: any) {
   const handleChange = (name: string, value: any) => {
     setFormData({ ...formData, [name]: value })
   }
-
-  // ✅ ONLY preferredDate is stored
+// ONLY preferedDate is stored
   const handleDateTimeChange = (value: string, type: "date" | "time") => {
-    const current = formData.preferredDate
-      ? new Date(formData.preferredDate)
+    const current = formData.preferedDate
+      ? new Date(formData.preferedDate)
       : new Date()
 
     let date = current.toISOString().split("T")[0]
@@ -46,7 +46,7 @@ export function RequestForm({ formData, setFormData }: any) {
 
     setFormData({
       ...formData,
-      preferredDate: combined,
+      preferedDate: combined,
     })
   }
 
@@ -60,7 +60,7 @@ export function RequestForm({ formData, setFormData }: any) {
 
   return (
     <div className="space-y-6">
-      <form className="space-y-6">
+      <form className="space-y-6"  onSubmit={(e) => e.preventDefault()}>
 
         {/* Location */}
         <div className="space-y-2 relative">
@@ -150,10 +150,9 @@ export function RequestForm({ formData, setFormData }: any) {
 
           <div className="space-y-4 w-full">
             <Label className="font-medium flex items-center gap-2">
-              <Calendar size={18} className="text-primary" />
+              <Calendar1 size={18} className="text-primary" />
               <span>Preferred Date</span>
-            </Label>
-
+            </Label>              
             <Input
               type="date"
               className="w-full py-5"
@@ -184,3 +183,4 @@ export function RequestForm({ formData, setFormData }: any) {
     </div>
   )
 }
+
