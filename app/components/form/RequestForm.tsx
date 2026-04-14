@@ -120,7 +120,7 @@ export function RequestForm({ formData, setFormData }: any) {
           </Label>
 
           <Textarea
-            placeholder="Provide details so the worker knows what to do"
+            placeholder="Provide details so the tasker knows what to do"
             className="w-full h-32"
             onChange={(e) =>
               handleChange("description", e.target.value)
