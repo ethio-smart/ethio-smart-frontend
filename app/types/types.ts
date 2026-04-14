@@ -5,17 +5,17 @@ import { LucideIcon } from "lucide-react"
 //user
 export type Role = "USER" | "SUPER_ADMIN" | "TASKER" |" SYSTEM_ADMIN"
 export type User = {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  phone?: string | null
-  password: string
-  imageurl:string,
-  role: Role,
-  isVerified: boolean,
-  tasker?: Tasker
-}
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string | null;
+  password: string;
+  imageurl: string;
+  role: Role;
+  isVerified: boolean;
+  tasker?: Tasker;
+};
 //tasker status
 export enum TaskerStatus {
   PENDING = "PENDING",
