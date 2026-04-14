@@ -23,7 +23,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
-import { deactivateService, fetchServicesByTaskerId } from '@/app/store/slices/serviceSlice';
+import { activateService, deactivateService, fetchServicesByTaskerId } from '@/app/store/slices/serviceSlice';
 import { CreateServiceModal } from '@/app/components/dashboard/tasker/services/CreateServiceModal';
 import { EditServiceModal } from '@/app/components/dashboard/tasker/services/EditServiceModal';
 import { ServiceDetailModal } from '@/app/components/dashboard/tasker/services/ServiceDetailModal';
@@ -32,13 +32,13 @@ import { Service } from '@/app/types/types';
 
 export default function ServicesPage() {
   const dispatch = useAppDispatch();
-  const { services, loading } = useAppSelector(
+  const { services } = useAppSelector(
     (state) => state.service
   );
   const { categories } = useAppSelector(
     (state) => state.category
   );
-  console.log(' services🎯🎯',services)
+  console.log(' services🎯🎯', services)
 
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -46,9 +46,9 @@ export default function ServicesPage() {
   const [editService, setEditService] = useState<Service | null>(null);
   const [viewService, setViewService] = useState<Service | null>(null);
 
-console.log('services page states✨✨✨',{
- editService,viewService
-})
+  console.log('services page states✨✨✨', {
+    editService, viewService
+  })
   // Fetch data
   useEffect(() => {
     dispatch(fetchServicesByTaskerId());
@@ -114,7 +114,7 @@ console.log('services page states✨✨✨',{
     //       <p className="font-medium text-foreground">
     //         {row.index + 1}
     //       </p>
-            
+
     //     </div>
     //   ),
     // },
@@ -126,9 +126,6 @@ console.log('services page states✨✨✨',{
           <p className="font-medium text-foreground">
             {row.original.title}
           </p>
-            {/* <p className="text-xs text-muted-foreground">
-              {row.original.id}
-            </p> */}
         </div>
       ),
     },
@@ -159,30 +156,28 @@ console.log('services page states✨✨✨',{
         </span>
       ),
     },
-   {
-  id: 'status',
-  header: 'Status',
-  cell: ({ row }: any) => {
-    const isActive = row.original.isActive;
+    {
+      id: 'status',
+      header: 'Status',
+      cell: ({ row }: any) => {
+        const isActive = row.original.isActive;
 
-    return (
-      <span
-        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-          isActive
-            ? 'bg-emerald-50 text-emerald-700'
-            : 'bg-gray-100 text-gray-600'
-        }`}
-      >
-        <span
-          className={`w-1.5 h-1.5 rounded-full ${
-            isActive ? 'bg-emerald-500' : 'bg-gray-400'
-          }`}
-        />
-        {isActive ? 'Active' : 'Inactive'}
-      </span>
-    );
-  },
-},
+        return (
+          <span
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${isActive
+                ? 'bg-emerald-50 text-emerald-700'
+                : 'bg-gray-100 text-gray-600'
+              }`}
+          >
+            <span
+              className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-emerald-500' : 'bg-gray-400'
+                }`}
+            />
+            {isActive ? 'Active' : 'Inactive'}
+          </span>
+        );
+      },
+    },
     {
       id: 'createdDate',
       header: 'Created Date',
@@ -203,29 +198,24 @@ console.log('services page states✨✨✨',{
             </DropdownMenuTrigger>
 
             <DropdownMenuContent align="end" className="w-44">
-              <DropdownMenuItem onClick={() => setEditService(service)}> 
-                  <Icon name="PencilSquareIcon" size={14} className="mr-2" />
+              <DropdownMenuItem onClick={() => setEditService(service)}>
+                <Icon name="PencilSquareIcon" size={14} className="mr-2" />
                 Edit
               </DropdownMenuItem>
 
-              <DropdownMenuItem onClick={() => handleDeactivate(service.id)}>
-                  <Icon name={service.isActive === true ? 'XMarkIcon' : 'CheckIcon'} size={14} className="mr-2" />
-                  <span>{service.isActive === true ? 'Deactivate' : 'Activate'  }</span>
-               
+              <DropdownMenuItem onClick={() => handleToggleService(service)}>
+                <Icon
+                  name={service.isActive ? 'XMarkIcon' : 'CheckIcon'}
+                  size={14}
+                  className="mr-2"
+                />
+                <span>{service.isActive ? 'Deactivate' : 'Activate'}</span>
               </DropdownMenuItem>
 
               <DropdownMenuItem onClick={() => setViewService(service)}>
-                  <Icon name="EyeIcon" size={14} className="mr-2" />
+                <Icon name="EyeIcon" size={14} className="mr-2" />
                 View Details
               </DropdownMenuItem>
-
-              {/* <DropdownMenuItem
-                onClick={() => handleDelete(service.id)}
-                className="text-red-600"
-              >
-                <Icon name="TrashIcon" size={14} className="mr-2" />
-                Delete
-              </DropdownMenuItem> */}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -270,9 +260,9 @@ console.log('services page states✨✨✨',{
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="All">All</SelectItem>
-            {categories.map((c: any) => (
-              <SelectItem key={c.id} value={c.name}>
-                {c.name}
+            {categories.map((category: any) => (
+              <SelectItem key={category.id} value={category.name}>
+                {category.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -296,7 +286,7 @@ console.log('services page states✨✨✨',{
       {/* Modals */}
       {editService && (
         <EditServiceModal
-        categories={categories}
+          categories={categories}
           service={editService}
           // key={Key}
           open={!!editService}
