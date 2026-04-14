@@ -107,7 +107,7 @@ export default function OutgoingRequestCard({
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-wrap gap-2 justify-between mt-4 items-center">
+        <div className="flex flex-wrap gap-2 justify-between mt-3 items-center">
 
           {/* Tasker Info */}
           <div>
@@ -119,7 +119,7 @@ export default function OutgoingRequestCard({
                   {pendingTaskers.length > 0 ? (
                     <>
                       Invitation sent to{" "}
-                      <b>{pendingNames}</b>
+                      <b className="text-xs">{pendingNames}</b>
                     </>
                   ) : (
                     <>Invitation sent (waiting for tasker)</>
@@ -131,7 +131,7 @@ export default function OutgoingRequestCard({
               {invitation.status === "ACCEPTED" && acceptedTasker && (
                 <>
                   Accepted by{" "}
-                  <b>
+                  <b className="text-xs">
                     {acceptedTasker.firstName} {acceptedTasker.lastName}
                   </b>
                 </>
@@ -143,7 +143,7 @@ export default function OutgoingRequestCard({
                   {rejectedTaskers.length > 0 ? (
                     <>
                       Rejected by{" "}
-                      <b>{rejectedNames}</b>
+                      <b className="text-xs">{rejectedNames}</b>
                     </>
                   ) : (
                     <>Request was rejected</>
@@ -155,7 +155,7 @@ export default function OutgoingRequestCard({
           </div>
 
           {/* Actions */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 justify-end">
 
             {invitation.status === "PENDING" && (
               <>
@@ -183,9 +183,9 @@ export default function OutgoingRequestCard({
 
             {invitation.status === "ACCEPTED" && (
               <>
-                <Button size="lg" variant="outline">
+                {/* <Button size="lg" variant="outline">
                   Pay
-                </Button>
+                </Button> */}
 
                 <RescheduleRequestDialog>
                   <Button
