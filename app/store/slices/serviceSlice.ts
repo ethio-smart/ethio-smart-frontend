@@ -133,6 +133,19 @@ export const deactivateService = createAsyncThunk(
     }
   }
 );
+export const activateService = createAsyncThunk(
+  'service/activateService',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await api.patch(`/services/${id}/activate`, { active: true });
+      return id;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data?.message || 'Failed to activate service'
+      );
+    }
+  }
+);
 
 /* 
    SLICE
