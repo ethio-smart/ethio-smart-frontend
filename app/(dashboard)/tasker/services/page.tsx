@@ -68,22 +68,22 @@ console.log('services page states✨✨✨',{
 
   // Filter
   const filteredServices = useMemo(() => {
-  return (safeServices || [])
-    .filter((service): service is Service => !!service && !!service.title)
-    .filter((service) => {
-      const matchSearch = service.title
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase());
+    return (safeServices || [])
+      .filter((service): service is Service => !!service && !!service.title)
+      .filter((service) => {
+        const matchSearch = service.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase());
 
-      const categoryName = categoryMap[service.categoryId];
+        const categoryName = categoryMap[service.categoryId];
 
-      const matchCategory =
-        categoryFilter === 'All' ||
-        categoryName === categoryFilter;
+        const matchCategory =
+          categoryFilter === 'All' ||
+          categoryName === categoryFilter;
 
-      const matchStatus =
-        statusFilter === 'All' ||
-        service.isActive === (statusFilter === 'Active');
+        const matchStatus =
+          statusFilter === 'All' ||
+          service.isActive === (statusFilter === 'Active');
 
         return matchSearch && matchCategory && matchStatus;
       });
