@@ -7,10 +7,17 @@ import RecentActivity from "@/app/components/dashboard/client/requests/RecentAct
 import RequestDetails from "@/app/components/dashboard/client/requests/RequestDetail"
 import RequestHeader from "@/app/components/dashboard/client/requests/RequestHeader"
 import ServiceRequestProgress from "@/app/components/dashboard/client/requests/ServiceRequestProgress"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 
 
 
 export default function ServiceRequestDetail() {
+  const searchParams=useSearchParams()
+  const requestParam = searchParams.get("invitation")
+  const invitation = requestParam ? JSON.parse(requestParam) : null
+  console.log('invitation in request detail page',invitation)
   return (
     <>
      <Link
