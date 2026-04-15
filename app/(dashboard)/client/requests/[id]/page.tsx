@@ -28,10 +28,16 @@ export default function ServiceRequestDetail() {
         Back
       </Link>
     <div className="py-4">
-        <RequestHeader />
+        <RequestHeader status={invitation?.status} invitation={invitation.invitations} />
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
-        <RequestDetails />
+        <RequestDetails 
+          description={invitation?.description}
+          preferedDate={invitation?.preferedDate}
+          location={invitation?.location}
+          title={invitation?.tittle}
+          dyanamicData={invitation?.dynamicData}
+        />
         <ServiceRequestProgress/>
       </div>
 
@@ -42,5 +48,6 @@ export default function ServiceRequestDetail() {
       </div>
     </div>
     </div>
+    </>
   )
 }
