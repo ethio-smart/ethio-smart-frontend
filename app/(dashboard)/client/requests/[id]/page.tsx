@@ -12,6 +12,14 @@ import ServiceRequestProgress from "@/app/components/dashboard/client/requests/S
 
 export default function ServiceRequestDetail() {
   return (
+    <>
+     <Link
+        href="/client/requests"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back
+      </Link>
     <div className="py-4">
         <RequestHeader />
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
