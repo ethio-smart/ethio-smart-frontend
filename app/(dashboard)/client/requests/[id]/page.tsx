@@ -43,8 +43,8 @@ export default function ServiceRequestDetail() {
 
       <div className="space-y-6">
         <PaymentSummary/>
-        <RecentActivity />
-        <ActionButtons/>
+        {/* <RecentActivity /> */}
+        <ActionButtons status={invitation?.status} />
       </div>
     </div>
     </div>
