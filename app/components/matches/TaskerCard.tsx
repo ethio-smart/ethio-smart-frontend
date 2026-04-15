@@ -48,8 +48,8 @@ export default function TaskerCard({ tasker, requestId }: { tasker: Tasker, requ
               <Avatar className="w-20 h-20">
                 <AvatarImage src={tasker.user?.imageurl} />
                 <AvatarFallback>
-                  {tasker.user?.firstName.charAt(0)}
-                  {tasker.user?.lastName.charAt(0)}
+                  {tasker.user?.firstName.charAt(0).toUpperCase()}
+                  {tasker.user?.lastName.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <p className="text-primary uppercase font-bold text-xs text-center">Master Plumber</p>
