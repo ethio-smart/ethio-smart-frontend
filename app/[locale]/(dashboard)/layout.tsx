@@ -1,14 +1,15 @@
 'use client'
 
-// import DashboardHeader from "@/app/components/common/DashboardHeader"
+import DashboardHeader from "@/app/components/common/DashboardHeader"
 
 import { useAppSelector } from "@/app/hooks/hooks"
 // import { Role } from "../types/types"
-import Sidebar from "../components/sidebar/SideBar"
+
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Role } from "@/app/types/types"
-import DashboardHeader from "../components/common/DashboardHeader"
+import Sidebar from "@/app/components/sidebar/SideBar"
+
 
 
 export default function DashboardLayout({
