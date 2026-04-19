@@ -3,12 +3,10 @@
 
 'use client';
 
-import AccountSettingsCard from '@/app/[locale]/components/dashboard/tasker/profile/AccountSettingCard';
-import ProfileDetailCard from '@/app/[locale]/components/dashboard/tasker/profile/ProfileDetailCard';
-import ProfileHeaderCard from '@/app/[locale]/components/dashboard/tasker/profile/ProfileHeaderCard';
-// import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
-// import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/ProfileDetailCard';
-// import ProfileHeaderCard from '@/app/components/dashboard/tasker/profile/ProfileHeaderCard';
+
+import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
+import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/ProfileDetailCard';
+import ProfileHeaderCard from '@/app/components/dashboard/tasker/profile/ProfileHeaderCard';
 import { useAppSelector } from '@/app/hooks/hooks';
 import { User } from '@/app/types/types';
 import { useState, useEffect } from 'react';
