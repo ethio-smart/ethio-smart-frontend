@@ -10,8 +10,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { fetchOutgoingRequests } from "@/app/store/slices/requestSlice"
-import OutgoingRequestCard from "@/app/[locale]/components/dashboard/client/requests/OutgoingRequestCard"
-// import OutgoingRequestCard from "@/app/components/dashboard/client/requests/OutgoingRequestCard"
+
+import OutgoingRequestCard from "@/app/components/dashboard/client/requests/OutgoingRequestCard"
 
 
 
