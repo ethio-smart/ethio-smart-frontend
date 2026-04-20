@@ -10,7 +10,8 @@ import { BookingStatus } from '@/app/types/types'
 import { Skeleton } from '@/components/ui/skeleton'
 import { AlertCircle } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import AwaitngPaymentCard from '@/app/[locale]/components/cards/AwaitngPaymentCard'
+import AwaitngPaymentCard from '@/app/components/cards/AwaitngPaymentCard'
+
 
 export default function ClientBookingsPage() {
   const dispatch: AppDispatch = useDispatch()
@@ -44,7 +45,7 @@ export default function ClientBookingsPage() {
     { value: 'DISPUTED' as BookingStatus, label: 'Disputed', count: getBookingsByStatus('DISPUTED').length },
   ]
 
-  if (loading.fetch) {
+  if (loading.fetchClient) {
     return (
       <div className="space-y-4">
         <h1 className="text-2xl font-bold">My Bookings</h1>
