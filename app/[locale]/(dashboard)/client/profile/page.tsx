@@ -1,9 +1,5 @@
 
-
-
 'use client';
-
-
 import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
 import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/ProfileDetailCard';
 import ProfileHeaderCard from '@/app/components/dashboard/tasker/profile/ProfileHeaderCard';
