@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState, useEffect } from "react"
@@ -80,9 +81,9 @@ function SignIn() {
     if (user.role === "USER" && currentPath !== "/") {
         router.push("/")
       } else if (user.role === "TASKER") {
-        router.push("/tasker/dashboard")
+        router.push("/en/tasker/dashboard")
       } else if (user.role === "SUPER_ADMIN" || user.role === "SYSTEM_ADMIN") {
-        router.push("/admin/dashboard")
+        router.push("/en/admin/dashboard")
       } else {
         router.push("/")
       }
