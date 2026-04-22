@@ -12,14 +12,14 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { setUser, setEmail, setLoading, fetchUser } from "@/app/store/slices/authSlice"
 import { api } from "@/app/utils/axiosinstance"
 import { validateEmail, validatePhoneET, validatePassword } from "@/app/utils/validation"
+import { registerDeviceToken } from "@/app/store/slices/notificationSlice"
+import useFCM from "@/app/hooks/useFCM"
 
 function SignIn() {
   const dispatch = useAppDispatch()
-  const router = useRouter()
-
+  const router = useRouter() 
   const loading = useAppSelector((state) => state.auth.loading)
-  // const error = useAppSelector((state) => state.auth.error)
-
+  const {errornotification} = useAppSelector((state) => state.notification)
   const [authMethod, setAuthMethod] = useState<"phone" | "email">("phone")
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmailInput] = useState("")
@@ -27,21 +27,23 @@ function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState("")
   const currentPath = window.location.pathname;
-  // console.log('error⭐⭐', error)
+  
+  console.log('notification error', errornotification)
 
   useEffect(() => {
     // dispatch(setError(""))
     setError("")
     dispatch(setLoading(false))
+
   }, [dispatch])
+  const { fcmToken} = useFCM(); 
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-
     // dispatch(setError("")) 
     setError("")
-
-    // -------- Validation --------
+    // Validation
     let errorMessage: string | null = null
 
     if (authMethod === "email") {
@@ -59,16 +61,15 @@ function SignIn() {
       setError(errorMessage)
       return
     }
-
+   
 
     dispatch(setLoading(true))
-
     try {
       const res = await api.post("/auth/login", {
         identifier: authMethod === "email" ? email : phone,
         password,
       })
-
+      
       const { user, access_token } = res.data
 
       dispatch(setUser(user))
