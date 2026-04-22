@@ -1,14 +1,12 @@
 'use client'
-import Reviews from "@/app/[locale]/components/tasker/Reviews"
-import SidebarCard from "@/app/[locale]/components/tasker/SidebarCard"
-import TaskerAbout from "@/app/[locale]/components/tasker/TaskerBio"
-import TaskerProfileHeader from "@/app/[locale]/components/tasker/TaskerProfileHeader"
-import TaskerSkills from "@/app/[locale]/components/tasker/TaskerSkills"
+import Reviews from "@/app/components/tasker/Reviews"
+import SidebarCard from "@/app/components/tasker/SidebarCard"
+import TaskerAbout from "@/app/components/tasker/TaskerBio"
+import TaskerProfileHeader from "@/app/components/tasker/TaskerProfileHeader"
+import TaskerSkills from "@/app/components/tasker/TaskerSkills"
 
 
 import { useSearchParams } from "next/navigation"
-
-
 export default function TaskerProfilePage() {
   // const tasker = dummyTasker
   const searchParams = useSearchParams()
