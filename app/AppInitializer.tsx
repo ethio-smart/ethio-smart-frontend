@@ -7,7 +7,7 @@ import { fetchCategories } from './store/slices/categorySlice';
 import { fetchUser } from './store/slices/authSlice';
 
 export default function AppInitializer() {
-  console.log("AppInitializer mounted");
+  // console.log("AppInitializer mounted");
 
   const dispatch = useAppDispatch();
   const { categories } = useAppSelector((state) => state.category);
