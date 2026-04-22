@@ -1,5 +1,5 @@
 import Header from "@/app/components/landing/Header"
-import Footer from "../../components/layout/Footer"
+import Footer from "@/app/components/layout/Footer"
 export default function MainLayout({
   children,
 }: {
