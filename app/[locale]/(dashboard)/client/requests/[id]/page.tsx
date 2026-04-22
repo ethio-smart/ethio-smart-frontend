@@ -14,7 +14,7 @@ export default function ServiceRequestDetail() {
   const searchParams=useSearchParams()
   const requestParam = searchParams.get("invitation")
   const invitation = requestParam ? JSON.parse(requestParam) : null
-  console.log('invitation in request detail page',invitation)
+  // console.log('invitation in request detail page',invitation)
   return (
     <>
      <Link
