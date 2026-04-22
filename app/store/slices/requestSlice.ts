@@ -1,18 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { api } from "@/app/utils/axiosinstance"
-import { Invitation, Request } from "@/app/types/types"
+import {  Invitation, Request, ServiceRequestFrom } from "@/app/types/types"
 
 interface RequestState {
   request: Request | null
   selectedRequestId: string | null
-
+serviceRequestFrom: ServiceRequestFrom | null
   loading: {
     create: boolean
     invite: boolean
     fetchOutgoing: boolean
     fetchIncoming: boolean
+    createFromService: boolean
     accept: boolean
     reject: boolean
+    cancel: boolean
   }
 
   outgoingInvitations: Request[]
@@ -24,13 +27,16 @@ interface RequestState {
 const initialState: RequestState = {
   request: null,
   selectedRequestId: null,
+  serviceRequestFrom:  null,
   loading: {
     create: false,
     invite: false,
     fetchOutgoing: false,
     fetchIncoming: false,
+    createFromService:false,
     accept: false,
     reject: false,
+    cancel: false,
   },
 
   outgoingInvitations: [],
@@ -115,7 +121,7 @@ export const acceptRequest = createAsyncThunk(
 )
 
 // REJECT
-export const cancelRequest = createAsyncThunk(
+export const rejectRequest = createAsyncThunk(
   "request/reject",
   async (invitationId: string, { rejectWithValue }) => {
     try {
@@ -128,6 +134,43 @@ export const cancelRequest = createAsyncThunk(
     }
   }
 )
+//cancel request
+export const cancelRequest = createAsyncThunk(
+  "request/cancel",
+  async (requestId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(
+        `requests/${requestId}/cancel`
+      )
+      console.log('cancel request response',res.data)
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data)
+    }
+  }
+)
+//request from service
+export const createRequestFromService = createAsyncThunk( 
+  "request/createFromService",
+  async (
+    data: ServiceRequestFrom,
+    { rejectWithValue }
+  ) => {
+    try {
+      console.log('--------------------------')
+      const res = await api.post(
+        `requests/from-service/${data.serviceId}`,
+      data
+      )
+      console.log('service request from 🐰🐰🐰',res.data)
+
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || "Failed to create request from service")
+    }
+  }
+)
+
 
 // ================= SLICE =================
 
@@ -238,7 +281,7 @@ const requestSlice = createSlice({
 
     // REJECT
   
-    builder.addCase(cancelRequest.pending, (state, action) => {
+    builder.addCase(rejectRequest.pending, (state, action) => {
   const id = action.meta.arg
 
   const inv = state.incomingInvitations.find(i => i.id === id)
@@ -247,20 +290,62 @@ const requestSlice = createSlice({
   }
 })
 
-    builder.addCase(cancelRequest.fulfilled, (state, action) => {
+    builder.addCase(rejectRequest.fulfilled, (state, action) => {
       state.loading.reject = false
       const updated = action.payload
       state.incomingInvitations = state.incomingInvitations.map((inv) =>
         inv.id === updated.id ? updated : inv
       )
     })
-    builder.addCase(cancelRequest.rejected, (state, action) => {
+    builder.addCase(rejectRequest.rejected, (state, action) => {
       state.loading.reject = false
       state.error =
         typeof action.payload === "string"
           ? action.payload
           : action.payload?.message || "Something went wrong"
     })
+    // CANCEL
+    builder.addCase(cancelRequest.pending, (state, action) => {
+      const id = action.meta.arg 
+      const req = state.outgoingInvitations.find(r => r.id === id)
+      if(req){
+        req.status = "CANCELLED"
+      }
+    })
+    builder.addCase(cancelRequest.fulfilled, (state, action) => {
+      state.loading.cancel = false
+      const updated = action.payload
+      state.outgoingInvitations = state.outgoingInvitations.map((req) =>
+        req.id === updated.id ? updated : req
+      )
+    })
+    builder.addCase(cancelRequest.rejected, (state, action) => {
+      state.loading.cancel = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    }
+    
+    )
+    // CREATE FROM SERVICE
+builder.addCase(createRequestFromService.pending, (state) => {
+  state.loading.createFromService = true
+  state.error = null
+})
+
+builder.addCase(createRequestFromService.fulfilled, (state, action) => {
+  state.loading.createFromService = false
+  state.serviceRequestFrom = action.payload
+})
+
+builder.addCase(createRequestFromService.rejected, (state, action) => {
+  state.loading.createFromService = false
+  state.error =
+    typeof action.payload === "string"
+      ? action.payload
+      : action.payload?.message || "Something went wrong"
+})
   },
 })
 
