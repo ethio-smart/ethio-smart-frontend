@@ -77,6 +77,18 @@ function SignIn() {
       // localStorage.setItem("user", JSON.stringify(user))
       localStorage.setItem("accessToken", access_token)
       await dispatch(fetchUser())
+  
+     console.log('fcm token from signinpage',fcmToken)
+    if (fcmToken) {
+      console.log('fcm🙄🙄🙄🙄🙄🙄🙄🙄')
+  await dispatch(
+    registerDeviceToken({
+      token: fcmToken,
+      platform: "WEB",
+    })
+  );
+}
+
       // Role routing
     if (user.role === "USER" && currentPath !== "/") {
         router.push("/")
