@@ -10,7 +10,8 @@ import {
   CalendarCheck,
   Wallet,
   Shield,
-  Users
+  Users,
+  AlarmClockCheck
 } from "lucide-react"
 
 export const navigation = {
@@ -19,6 +20,7 @@ export const navigation = {
     { name: "Requests", href: "/client/requests", icon: FileText },
       { name: "Booking", href: "/client/bookings", icon: Star },
     { name: "Payments", href: "/client/payments", icon: CreditCard },
+    { name: "Task Completion", href: "/client/task-completion", icon: AlarmClockCheck },
     { name: "Reviews", href: "/client/reviews", icon: Star },
     { name: "Disputes", href: "/client/disputes", icon: AlertTriangle },
     { name: "Profile", href: "/client/profile", icon: User },
