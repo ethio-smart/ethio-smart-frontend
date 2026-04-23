@@ -21,7 +21,7 @@ function ServiceCategoryCard({
           className="flex items-center justify-center size-16 rounded-md text-primary"
           style={{ backgroundColor: bgColor }}
         >
-          <Icon className="w-6 h-6" />
+          <Icon className="w-6 h-6 text-primary" />
         </div>
 
         <Link
