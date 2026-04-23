@@ -7,6 +7,10 @@ import taskerReducer from "./slices/taskerSlice"
 import serviceReducer from "./slices/serviceSlice"
 import categoryReducer from "./slices/categorySlice"
 import requestReducer from "./slices/requestSlice"
+import adminUsersReducer from "./slices/adminUsersSlice"
+import adminTaskersReducer from "./slices/adminTaskersSlice"
+import adminAnalyticsReducer from "./slices/adminAnalyticsSlice"
+import adminPaymentsReducer from "./slices/adminPaymentsSlice"
 
 
 
@@ -17,6 +21,10 @@ const rootReducer = combineReducers({
    service: serviceReducer,
    category: categoryReducer,
    request: requestReducer,
+  adminUsers: adminUsersReducer,
+  adminTaskers: adminTaskersReducer,
+  adminAnalytics: adminAnalyticsReducer,
+  adminPayments: adminPaymentsReducer,
   
 })
 

@@ -1,7 +1,7 @@
 import { LucideIcon } from "lucide-react"
 
 //user
-export type Role = "USER" | "SUPER_ADMIN" | "TASKER" |" SYSTEM_ADMIN"
+export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | "SYSTEM_ADMIN"
 export type User = {
   id: string
   firstName: string
@@ -32,30 +32,48 @@ export enum RequestStatus {
 //tasker
 export type Tasker ={
   id:string,
+  userId: string;
   status: TaskerStatus;
-  location?: string;
-  bio?: string;
+  location?: string | null;
+  bio?: string | null;
   languages: string[];
-  resumeUrl?: string;
-  bankName?: string;
-  bankAccountNumber?: string;
-  nationalIdNumber?: string;
+  resumeUrl?: string | null;
+  bankName?: string | null;
+  bankAccountNumber?: string | null;
+  nationalIdNumber?: string | null;
   certifications: string[]; 
-  proposalVideoUrl?: string;
+  proposalVideoUrl?: string | null;
   availability: boolean;
   rating: number;
   totalReviews: number;
   totalEarnings: number;
   isVerified: boolean;
+  aiResume?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
   user?: User;
   services?: Service[];
+  reviews?: Review[];
 }
 //category
 export type Category= {
   id: string
   name: string
   description: string
+  createdAt?: string
 }
+
+export type CategoryApiResponse = Category & {
+  createdAt: string;
+};
+
+export type CategoriesResponse = {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  data: CategoryApiResponse[];
+};
 //service request
 
 
@@ -84,6 +102,7 @@ export type Service= {
   categoryId: string;
   taskerId: string;
   createdAt: string;
+  updatedAt?: string;
 }
 
 export type Invitation = {
@@ -156,3 +175,340 @@ export type TaskerType = {
   bookings: BookingType[]
   reviews: ReviewType[]
 }
+
+// Admin tasker-management UI types
+export type AdminTaskerStatus = "active" | "pending" | "suspended";
+
+export type AdminVerificationStatus =
+  | "verified"
+  | "unverified"
+  | "pending"
+  | "rejected";
+
+export type AdminTasker = {
+  id: string;
+  name: string;
+  avatar: string;
+  email: string;
+  skills: string[];
+  rating: number;
+  completedJobs: number;
+  status: AdminTaskerStatus;
+  verificationStatus: AdminVerificationStatus;
+  joinedDate: string;
+  location?: string;
+  bio?: string;
+};
+
+export type PendingTasker = {
+  id: string;
+  name: string;
+  avatar: string;
+  skills: string[];
+  email: string;
+  submittedDate: string;
+  backgroundCheck: "passed" | "failed" | "pending";
+  idVerified: boolean;
+  bio?: string;
+};
+
+// Admin user-management module types
+export type UserRole = "Client" | "Tasker" | "Admin";
+
+export type VerificationStatus = "Verified" | "Unverified";
+
+export type UserManagementUser = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  role: UserRole;
+  verified: boolean;
+  verificationStatus: VerificationStatus;
+  joinedDate: string;
+  avatar: string;
+  imageurl: string | null;
+  backendRole?: Role;
+};
+
+export type AdminUserApiResponse = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string | null;
+  password?: string;
+  role: Role;
+  createdAt: string;
+  updatedAt?: string;
+  isVerified: boolean;
+  imageurl: string | null;
+  tasker?: Tasker | null;
+};
+export interface Refund {
+  id: string;
+  amount: number;
+  reason: string;
+  approved: boolean;
+  paymentId: string;
+  createdAt: string;      // Date → string (API returns ISO string)
+  processedAt?: string;   // optional because it's nullable
+
+  // relation
+  payment?: Payment;
+}
+export interface Dispute {
+  id: string;
+  reason: string;
+  resolved: boolean;
+  bookingId: string;
+  createdAt: string;
+  resolvedAt?: string;
+
+  // UI-facing dispute fields used by admin dispute components
+  status?: DisputeStatus;
+  severity?: SeverityLevel;
+  client?: DisputeParty;
+  tasker?: DisputeParty;
+  issue?: string;
+  amount?: number;
+  description?: string;
+  adminNotes?: string;
+  createdDate?: string;
+  updatedDate?: string;
+
+  // relation
+  booking?: Booking;
+}
+export type DisputeStatus =
+  | "open"
+  | "investigating"
+  | "resolved"
+  | "escalated";
+
+export type SeverityLevel = "low" | "medium" | "high";
+
+export type DisputeParty = {
+  name: string;
+  email: string;
+  avatar: string;
+};
+export type PaymentStatus = "PENDING" | "PAID" | "COMPLETED" | "FAILED" | "REFUNDED"; // adjust if needed
+
+export interface Payment {
+  id: string;
+  amount: number;
+  status: PaymentStatus;
+  chapaRef?: string;
+  bookingId: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  // relations (optional)
+  booking?: Booking;
+  refund?: Refund;
+  payout?: Payout;
+}
+export type PayoutStatus = "PENDING" | "COMPLETED" | "FAILED"; // adjust if backend differs
+
+export interface Payout {
+  id: string;
+
+  totalAmount: number;
+  platformFee: number;
+  taskerAmount: number;
+
+  taskerId: string;
+  paymentId: string;
+
+  status: PayoutStatus;
+
+  providerRef?: string;
+  processedAt?: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  // relations
+  tasker?: Tasker;
+  payment?: Payment;
+}
+export type BookingStatus =
+  | "AWAITING_PAYMENT"
+  | "CONFIRMED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "CANCELLED"; // adjust if your backend enum differs
+
+export interface Booking {
+  id: string;
+  status: BookingStatus;
+
+  serviceRequestId: string;
+  userId: string;
+  taskerId: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  // relations (optional)
+  serviceRequest?: ServiceRequest;
+  tasker?: Tasker;
+  user?: User;
+
+  disputes?: Dispute[];
+  payment?: Payment;
+  reports?: Report[];
+  review?: Review;
+  schedules?: Schedule[];
+}
+
+
+export type ScheduleStatus = "PROPOSED" | "ACCEPTED" | "REJECTED";
+export type ReportStatus = "PENDING" | "RESOLVED" | "REJECTED";
+export type ReportTargetType = "USER" | "TASKER" | "BOOKING" | "SERVICE";
+
+// ==========================
+// SERVICE REQUEST
+// ==========================
+
+export interface ServiceRequest {
+  id: string;
+  description: string;
+  budget?: number;
+  location: string;
+  status: RequestStatus;
+
+  userId: string;
+  taskerId?: string;
+  categoryId: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  preferedDate?: string;
+  dynamicData?: any;
+
+  booking?: Booking;
+  category?: Category;
+  tasker?: Tasker;
+  user?: User;
+
+  invitations?: TaskerRequestInvitation[];
+}
+
+export interface TaskerRequestInvitation {
+  id: string;
+
+  serviceRequestId: string;
+  taskerId: string;
+  status: RequestStatus;
+
+  createdAt: string;
+  updatedAt: string;
+
+  serviceRequest?: ServiceRequest;
+  tasker?: Tasker;
+}
+
+// ==========================
+// REVIEW
+// ==========================
+
+export interface Review {
+  id: string;
+  rating: number;
+  comment?: string;
+
+  userId: string;
+  taskerId: string;
+  bookingId: string;
+
+  createdAt: string;
+
+  booking?: Booking;
+  tasker?: Tasker;
+  user?: User;
+}
+
+// ==========================
+// SCHEDULE
+// ==========================
+
+export interface Schedule {
+  id: string;
+
+  bookingId: string;
+  scheduledAt: string;
+  status: ScheduleStatus;
+
+  proposedById: string;
+  createdAt: string;
+
+  booking?: Booking;
+  proposedBy?: User;
+}
+
+// ==========================
+// REPORT
+// ==========================
+
+export interface Report {
+  id: string;
+  reason: string;
+  description?: string;
+
+  status: ReportStatus;
+  targetType: ReportTargetType;
+  targetId: string;
+
+  reporterId: string;
+  bookingId?: string;
+
+  createdAt: string;
+  updatedAt: string;
+
+  booking?: Booking;
+  reporter?: User;
+}
+
+export type AdminAnalyticsTotals = {
+  totalBookings: number;
+  activeBookings: number;
+  earnings: number;
+  totalRequests: number;
+  totalTaskers: number;
+  approvedTaskers?: number;
+};
+
+export type AdminAnalyticsOverview = {
+  totals: AdminAnalyticsTotals;
+};
+
+export type AdminAnalyticsPeriodSnapshot = {
+  periodStart: string;
+  periodEnd: string;
+  totalBookings: number;
+  activeBookings: number;
+  earnings: number;
+  totalRequests: number;
+  totalTaskers: number;
+};
+
+export type AdminAnalyticsSeriesItem = {
+  label: string;
+  periodStart: string;
+  periodEnd: string;
+  totalBookings: number;
+  activeBookings: number;
+  earnings: number;
+  totalRequests: number;
+  totalTaskers: number;
+};
+
+export type AdminAnalyticsSeriesResponse = {
+  weeks?: number;
+  months?: number;
+  data: AdminAnalyticsSeriesItem[];
+};

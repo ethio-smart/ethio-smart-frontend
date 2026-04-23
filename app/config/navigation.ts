@@ -34,13 +34,15 @@ export const navigation = {
   ],
 
   SUPER_ADMIN: [
-    { name: "Dashboard", href: "/super-admin/dashboard", icon: LayoutDashboard },
-    { name: "Users", href: "/super-admin/users", icon: Users },
-    { name: "Services", href: "/super-admin/services", icon: Briefcase },
-    { name: "Disputes", href: "/super-admin/disputes", icon: AlertTriangle },
-    { name: "Transactions", href: "/super-admin/transactions", icon: Wallet },
-    { name: "Reviews", href: "/super-admin/reviews", icon: Star },
-    { name: "Settings", href: "/super-admin/settings", icon: Shield },
+    { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Users", href: "/admin/user-management", icon: Users },
+    { name: "Taskers", href: "/admin/tasker-admin", icon: Users },
+    { name: "Categories", href: "/admin/category-management", icon: Briefcase },
+    { name: "Disputes", href: "/admin/disputes", icon: AlertTriangle },
+    { name: "Transactions", href: "/admin/payments", icon: Wallet },
+    { name: "Bookings", href: "/admin/booking-management", icon: CalendarCheck },
+    { name: "Settings", href: "/admin/settings", icon: Shield },
+    
   ],
 
   SYSTEM_ADMIN: [

@@ -15,7 +15,7 @@ export default function AppInitializer() {
   useEffect(() => {
     
     if (!categories?.length) {
-      dispatch(fetchCategories());
+      dispatch(fetchCategories({ page: 1, limit: 100 }));
     }
   }, [dispatch, categories?.length]);   
 
