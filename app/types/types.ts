@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { LucideIcon } from "lucide-react";
 
 //user
@@ -21,6 +22,11 @@ export enum TaskerStatus {
   REJECTED = "REJECTED",
   SUSPENDED = "SUSPENDED",
 }
+export type PriceType = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "FIXED";
+export type TaskCompletionStatus =
+  | "PENDING"
+  | "ACCEPTED"
+  | "DECLINED"
 //request status
 export enum RequestStatus {
   PENDING = "PENDING",
@@ -42,6 +48,7 @@ export type Tasker = {
   nationalIdNumber?: string;
   certifications: string[];
   proposalVideoUrl?: string;
+  aiResume?:string;
   availability: boolean;
   rating: number;
   totalReviews: number;
@@ -73,7 +80,6 @@ export type Request = {
   dynamicData?: Record<string, any>;
   status?: RequestStatus;
 };
-export type PriceType = "HOURLY" | "DAILY" | "WEEKLY" | "MONTHLY" | "FIXED";
 
 //service
 export type Service = {
@@ -109,16 +115,77 @@ export type Invitation = {
   };
 };
 
-//type for dummy data's
-export type Notification = {
+export type Review ={
   id: string;
+  rating: number;
+  comment?: string | null;
+  userId: string;
+  taskerId: string;
+  bookingId: string;
+ 
+}
+
+export type TaskCompletion= {
+  id:string,
+  bookingId: string;
+  completionNote?: string;  
+  Imageurl:string    
+  status?:TaskCompletionStatus
+  dynamicData?: Record<string, any>; 
+  createdAt?:string
+  booking?:Booking
+
+}
+
+export type ServiceRequestFrom= {
+  serviceId: string
+  location: string
+  preferedDate?: string | Date
+  notes?: string
+  dynamicData?: Record<string, any>
+}
+
+export type Dispute={
+  id:string,
+  bookingId: string,
+  reason: string,
+  description: string
+
+}
+export type NotificationType=
+   'SERVICE_REQUEST '|
+ ' PAYMENT_UPDATE' |
+ ' BOOKING_UPDATE '|
+ ' DISPUTE_UPDATE' |
+  'REFUND_UPDATE' |
+  'TASKER_REQUEST' 
+
+  export type RegisterDeviceToken= {
+  token: string;
+  platform: 'WEB';
+}
+
+export type Notification={
+  userId: string;
   title: string;
-  description: string;
-  time: string;
-  icon: LucideIcon;
-  iconColor?: string;
-  unread?: boolean;
-};
+  message: string;
+  type: NotificationType;
+  data?: Record<string, string>;
+   id: string
+   isRead:boolean,
+  createdAt: string;
+}
+
+//type for dummy data's
+// export type Notification = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   time: string;
+//   icon: LucideIcon;
+//   iconColor?: string;
+//   unread?: boolean;
+// };
 
 export type ReviewType = {
   id: string;
@@ -186,22 +253,36 @@ export type BookingStatus =
   | "CANCELLED"
   | "DISPUTED";
 
+  export type PaymentStatus= 
+  |'PENDING'
+  |'PAID'
+  |'HELD'
+  |'RELEASED'
+  |'REFUNDED'
+  |'FAILED'
+
+
 export type PaymentState = {
   paymentResponse: PaymentResponse | null;
+      paymentHistory: Payment[],
   loading: {
     createPayment: boolean;
+    paymentHistory:boolean;
   };
   error: string | null;
 };
 
 export type Payment = {
-  id: string;
-  amount: number;
-  status: string;
-  paymentMethod: string;
-  createdAt: string;
-  updatedAt: string;
-};
+  id: string
+  amount: number
+  status: PaymentStatus
+  chapaRef: string
+  bookingId: string
+  booking?: Booking[]
+  createdAt: string
+  updatedAt: string
+  
+}
 
 export type Booking = {
   id: string;
@@ -209,9 +290,11 @@ export type Booking = {
   serviceRequestId: string;
   userId: string;
   taskerId: string;
+  user?:User
   createdAt: string;
   updatedAt: string;
   serviceRequest: Request;
   tasker: Tasker;
   payment: Payment | null;
+    taskCompletions:TaskCompletion
 };
