@@ -27,12 +27,7 @@ interface Props {
 }
 
 export default function EditRequestDialog({ children, request }: Props) {
-  // console.log('EditRequestDialog received request:', request)
-  // console.log('request.title:', request?.title)
-  // console.log('request.description:', request?.description)
-  // console.log('request.location:', request?.location)
-  // console.log('request.budget:', request?.budget)
-  // console.log('request.preferedDate:', request?.preferedDate)
+  
 
   const [title, setTitle] = useState(request?.title || '')
   const [description, setDescription] = useState(request?.description)
