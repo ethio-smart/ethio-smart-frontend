@@ -44,7 +44,7 @@ export default function TaskerMatchesPage() {
 
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
-      <MatchesHeader tasker={taskers}/>
+      <MatchesHeader length={taskers.length}/>
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-[280px_1fr] gap-8">
         {/* Sidebar */}
         <div>
