@@ -1,27 +1,36 @@
 
-
 "use client";
-
 import { Search, MapPin, Mic } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandItem } from "@/components/ui/command";
 import { locations } from "@/app/utils/constant";
-import { useAppSelector } from "@/app/hooks/hooks";
-
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { useLocale, useTranslations } from "next-intl";
+import { searchTaskers } from "@/app/store/slices/searchSlice";
+import { useRouter } from "next/navigation";
 
 export default function SearchBar() {
   const { categories, selectedCategory } = useAppSelector(
     (state) => state.category
   );
+  const {loading,error,results } = useAppSelector(
+    (state) => state.search
+  );
+  console.log('result',results)
 
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
+
+  const locale = useLocale();
+  const dispatch = useAppDispatch();
+  const t = useTranslations("searchBar");
+  const router=useRouter()
 
   const {
     transcript,
@@ -30,7 +39,78 @@ export default function SearchBar() {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  //filter location
+  // sync voice → search (important fix)
+  useEffect(() => {
+    if (listening && transcript) {
+      setSearch(transcript);
+    }
+  }, [transcript, listening]);
+
+  if (!browserSupportsSpeechRecognition) {
+    console.warn("Speech recognition not supported");
+  }
+
+  // language mapping
+  const mapLanguageToBackend = (locale: string): string => {
+    switch (locale) {
+      case "am":
+        return "am";
+      case "om":
+        return "om";
+      default:
+        return "en";
+    }
+  };
+
+  const originalLanguage = mapLanguageToBackend(locale);
+
+  // start voice
+  const startVoice = () => {
+    
+    SpeechRecognition.startListening({
+      continuous: true,
+      language:
+        locale === "am"
+          ? "am-ET"
+          : locale === "om"
+          ? "om-ET"
+          : "en-US",
+    });
+  };
+
+  // stop voice
+  const stopVoice = () => {
+    SpeechRecognition.stopListening();
+
+    if (transcript?.trim()) {
+      // setSearch(transcript);
+      setSearch((prev) => prev + " " + transcript);
+    }
+
+    resetTranscript();
+  };
+
+  // reset everything
+  const handleReset = () => {
+    setSearch("");
+    resetTranscript();
+  };
+
+  // search submit
+  const handleSearchSubmit = async() => {
+    if (!search.trim()) return;
+
+    await dispatch(
+      searchTaskers({
+        query: search,
+        originalLanguage,
+      })
+    );
+    // router.push(`${locale}/search`)
+    router.push(`/${locale}/search?query=${encodeURIComponent(search)}`)
+  };
+
+  // filter locations
   const filteredLocations = useMemo(
     () =>
       locations.filter((loc) =>
@@ -39,111 +119,111 @@ export default function SearchBar() {
     [location]
   );
 
-  if (!browserSupportsSpeechRecognition) {
-    console.warn("Speech recognition not supported");
-  }
-
-  //  Start voice
-  const startVoice = () => {
-    SpeechRecognition.startListening({
-      continuous: true,
-      language: "en-US",
-    });
-  };
-
-  // Stop voice 
-  const stopVoice = () => {
-    SpeechRecognition.stopListening();
-
-    if (transcript) {
-      setSearch(transcript); 
-    }
-
-    resetTranscript();
-  };
-
   return (
     <section className="w-full px-4">
-      <div className="w-full max-w-4xl mx-auto flex items-center border rounded-lg bg-background">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSearchSubmit();
+        }}
+      >
+        <div className="w-full max-w-4xl mx-auto p-2 rounded-2xl bg-background/80 backdrop-blur border shadow-lg flex flex-col sm:flex-row items-stretch gap-2 sm:gap-0">
 
-        {/* Search Input */}
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+          {/* SEARCH INPUT */}
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
 
-          <Input
-            value={listening ? transcript : search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="What service do you need?"
-            className="pl-10 pr-10 border-0 shadow-none focus-visible:ring-0 py-7"
-          />
-
-          {/*  MIC BUTTON */}
-          <button
-            type="button"
-            onClick={listening ? stopVoice : startVoice}
-            className="absolute right-3 top-1/2 -translate-y-1/2"
-          >
-            <Mic
-              className={`h-5 w-5 cursor-pointer transition ${
-                listening ? "text-primary animate-pulse" : "text-muted-foreground"
-              }`}
+            <Input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder={t("placeholder")}
+              className="pl-10 pr-20 border-0 shadow-none focus-visible:ring-0 py-5 sm:py-7"
             />
-          </button>
+
+            {/* RESET ICON */}
+            {search && (
+              <button
+                type="button"
+                onClick={handleReset}
+                className="absolute right-10 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-red-500 text-sm"
+              >
+                ✕
+              </button>
+            )}
+
+            {/* MIC BUTTON */}
+            <button
+              type="button"
+              onClick={listening ? stopVoice : startVoice}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+            >
+              <Mic
+                className={`h-5 w-5 transition ${
+                  listening
+                    ? "text-primary animate-pulse"
+                    : "text-muted-foreground"
+                }`}
+              />
+            </button>
+          </div>
+
+          {/* DIVIDER */}
+          <div className="hidden sm:block w-px bg-border" />
+
+          {/* LOCATION */}
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+
+            <Input
+              value={location}
+              onChange={(e) => {
+                setLocation(e.target.value);
+                setLocationOpen(true);
+              }}
+              onFocus={() => setLocationOpen(true)}
+              placeholder={t("locationPlaceholder")}
+              className="pl-9 border-0 shadow-none focus-visible:ring-0 py-5 sm:py-7"
+            />
+
+            {locationOpen && (
+              <div className="absolute left-0 top-full mt-1 w-full border rounded-md bg-white shadow-md z-50">
+                <Command>
+                  <CommandGroup className="max-h-60 overflow-auto">
+                    {filteredLocations.length > 0 ? (
+                      filteredLocations.map((loc) => (
+                        <CommandItem
+                          key={loc}
+                          value={loc}
+                          onSelect={() => {
+                            setLocation(loc);
+                            setLocationOpen(false);
+                          }}
+                        >
+                          {loc}
+                        </CommandItem>
+                      ))
+                    ) : (
+                      <div className="p-3 text-sm text-muted-foreground">
+                        No results found
+                      </div>
+                    )}
+                  </CommandGroup>
+                </Command>
+              </div>
+            )}
+          </div>
+
+          {/* BUTTON */}
+          <Button
+            type="submit"
+            className="w-full sm:w-auto px-8 py-5 sm:py-7 rounded-none sm:rounded-r-lg"
+          >
+            {t("button")}
+          </Button>
         </div>
+      </form>
 
-        {/* Divider */}
-        <div className="hidden sm:block h-8 w-px bg-border" />
-
-        {/* Location */}
-        <div className="relative w-56">
-          <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-
-          <Input
-            value={location}
-            onChange={(e) => {
-              setLocation(e.target.value);
-              setLocationOpen(true);
-            }}
-            onFocus={() => setLocationOpen(true)}
-            placeholder="Location"
-            className="pl-9 border-0 shadow-none focus-visible:ring-0"
-          />
-
-          {locationOpen && (
-            <div className="absolute left-0 top-full mt-1 w-full border rounded-md bg-white shadow-md z-50">
-              <Command>
-                <CommandGroup className="max-h-60 overflow-auto">
-                  {filteredLocations.length > 0 ? (
-                    filteredLocations.map((loc) => (
-                      <CommandItem
-                        key={loc}
-                        value={loc}
-                        onSelect={() => {
-                          setLocation(loc);
-                          setLocationOpen(false);
-                        }}
-                      >
-                        {loc}
-                      </CommandItem>
-                    ))
-                  ) : (
-                    <div className="p-3 text-sm text-muted-foreground">
-                      No results found
-                    </div>
-                  )}
-                </CommandGroup>
-              </Command>
-            </div>
-          )}
-        </div>
-
-        {/* Button */}
-        <Button className="rounded-r-lg rounded-l-none px-8 py-7">
-          Search
-        </Button>
-      </div>
-
-      {/* Categories */}
+      {/* CATEGORIES */}
       <div className="max-w-4xl mx-auto flex flex-wrap gap-3 pt-4">
         {categories.map((category, index) => (
           <button
