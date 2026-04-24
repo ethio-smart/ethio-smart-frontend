@@ -12,6 +12,7 @@ import taskCompletionReducer from "./slices/taskCompletion"
 import disputeReducer from "./slices/disputeSlice"
 import notificationReducer from "./slices/notificationSlice"
 import searchReducer from "./slices/searchSlice"
+import reviewReducer from "./slices/reviewSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   task:taskCompletionReducer,
   dispute:disputeReducer,
   notification:notificationReducer,
-  search:searchReducer
+  search:searchReducer,
+  review:reviewReducer
 })
 
 const persistConfig = {
