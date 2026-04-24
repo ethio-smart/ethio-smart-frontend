@@ -14,6 +14,7 @@ import { api } from "@/app/utils/axiosinstance"
 import { validateEmail, validatePhoneET, validatePassword } from "@/app/utils/validation"
 import { registerDeviceToken } from "@/app/store/slices/notificationSlice"
 import useFCM from "@/app/hooks/useFCM"
+import { useLocale } from "next-intl"
 
 function SignIn() {
   const dispatch = useAppDispatch()
@@ -27,6 +28,7 @@ function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const [password, setPassword] = useState("")
   const currentPath = window.location.pathname;
+    const locale=useLocale()
   
   console.log('notification error', errornotification)
 
@@ -94,9 +96,9 @@ function SignIn() {
     if (user.role === "USER" && currentPath !== "/") {
         router.push("/")
       } else if (user.role === "TASKER") {
-        router.push("/en/tasker/dashboard")
+        router.push(`/${locale}/tasker/dashboard1`)
       } else if (user.role === "SUPER_ADMIN" || user.role === "SYSTEM_ADMIN") {
-        router.push("/en/admin/dashboard")
+        router.push(`/${locale}/admin/dashboard`)
       } else {
         router.push("/")
       }
