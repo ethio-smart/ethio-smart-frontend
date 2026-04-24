@@ -13,6 +13,7 @@ import { DynamicFormFields } from "@/app/components/form/DynamicFormFields"
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { createRequest } from "@/app/store/slices/requestSlice"
 import { categoryFields } from "@/app/utils/constant"
+import { useLocale } from "next-intl"
 
 
 
@@ -113,6 +114,7 @@ export default function Page() {
   const { loading ,request} = useAppSelector((state) => state.request)
    console.log('request👉👉👉👉',request)
   const [step, setStep] = useState(0)
+    const locale=useLocale()
   const [formData, setFormData] = useState<FormDataType>({
     categoryId: categoryId || "",
     location: "",
@@ -148,7 +150,7 @@ export default function Page() {
   try {
     const createdRequest = await dispatch(createRequest(formData)).unwrap()
     const requestId = createdRequest.id 
-    router.push(`/en/request/${requestId}/matches/${categoryId}`)
+    router.push(`/${locale}/request/${requestId}/matches/${categoryId}`)
   } catch (error) {
     console.error("Request failed:", error)
   }
