@@ -1,7 +1,6 @@
-import { Tasker } from "@/app/store/slices/taskerSlice";
 
-
-export default function MatchesHeader({tasker}:{tasker:Tasker[]}) {
+export default function MatchesHeader({length}:{length:number}) {
+  console.log('length',length)
   return (
     <div className="bg-secondary py-12">
       <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
@@ -13,7 +12,7 @@ export default function MatchesHeader({tasker}:{tasker:Tasker[]}) {
             {/* Top {tasker[0].services[0].category.name} in Addis Ababa */}
           </h1>
           <p className="text-gray-600 mt-3">
-            We’ve found {tasker.length} available professionals who match your request.
+            We’ve found {length} available professionals who match your request.
             Compare their profiles and send a request directly.
           </p>
         </div>
