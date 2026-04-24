@@ -179,27 +179,12 @@ export type SearchType={
   originalLanguage:string
 }
 
-//type for dummy data's
-// export type Notification = {
-//   id: string;
-//   title: string;
-//   description: string;
-//   time: string;
-//   icon: LucideIcon;
-//   iconColor?: string;
-//   unread?: boolean;
-// };
+export type reviewType={
+  rating:number
+  comment:string
+}
 
-export type ReviewType = {
-  id: string;
-  rating: number;
-  comment: string;
-  createdAt: Date;
-  user: {
-    id: string;
-    name: string;
-  };
-};
+
 
 export type ServiceType = {
   id: string;
