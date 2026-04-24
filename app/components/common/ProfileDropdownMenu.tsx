@@ -17,6 +17,7 @@ import { useAppDispatch } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { useRouter } from "next/navigation"
 import { Role } from "@/app/types/types"
+import { useLocale } from "next-intl"
 
 interface Props {
   children: React.ReactNode
@@ -33,7 +34,7 @@ function ProfileDropdownMenu({ children,role }: Props) {
   admin: "admin",
 }
   const normalizedRole = roleRouteMap[role.toLowerCase()] || role.toLowerCase()
-
+     const locale=useLocale()
   const handleLogout = () => {
     setLoggingOut(true)
 
@@ -65,7 +66,7 @@ function ProfileDropdownMenu({ children,role }: Props) {
 
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href={`en/${normalizedRole}/dashboard`}>Dashboard</Link>
+              <Link href={`${locale}/${normalizedRole}/dashboard`}>Dashboard</Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
