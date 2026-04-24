@@ -8,7 +8,7 @@ import TaskerSkills from "@/app/components/tasker/TaskerSkills"
 
 import { useSearchParams } from "next/navigation"
 export default function TaskerProfilePage() {
-  // const tasker = dummyTasker
+ 
   const searchParams = useSearchParams()
 
   const taskerParam = searchParams.get("tasker")
