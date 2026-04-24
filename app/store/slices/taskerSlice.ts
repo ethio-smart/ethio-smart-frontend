@@ -1,6 +1,4 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { api } from "@/app/utils/axiosinstance"
 import {
   createSlice,
@@ -8,9 +6,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit"
 
-/*
-   TYPES
- */
+
 
 export interface Tasker {
   taskerId: string
