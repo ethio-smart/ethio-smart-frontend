@@ -15,7 +15,11 @@ interface TaskCompletionState {
     }
     fetch: boolean;
   };
-  success: boolean;
+ success: {
+  confirm: boolean;
+  decline: boolean;
+  create: boolean;
+}
   error: string | null;
 }
 
@@ -29,7 +33,11 @@ const initialState: TaskCompletionState = {
     },
     fetch: false,
   },
-  success: false,
+  success: {
+  confirm: false,
+  decline: false,
+  create: false,
+},
   error: null,
 };
 
@@ -56,7 +64,7 @@ export const fetchTaskCompletion = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const res = await api.get("/task-completions/me");
-      return res.data; // expected: TaskCompletion[]
+      return res.data; 
     } catch (err: any) {
       return rejectWithValue(err.response?.data?.message);
     }
@@ -99,7 +107,8 @@ const taskCompletionSlice = createSlice({
       state.loading.update.confirm = false;
       state.loading.update.decline = false;
       state.loading.fetch = false;
-      state.success = false;
+      state.success.confirm= false;
+      state.success.decline= false;
       state.error = null;
     },
   },
@@ -113,7 +122,7 @@ const taskCompletionSlice = createSlice({
       })
       .addCase(createTaskCompletion.fulfilled, (state, action) => {
         state.loading.create = false;
-        state.success = true;
+        state.success.create = true;
 
         // optional: push into list
         state.tasks.unshift(action.payload);
@@ -140,23 +149,58 @@ const taskCompletionSlice = createSlice({
 
 
       // 🔹 UPDATE STATUS
-      .addCase(updateTaskCompletionStatus.pending, (state) => {
-        state.loading.update.confirm = true;
-        state.loading.update.decline = true;
-        state.error = null;
-      })
+      // .addCase(updateTaskCompletionStatus.pending, (state) => {
+      //   state.loading.update.confirm = true;
+      //   state.loading.update.decline = true;
+      //   state.error = null;
+      // })
+      .addCase(updateTaskCompletionStatus.pending, (state, action) => {
+  state.error = null;
+
+  const status = action.meta.arg.status;
+
+  if (status === "ACCEPTED") {
+    state.loading.update.confirm = true;
+  }
+
+  if (status === "DECLINED") {
+    state.loading.update.decline = true;
+  }
+})
+      // .addCase(updateTaskCompletionStatus.fulfilled, (state, action) => {
+      //   state.loading.update.decline= false;
+      //   state.loading.update.confirm= false;
+
+      //   const index = state.tasks.findIndex(
+      //     (t) => t.id === action.payload.id
+      //   );
+
+      //   if (index !== -1) {
+      //     state.tasks[index] = action.payload;
+      //   }
+      // })
       .addCase(updateTaskCompletionStatus.fulfilled, (state, action) => {
-        state.loading.update.decline= false;
-        state.loading.update.confirm= false;
+  const status = action.meta.arg.status;
 
-        const index = state.tasks.findIndex(
-          (t) => t.id === action.payload.id
-        );
+  state.loading.update.confirm = false;
+  state.loading.update.decline = false;
 
-        if (index !== -1) {
-          state.tasks[index] = action.payload;
-        }
-      })
+  const index = state.tasks.findIndex(
+    (t) => t.id === action.payload.id
+  );
+
+  if (index !== -1) {
+    state.tasks[index] = action.payload;
+  }
+
+  if (status === "ACCEPTED") {
+    state.success.confirm = true;
+  }
+
+  if (status === "DECLINED") {
+    state.success.decline = true;
+  }
+})
       .addCase(updateTaskCompletionStatus.rejected, (state, action) => {
         state.loading.update.confirm = false;
         state.loading.update.decline = false;
