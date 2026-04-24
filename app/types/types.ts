@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { LucideIcon } from "lucide-react";
 
 //user
 export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | " SYSTEM_ADMIN";
@@ -174,6 +173,10 @@ export type Notification={
    id: string
    isRead:boolean,
   createdAt: string;
+}
+export type SearchType={
+  query:string,
+  originalLanguage:string
 }
 
 //type for dummy data's
