@@ -30,7 +30,7 @@ export default function AccountSettingsCard({
 
       <CardContent className="pt-5 space-y-3">
 
-        {/* ✅ Password (ALWAYS) */}
+        {/*  */}
         <div className="flex items-center justify-between p-4 border rounded-lg">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
