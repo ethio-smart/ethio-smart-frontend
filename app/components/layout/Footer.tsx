@@ -17,21 +17,7 @@ export default function Footer() {
   const t = useTranslations()
   const footer = t.raw("footer") 
   
-  // Add error handling for undefined footer
-  // if (!footer) {
-  //   console.error("Footer translations not found:", footer)
-  //   return (
-  //     <footer className="bg-gray-900 text-white">
-  //       <div className="max-w-7xl mx-auto px-4 py-12">
-  //         <div className="text-center text-white">
-  //           <p>Error loading footer content</p>
-  //         </div>
-  //       </div>
-  //     </footer>
-  //   )
-  // }
-
-
+  
 
   return (
     <footer className="bg-gray-900 text-white">
@@ -51,13 +37,13 @@ export default function Footer() {
               <span className="text-xl font-bold">Ethio Smart</span>
             </div>
             
-            <p className="text-gray-400 text-sm">
+            <p className="text-white text-sm">
               {footer.company?.description || "Ethiopia's leading service marketplace"}
             </p>
             
             <div className="flex space-x-4">
               {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                <Link key={i} href="#" className="text-gray-400 hover:text-white transition">
+                <Link key={i} href="#" className="text-white hover:text-white transition">
                   <Icon size={20} />
                 </Link>
               ))}
@@ -86,16 +72,8 @@ export default function Footer() {
                   {footer.quickLinks?.services || "Services"}
                 </Link>
               </li>
-              <li>
-                <Link href="/pricing" className="footer-link">
-                  {footer.quickLinks?.pricing || "Pricing"}
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="footer-link">
-                  {footer.quickLinks?.blog || "Blog"}
-                </Link>
-              </li>
+            
+           
             </ul>
           </div>
 
@@ -105,13 +83,37 @@ export default function Footer() {
               {footer.services?.title || "Services"}
             </h3>
             
-            <ul className="space-y-2">
-              <li><Link href="/services/electrical" className="footer-link">{footer.services?.electrical || "Electrical Services"}</Link></li>
-              <li><Link href="/services/plumbing" className="footer-link">{footer.services?.plumbing || "Plumbing Services"}</Link></li>
-              <li><Link href="/services/cleaning" className="footer-link">{footer.services?.cleaning || "Cleaning Services"}</Link></li>
-              <li><Link href="/services/repair" className="footer-link">{footer.services?.repair || "Home Repair"}</Link></li>
-              <li><Link href="/services/landscaping" className="footer-link">{footer.services?.landscaping || "Landscaping"}</Link></li>
-            </ul>
+          <ul className="space-y-2">
+  <li>
+    <Link href="/services/hairdresser" className="footer-link">
+      {footer.services.hairdresser}
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/services/plumbing" className="footer-link">
+      {footer.services.plumbing}
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/services/cleaning" className="footer-link">
+      {footer.services.cleaning}
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/services/babysitter" className="footer-link">
+      {footer.services.babysitter}
+    </Link>
+  </li>
+
+  <li>
+    <Link href="/services/tutoring" className="footer-link">
+      {footer.services.tutoring}
+    </Link>
+  </li>
+</ul>
           </div>
 
           {/* Contact */}
@@ -122,22 +124,22 @@ export default function Footer() {
             
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Phone size={18} className="text-gray-400" />
-                <span className="text-gray-400 text-sm">
+                <Phone size={18} className="text-white" />
+                <span className="text-white text-sm">
                   {footer.contact?.phone || "+251 911 234 567"}
                 </span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <Mail size={18} className="text-gray-400" />
-                <span className="text-gray-400 text-sm">
+                <Mail size={18} className="text-white" />
+                <span className="text-white text-sm">
                   {footer.contact?.email || "info@ethiosmart.com"}
                 </span>
               </div>
               
               <div className="flex items-center space-x-3">
-                <MapPin size={18} className="text-gray-400" />
-                <span className="text-gray-400 text-sm">
+                <MapPin size={18} className="text-white" />
+                <span className="text-white text-sm">
                   {footer.contact?.address || "Bole, Addis Ababa, Ethiopia"}
                 </span>
               </div>
@@ -149,7 +151,7 @@ export default function Footer() {
         <div className="border-t border-gray-800 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             
-            <div className="text-gray-400 text-sm mb-4 md:mb-0">
+            <div className="text-white text-sm mb-4 md:mb-0">
               © {new Date().getFullYear()} {footer.bottom?.companyName || "Ethio Smart"}.{" "}
               {footer.bottom?.allRightsReserved || "All rights reserved."}
             </div>
