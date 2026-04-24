@@ -1,5 +1,4 @@
 
-import Icon from '@/components/ui/AppIcon';
 import { Card, CardContent } from '@/components/ui/card';
 import { LucideIcon } from 'lucide-react';
 
