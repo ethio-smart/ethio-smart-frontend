@@ -1,0 +1,221 @@
+{
+  "hero": {
+
+    "badge": "Verified Local Talent • Secure Payments",
+
+    "title": "Find Verified Skilled Taskers in Ethiopia",
+
+    "description": "Connect with the top 1% of service professionals in minutes. AI-powered matching with secure escrow protection."
+
+  },
+  "process": {
+
+    "badge": "The Process",
+
+    "title": "How ServiceLink Works",
+
+    "description": "We've simplified the process for both clients and taskers. Choose your path to get started.",
+
+    "client": {
+
+      "title": "For Clients",
+
+      "steps": [
+
+        {
+
+          "title": "Describe Your Need",
+
+          "description": "Tell us what you need. We match you with verified professionals instantly."
+
+        },
+
+        {
+
+          "title": "Review & Select",
+
+          "description": "Compare profiles, ratings, and pricing. Choose the right professional with confidence."
+
+        },
+
+        {
+
+          "title": "Secure Payment",
+
+          "description": "Pay safely through escrow. Funds are released only after approval."
+
+        }
+
+      ]
+
+    },
+
+    "tasker": {
+
+      "title": "For Taskers",
+
+      "steps": [
+
+        {
+
+          "title": "Apply to Become a Tasker",
+
+          "description": "Submit your profile, skills, and experience. Our team will review and verify your application."
+
+        },
+
+        {
+
+          "title": "Set Up Your Services",
+
+          "description": "Create your service offerings, set competitive prices, and define your availability."
+
+        },
+
+        {
+
+          "title": "Get Job Requests",
+
+          "description": "Receive personalized job requests that match your skills. Review and accept the right jobs."
+
+        },
+
+        {
+
+          "title": "Complete the Work",
+
+          "description": "Deliver high-quality service professionally. Build your reputation with excellent ratings."
+
+        },
+
+        {
+
+          "title": "Get Paid Securely",
+
+          "description": "Payments are held safely in escrow and released promptly once the client approves the job."
+
+        }
+
+      ]
+
+    },
+
+    "cta": {
+
+      "title": "Become a Tasker",
+
+      "description": "Join thousands of satisfied clients and successful taskers."
+
+    }
+
+  },
+
+  "about": {
+    "badge": "Why Ethio-Smart?",
+    "title": "Security Built for Ethiopia",
+    "description": "We are more than a listing site. We are a technical infrastructure that guarantees quality and safety for every household in the country.",
+    "missionLabel": "OUR MISSION",
+    "missionText": "Empowering local professionals and simplifying life for clients",
+    "features": [
+      {
+        "title": "AI-Powered Matching",
+        "description": "Our proprietary algorithm connects you with the right specialist based on skill level, location proximity, and verified history."
+      },
+      {
+        "title": "Verified Professionals",
+        "description": "Every tasker undergoes a rigorous background check, including identity verification and skill assessment."
+      },
+      {
+        "title": "Secure Escrow System",
+        "description": "Your payment is safely held in escrow and only released to the professional once you confirm the work is completed."
+      },
+      {
+        "title": "Transparent Ratings",
+        "description": "Detailed reviews and public performance metrics ensure accountability and top-tier service for every client."
+      }
+    ]
+  },
+
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "items": [
+      {
+        "question": "How does Ethio-Smart ServiceLink match me with the right tasker?",
+        "answer": "We use AI-powered semantic matching to analyze your task description, location, budget, and required skills. The system compares this with verified tasker profiles, experience history, and ratings to suggest the most suitable professionals."
+      },
+      {
+        "question": "Is my payment secure?",
+        "answer": "Yes. Payments are held securely in escrow until the task is completed and approved. This protects both clients and taskers by ensuring fairness and accountability."
+      },
+      {
+        "question": "What happens if I'm not satisfied with the service?",
+        "answer": "If issues arise, you can request revisions or open a dispute. Our system reviews the case and ensures a fair resolution before releasing payment."
+      },
+      {
+        "question": "Are taskers verified?",
+        "answer": "Yes. Taskers go through identity verification and profile review before they can accept tasks. Ratings and reviews further ensure quality and trust."
+      }
+    ]
+  },
+  
+  "footer": {
+    "company": {
+      "description": "Ethiopia's leading service marketplace"
+    },
+    "quickLinks": {
+      "title": "Quick Links",
+      "about": "About Us",
+      "howItWorks": "How It Works",
+      "services": "Services"
+      
+    },
+    "services": {
+      "title": "Services",
+      "tutoring": "Tutoring Services",
+      "plumbing": "Plumbing Services",
+      "cleaning": "Cleaning Services",
+      "hairdresser": "Hairdresser",
+      "babysitter": "Babysitter"
+    },
+    "contact": {
+      "title": "Contact Info",
+      "phone": "+251 911 234 567",
+      "email": "info@ethiosmart.com",
+      "address": "Bole, Addis Ababa, Ethiopia"
+    },
+    "bottom": {
+      "companyName": "Ethio Smart",
+      "allRightsReserved": "All rights reserved.",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    }
+  },
+  
+  "becomeTasker": {
+    "title": "Monetize Your Skills Today.",
+    "description": "Are you a skilled pro? Join Ethiopia's most prestigious service network. Get access to high-paying clients and grow your business with secure payments.",
+    "stats": {
+      "clients": "15,000+ Active Clients",
+      "payments": "Guaranteed Payments"
+    },
+    "button": "Become a tasker",
+    "aiTitle": "AI-Powered tasker Matching",
+    "aiDescription": "Find verified professionals faster and smarter"
+  }
+,
+
+  "searchBar": {
+    "placeholder": "What service do you need?",
+    "locationPlaceholder": "Location",
+    "button": "Search",
+    "noResults": "No results found"
+  }
+,
+  "testimonial": {
+    "title": "What Our Users Say",
+    "subtitle": "Join thousands of customers and professionals transforming how services are delivered in Ethiopia."
+  }
+
+
+}
