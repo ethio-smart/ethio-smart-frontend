@@ -1,35 +1,4 @@
-// import { useEffect, useState } from "react"
-// import {MessagePayload, onMessage} from 'firebase/messaging'
-// import { messaging } from "../lib/firebase"
-// import { toast } from "sonner"
-// import useFCMToken from "./useFCMToken"
 
-// const useFCM=()=>{
-//     const fcmToken=useFCMToken()
-//     const[messages,setMessages]=useState<MessagePayload[]>([])
-//     console.log('fcmtoken from usefcm hook',fcmToken)
-//     console.log('message',messages)
-//     useEffect(()=>{
-//         if('serviceWorker' in navigator){
-//             const fcmessaging=messaging()
-//             const unsubscribe=onMessage(fcmessaging,(payload)=>{
-//                 toast(payload.notification?.title,{
-//                     description:payload.notification?.body
-//                 })
-//                 toast('hello',{
-//                     description:'service request'
-//                 })
-//                 setMessages((messages)=> [...messages,payload])
-
-//             })
-//             return () => unsubscribe()
-            
-//         }
-//     },[fcmToken]);
-//     return {fcmToken,messages}
-// }
-
-// export default useFCM
 
 
 import { useEffect, useState } from "react";
