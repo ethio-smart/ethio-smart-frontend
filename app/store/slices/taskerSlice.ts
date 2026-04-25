@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Tasker } from "@/app/types/types"
 import { api } from "@/app/utils/axiosinstance"
 import {
   createSlice,
@@ -8,16 +9,16 @@ import {
 
 
 
-export interface Tasker {
-  taskerId: string
-  name: string
-  image: string | null
-  bio: string
-  location: string
-  rating: number
-  isVerified: boolean
-  service: any
-}
+// export interface Tasker {
+//   taskerId: string
+//   name: string
+//   image: string | null
+//   bio: string
+//   location: string
+//   rating: number
+//   isVerified: boolean
+//   service: any
+// }
 
 interface TaskerState {
   // CREATE TASKER
@@ -29,6 +30,10 @@ interface TaskerState {
   taskersByCategory: Record<string, Tasker[]>
   fetchLoading: boolean
   fetchError: string | null
+  //
+   tasker: Tasker | null
+  singleFetchLoading: boolean
+  singleFetchError: string | null
 }
 
 /*
@@ -43,6 +48,10 @@ const initialState: TaskerState = {
   taskersByCategory: {},
   fetchLoading: false,
   fetchError: null,
+
+    tasker: null,
+  singleFetchLoading: false,
+  singleFetchError: null,
 }
 
 /*
@@ -53,12 +62,9 @@ export const createTasker = createAsyncThunk(
   "tasker/createTasker",
   async (formData: any, { rejectWithValue }) => {
     try {
-      
-
       const response = await api.post("/users/tasker", formData, {
        
       })
-
       return response.data
     } catch (error: any) {
       return rejectWithValue(
@@ -86,6 +92,25 @@ export const fetchTaskersByCategory = createAsyncThunk(
       return rejectWithValue(
         error.response?.data?.message ||
           "Failed to fetch taskers",
+      )
+    }
+  },
+)
+export const fetchTaskerById = createAsyncThunk(
+  "tasker/fetchTaskerById",
+  async (taskerId: string, { rejectWithValue }) => {
+    console.log('⭐⭐⭐')
+    try {
+      const response = await api.get(
+        `/users/taskers/${taskerId}`,
+      )
+      console.log('fetch tasker by id',response.data)
+
+      return response.data
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch tasker",
       )
     }
   },
@@ -156,6 +181,18 @@ const taskerSlice = createSlice({
           state.fetchError = action.payload
         },
       )
+            .addCase(fetchTaskerById.pending, (state) => {
+        state.singleFetchLoading = true
+        state.singleFetchError = null
+      })
+      .addCase(fetchTaskerById.fulfilled, (state, action: PayloadAction<Tasker>) => {
+        state.singleFetchLoading = false
+        state.tasker = action.payload
+      })
+      .addCase(fetchTaskerById.rejected, (state, action: any) => {
+        state.singleFetchLoading = false
+        state.singleFetchError = action.payload
+      })
   },
 })
 
