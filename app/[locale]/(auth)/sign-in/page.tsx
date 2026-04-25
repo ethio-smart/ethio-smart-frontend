@@ -96,7 +96,7 @@ function SignIn() {
     if (user.role === "USER" && currentPath !== "/") {
         router.push("/")
       } else if (user.role === "TASKER") {
-        router.push(`/${locale}/tasker/dashboard1`)
+        router.push(`/${locale}/tasker/dashboard`)
       } else if (user.role === "SUPER_ADMIN" || user.role === "SYSTEM_ADMIN") {
         router.push(`/${locale}/admin/dashboard`)
       } else {
