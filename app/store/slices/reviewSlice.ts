@@ -7,14 +7,22 @@ interface ReviewState {
   loading: boolean;
   success: boolean;
   error: string | null;
-    reviews: any[];
+  reviews: any[];
+  rating: {
+    average: number;
+    totalReviews: number;
+  };
 }
 
 const initialState: ReviewState = {
   loading: false,
   success: false,
   error: null,
-  reviews:[]
+  reviews:[],
+  rating: {
+    average: 0,
+    totalReviews: 0,
+  },
 };
 
 export const createReview = createAsyncThunk(
@@ -56,7 +64,7 @@ export const getTaskerReviews = createAsyncThunk(
   "review/getTaskerReviews",
   async (taskerId: string, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/tasker/${taskerId}/reviews`);
+      const response = await api.get(`/bookings/tasker/${taskerId}/reviews`);
       console.log(response.data)
       return response.data;
     } catch (error: any) {
@@ -100,7 +108,8 @@ const reviewSlice = createSlice({
       })
       .addCase(getTaskerReviews.fulfilled, (state, action) => {
         state.loading = false;
-        state.reviews = action.payload;
+        state.reviews = action.payload.reviews || [];
+        state.rating = action.payload.rating || { average: 0, totalReviews: 0 };
       })
       .addCase(getTaskerReviews.rejected, (state, action) => {
         state.loading = false;
