@@ -30,7 +30,7 @@ function SignIn() {
   const currentPath = window.location.pathname;
     const locale=useLocale()
   
-  console.log('notification error', errornotification)
+  // console.log('notification error', errornotification)
 
   useEffect(() => {
     // dispatch(setError(""))
