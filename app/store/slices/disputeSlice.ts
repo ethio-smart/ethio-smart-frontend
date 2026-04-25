@@ -10,6 +10,8 @@ type DisputeState = {
   creating: boolean;
   success: boolean;
   error: string | null;
+  disputes: any[];
+  loading: boolean;
 };
 
 // INITIAL STATE
@@ -18,6 +20,8 @@ const initialState: DisputeState = {
   creating: false,
   success: false,
   error: null,
+  disputes: [],
+  loading: false,
 };
 
 
@@ -33,6 +37,21 @@ export const createDispute = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(
         err.response?.data?.message || 'Failed to create dispute'
+      );
+    }
+  }
+);
+
+export const fetchDisputes = createAsyncThunk(
+  'dispute/fetchDisputes',
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get('/disputes/me');
+      console.log('fetchDisputes response:', res.data);
+      return res.data;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data?.message || 'Failed to fetch disputes'
       );
     }
   }
@@ -68,6 +87,22 @@ const disputeSlice = createSlice({
 
       .addCase(createDispute.rejected, (state, action) => {
         state.creating = false;
+        state.error = action.payload as string;
+      })
+
+      /* FETCH DISPUTES */
+      .addCase(fetchDisputes.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchDisputes.fulfilled, (state, action) => {
+        state.loading = false;
+        state.disputes = action.payload;
+      })
+
+      .addCase(fetchDisputes.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload as string;
       });
   },
