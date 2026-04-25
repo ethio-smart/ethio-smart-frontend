@@ -10,6 +10,9 @@ import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/Accou
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
 import { fetchUser, setUser } from '@/app/store/slices/authSlice';
 import {  CircleCheckBig, MessageSquare, Star, Wallet } from 'lucide-react';
+import Link from 'next/link';
+import { useLocale } from 'next-intl';
+import { Button } from '@/components/ui/button';
 
 export default function TaskerProfilePage() {
     const{user}=useAppSelector((state)=>state.auth )
@@ -64,10 +67,25 @@ const STATS = [
     setIsEditing(false);
     toast.success('Tasker profile updated');
   };
-
+const locale=useLocale()
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center">
       <h1 className="text-2xl font-bold">Tasker Profile</h1>
+       <Link
+          target="_blank"
+          rel="noopener noreferrer"
+          href={
+             `/${locale}/resume/tasker`
+           
+          }
+        >
+          {/* <FileText color="black"/> */}
+          <Button variant="outline" className="w-full py-5">
+            View Resume
+          </Button>
+        </Link>
+      </div>
 
       <ProfileHeaderCard
         user={isEditing ? editUser : user}
@@ -90,12 +108,7 @@ const STATS = [
         onCancel={() => setIsEditing(false)}
       />
 
-      {/* <ProfessionalInfoCard
-        tasker={user?.tasker}
-        isEditing={isEditing}
-        editTasker={editTasker}
-        setEditTasker={setEditTasker}
-      /> */}
+     
 
       <AccountSettingsCard
         user={user}
