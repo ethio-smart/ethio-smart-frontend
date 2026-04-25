@@ -22,14 +22,14 @@ export const searchTaskers = createAsyncThunk(
     query: string;
     originalLanguage: string;
   }, { rejectWithValue }) => {
-    console.log('payload',payload);
+    // console.log('payload',payload);
     try {
    
       const response = await api.post("/ai/search-taskers", payload);
       console.log('semantic search response',response.data)
       return response.data;
     } catch (error: any) {
-      console.log('💥💥💥💥💥💥',error)
+      // console.log('💥💥💥💥💥💥',error)
       return rejectWithValue(
         error.response?.data || "Something went wrong"
       );
