@@ -195,7 +195,7 @@ const unreadCount = notifications.filter(
           </div>
 
           <nav className="flex flex-col gap-6 text-lg">
-
+            {/* Language Selector */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-2">
@@ -218,34 +218,55 @@ const unreadCount = notifications.filter(
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {!user && (
-              <>
-                <Link href={`/${currentLocale}#how-it-work`}>How It Works</Link>
-                <Link href={`/${currentLocale}#about`}>About</Link>
-                <Link href={`/${currentLocale}#categories`}>Categories</Link>
-              </>
-            )}
+            {/* Navigation Links - Show for all users */}
+            <Link href={`/${currentLocale}`}>{t("home")}</Link>
+            <Link href={`/${currentLocale}#how-it-work`}>{t("howItWorks")}</Link>
+            <Link href={`/${currentLocale}#about`}>{t("about")}</Link>
+            <Link href={`/${currentLocale}#categories`}>{t("categories")}</Link>
 
+            {/* User-specific content */}
             {user ? (
-              <div className="flex items-center gap-4">
-                <IoIosNotificationsOutline size={22} />
+              <div className="flex flex-col gap-4 pt-4 border-t">
+                {/* Notifications */}
+                <Link href={`/${currentLocale}/notifications`} className="flex items-center gap-2">
+                  <div className="relative">
+                    <span className="bg-red-600 absolute left-3 -top-1 text-white text-[8px] size-3 rounded-full flex items-center justify-center">
+                      {unreadCount}
+                    </span>
+                    <IoIosNotificationsOutline size={22} />
+                  </div>
+                  {/* <span>{t("notifications")}</span> */}
+                </Link>
 
-                <Avatar className="w-20 h-20">
-                  <AvatarImage src={user.imageurl} />
-                  <AvatarFallback className="bg-gray-200 text-gray-700">
-                    {getInitials()}
-                  </AvatarFallback>
-                </Avatar>
-                m
+                {/* Profile */}
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={user.imageurl} />
+                    <AvatarFallback className="bg-gray-200 text-gray-700">
+                      {getInitials()}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <p className="font-semibold">{user.firstName} {user.lastName}</p>
+                    <p className="text-sm text-muted-foreground capitalize">{user.role}</p>
+                  </div>
+                </div>
+
+                
+                
               </div>
             ) : (
-              <>
-                <Link href={`/${currentLocale}/sign-in`}>Login</Link>
+              <div className="flex flex-col gap-4 pt-4 border-t">
+                <Link href={`/${currentLocale}/sign-in`}>
+                  {t("login")}
+                </Link>
 
                 <Button asChild>
-                  <Link href={`/${currentLocale}/sign-up`}>Get Started</Link>
+                  <Link href={`/${currentLocale}/sign-up`}>
+                    {t("getStarted")}
+                  </Link>
                 </Button>
-              </>
+              </div>
             )}
           </nav>
         </div>
