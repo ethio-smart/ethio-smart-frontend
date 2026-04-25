@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Dialog,
   DialogContent,
@@ -11,23 +11,15 @@ import {
 } from "@/components/ui/dialog"
 
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
+
 
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
-import { createRequestFromService } from "@/app/store/slices/requestSlice"
+import { createRequest, inviteTasker } from "@/app/store/slices/requestSlice"
 import { fetchCategoryById } from "@/app/store/slices/categorySlice"
 import { DynamicFormFields } from "../form/DynamicFormFields"
 
-import { locations } from "@/app/utils/constant"
-import {
-  Command,
-  CommandGroup,
-  CommandItem,
-} from "@/components/ui/command"
-import { Calendar1 } from "lucide-react"
-import { WiTime8 } from "react-icons/wi"
+import { RequestForm } from "../form/RequestForm"
+import { toast } from "sonner"
 
 type FieldConfig = {
   name: string
@@ -39,12 +31,12 @@ type FieldConfig = {
 
 type Props = {
   categoryId: string
-  serviceId: string
+  taskerId: string
   fields: Record<string, FieldConfig[]>
   children: React.ReactNode
 }
 
-function ReviewRequest({ formData }: { formData }) {
+function ReviewRequest({ formData }: { formData: any }) {
   return (
    <div className="space-y-4 text-sm">
 
@@ -108,33 +100,34 @@ function ReviewRequest({ formData }: { formData }) {
 
 export default function ServiceRequestFromModal({
   categoryId,
-  serviceId,
+  taskerId,
   fields,
   children,
 }: Props) {
   const dispatch = useAppDispatch()
-  console.log('serviceid',serviceId)
+  // console.log('serviceid',serviceId)
   const { selectedCategory } = useAppSelector((state) => state.category)
   const { loading,error } = useAppSelector((state) => state.request)
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(1)
+  // const [loading, setLoading] = useState(false)
+    const [successOpen, setSuccessOpen] = useState(false)
    console.log('error',error)
-  const [locationOpen, setLocationOpen] = useState(false)
+   console.log('tasker id',taskerId)
 
   const [formData, setFormData] = useState({
     location: "",
     preferedDate: "",
-    notes: "",
     dynamicData: {} as Record<string, any>,
+    categoryId: categoryId || "",
   })
 
-
-  // fetch category
+  // fetch category when categoryId changes
   useEffect(() => {
-    if (categoryId) {
-      dispatch(fetchCategoryById(categoryId))
+    if (formData.categoryId) {
+      dispatch(fetchCategoryById(formData.categoryId))
     }
-  }, [dispatch, categoryId])
+  }, [dispatch, formData.categoryId])
 
   // handle dynamic fields change
   const handleDynamicChange = (name: string, value: any) => {
@@ -147,67 +140,48 @@ export default function ServiceRequestFromModal({
     }))
   }
 
-  // autocomplete filter
-  const filteredLocations = useMemo(() => {
-    return locations.filter((loc) =>
-      loc.toLowerCase().includes(formData.location.toLowerCase())
-    )
-  }, [formData.location])
-
   const categoryName = selectedCategory?.name?.toLowerCase() || ""
   const categoryFields = fields[categoryName] || []
 
-  // submit
-  const handleSubmit = async () => {
-    await dispatch(
-      createRequestFromService({
-        serviceId,
-        location: formData.location,
-        preferedDate: formData.preferedDate,
-        notes: formData.notes,
-        dynamicData: formData.dynamicData,
-      })
-    )
+  
+   console.log('formdata',formData)
+  
+  const handleCreateAndInvite = async (taskerId: string) => {
+  try {
+    // setLoading(true)
 
-    setOpen(false)
-    setStep(1)
+    // 1. Create request
+    const createdRequest = await dispatch(createRequest(formData)).unwrap()
+    const requestId = createdRequest.id
+    console.log('request id',requestId)
 
-    setFormData({
-      location: "",
-      preferedDate: "",
-      notes: "",
-      dynamicData: {},
-    })
-  }
-    const handleDateTimeChange = (value: string, type: "date" | "time") => {
-    const current = formData.preferedDate
-      ? new Date(formData.preferedDate)
-      : new Date()
+    // 2. Invite tasker immediately
+    const res = await dispatch(
+      inviteTasker({ requestId, taskerId })
+    ).unwrap()
 
-    let date = current.toISOString().split("T")[0]
-    let time = current.toTimeString().slice(0, 5)
+    console.log('res',res)
 
-    if (type === "date") {
-      date = value
+    // 3. Success state
+    if (res) {
+      setSuccessOpen(true)
+      toast.success('invitation sent to tasker successfully')
     }
+     setOpen(false)
 
-    if (type === "time") {
-      time = value
-    }
-
-    const combined = new Date(`${date}T${time}`).toISOString()
-
-    setFormData({
-      ...formData,
-      preferedDate: combined,
-    })
+  } catch (error) {
+    console.error("Process failed:", error)
+  } finally {
+    // setLoading(false)
   }
-
+}
+  
+   
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
 
-      <DialogContent className="max-w-xl">
+      <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Request Service</DialogTitle>
         </DialogHeader>
@@ -216,100 +190,7 @@ export default function ServiceRequestFromModal({
 
           {/* STEP 1 */}
           {step === 1 && (
-            <div className="space-y-4">
-
-              {/* LOCATION */}
-              <div className="space-y-2 relative">
-                <Label>Location</Label>
-
-                <Input
-                  placeholder="Type your location..."
-                  value={formData.location}
-                  onChange={(e) => {
-                    setFormData((p) => ({
-                      ...p,
-                      location: e.target.value,
-                    }))
-                    setLocationOpen(true)
-                  }}
-                  className="w-full py-5"
-                />
-
-                {locationOpen && formData.location && (
-                  <div className="absolute w-full mt-1 border rounded-md bg-white shadow-md z-50">
-                    <Command>
-                      <CommandGroup className="max-h-60 overflow-auto">
-                        {filteredLocations.map((loc) => (
-                          <CommandItem
-                            key={loc}
-                            value={loc}
-                            onSelect={() => {
-                              setFormData((p) => ({
-                                ...p,
-                                location: loc,
-                              }))
-                              setLocationOpen(false)
-                            }}
-                          >
-                            {loc}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
-                  </div>
-                )}
-              </div>
-
-            
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
-              
-                        <div className="space-y-4 w-full">
-                          <Label className="font-medium flex items-center gap-2">
-                            <Calendar1 size={18} className="text-primary" />
-                            <span>Preferred Date</span>
-                          </Label>              
-                          <Input
-                            type="date"
-                            className="w-full py-5"
-                            onChange={(e) =>
-                              handleDateTimeChange(e.target.value, "date")
-                            }
-                          />
-                        </div>
-              
-                        <div className="space-y-4 w-full">
-                          <Label className="font-medium flex items-center gap-2">
-                            <WiTime8 size={18} className="text-primary" />
-                            <span>Preferred Time</span>
-                          </Label>
-              
-                          <Input
-                            type="time"
-                            defaultValue="10:00"
-                            className="bg-background w-full py-5"
-                            onChange={(e) =>
-                              handleDateTimeChange(e.target.value, "time")
-                            }
-                          />
-                        </div>
-              
-                      </div>
-
-              {/* NOTES */}
-              <div className="space-y-2">
-                <Label>Notes</Label>
-                <Textarea
-                  placeholder="Additional details..."
-                  value={formData.notes}
-                  onChange={(e) =>
-                    setFormData((p) => ({
-                      ...p,
-                      notes: e.target.value,
-                    }))
-                  }
-                />
-              </div>
-            </div>
+            <RequestForm formData={formData} setFormData={setFormData}/>
           )}
 
           {/* STEP 2 */}
@@ -344,10 +225,17 @@ export default function ServiceRequestFromModal({
               Next
             </Button>
           ) : (
-            <Button className={`${loading.createFromService ?'animate-pulse':''}`} onClick={handleSubmit}>
-              {loading.createFromService? 'Submitting' :'Submit'}
+           
+              <Button
+  className={`${loading.create || loading.invite ? "animate-pulse" : ""}`}
+  onClick={() => handleCreateAndInvite(taskerId)}
+  disabled={loading.create || loading.invite}
+>
+
+  {loading.create? 'Submitting' :'Send Invitation'}
+</Button>
               
-            </Button>
+           
           )}
         </div>
       </DialogContent>
