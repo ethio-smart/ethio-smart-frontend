@@ -1,4 +1,5 @@
 import { LucideIcon } from "lucide-react"
+import { useLocale } from "next-intl"
 import Link from "next/link"
 
 type ServiceCategoryCardProps = {
@@ -14,6 +15,7 @@ function ServiceCategoryCard({
   name,
   categoryId,
 }: ServiceCategoryCardProps) {
+  const locale=useLocale()
   return (
     <div className="bg-white h-40 rounded-lg shadow flex justify-center items-center">
       <div className="flex flex-col items-center gap-2">
@@ -25,7 +27,7 @@ function ServiceCategoryCard({
         </div>
 
         <Link
-          href={`en/request/create/${categoryId}?name=${name.toLowerCase()}`}
+          href={`${locale}/request/create/${categoryId}?name=${name.toLowerCase()}`}
           className="font-semibold hover:underline"
         >
           {name}
