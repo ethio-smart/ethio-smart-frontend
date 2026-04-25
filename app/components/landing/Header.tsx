@@ -24,12 +24,13 @@ import ProfileDropdownMenu from "../common/ProfileDropdownMenu"
 import { RootState } from "@/app/store/store"
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { fetchNotifications } from "@/app/store/slices/notificationSlice"
+import { useTranslations } from "next-intl"
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   const user = useSelector((state: RootState) => state.auth.user)
-
+  const t = useTranslations("nav")
   const router = useRouter()
   const pathname = usePathname()
 
@@ -117,12 +118,19 @@ const unreadCount = notifications.filter(
         {/*  nav */}
         {!user && (
           <>
-            <nav className="flex gap-8 text-sm">
+            {/* <nav className="flex gap-8 text-sm">
               <Link href={`/${currentLocale}`}>Home</Link>
               <Link href={`/${currentLocale}#how-it-work`}>How It Works</Link>
               <Link href={`/${currentLocale}#about`}>About</Link>
               <Link href={`/${currentLocale}#categories`}>Categories</Link>
-            </nav>
+            </nav> */}
+
+<nav className="flex gap-8 text-sm">
+  <Link href={`/${currentLocale}`}>{t("home")}</Link>
+  <Link href={`/${currentLocale}#how-it-work`}>{t("howItWorks")}</Link>
+  <Link href={`/${currentLocale}#about`}>{t("about")}</Link>
+  <Link href={`/${currentLocale}#categories`}>{t("categories")}</Link>
+</nav>
 
             <span className="h-6 w-px bg-neutral-300" />
           </>
@@ -153,10 +161,12 @@ const unreadCount = notifications.filter(
           </div>
         ) : (
           <>
-            <Link href={`/${currentLocale}/sign-in`}>Login</Link>
+            <Link href={`/${currentLocale}/sign-in`}>
+             {t("login")}
+            </Link>
 
             <Button asChild>
-              <Link href={`/${currentLocale}/sign-up`}>Get Started</Link>
+              <Link href={`/${currentLocale}/sign-up`}>   {t("getStarted")}</Link>
             </Button>
           </>
         )}
