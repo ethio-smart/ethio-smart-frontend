@@ -13,6 +13,7 @@ import disputeReducer from "./slices/disputeSlice"
 import notificationReducer from "./slices/notificationSlice"
 import searchReducer from "./slices/searchSlice"
 import reviewReducer from "./slices/reviewSlice"
+import resumeReducer from "./slices/resumeSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   dispute:disputeReducer,
   notification:notificationReducer,
   search:searchReducer,
-  review:reviewReducer
+  review:reviewReducer,
+  resume:resumeReducer,
 })
 
 const persistConfig = {
