@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Star, MapPin, Clock, DollarSign } from "lucide-react"
 import { Booking } from "@/app/types/types"
 import PaymentConfirmModal from "../dashboard/client/bookings/PaymentConfirmModal"
+import RescheduleRequestDialog from "../dashboard/client/requests/RescheduleRequestDialog"
 
 interface AwaitngPaymentCardProps {
   booking: Booking
@@ -15,10 +16,14 @@ interface AwaitngPaymentCardProps {
 }
 
 export default function AwaitngPaymentCard({ booking,onViewDetails }: AwaitngPaymentCardProps) {
+  console.log('awaiting booking',booking)
   // Extract tasker name 
+  // const taskerName = booking.tasker.user 
+  //   ? `${booking.tasker.user.firstName} ${booking.tasker.user.lastName}`
+  //   : ''
   const taskerName = booking.tasker.user 
-    ? `${booking.tasker.user.firstName} ${booking.tasker.user.lastName}`
-    : ''
+  ? `${booking.tasker.user.firstName} ${booking.tasker.user.lastName}`
+  : ''
     // Get tasker initials for avatar fallback
   const taskerInitials = booking.tasker.user
     ? `${booking.tasker.user.firstName[0]}${booking.tasker.user.lastName[0]}`
@@ -93,7 +98,7 @@ export default function AwaitngPaymentCard({ booking,onViewDetails }: AwaitngPay
           </p>
         </div>
 
-        <div className="flex gap-2">
+        {/* <div className="flex gap-2">
           {booking.status !== 'CONFIRMED' && booking.status !== 'COMPLETED' && (
             <>
               <Button 
@@ -121,7 +126,7 @@ export default function AwaitngPaymentCard({ booking,onViewDetails }: AwaitngPay
               </PaymentConfirmModal>
             </>
           )}
-          
+          <div className="flex items-center gap-4">
           {(booking.status === 'CONFIRMED' || booking.status === 'COMPLETED') && (
             <Button 
               variant="outline" 
@@ -132,7 +137,78 @@ export default function AwaitngPaymentCard({ booking,onViewDetails }: AwaitngPay
               View Details
             </Button>
           )}
+                 {(booking.status === 'CONFIRMED') &&
+                <Button
+              size="lg"
+              variant="outline"
+              className="border-primary border py-5 text-primary"
+            >
+              <Clock /> Reschedule
+            </Button>
+                 }
         </div>
+        </div> */}
+        {/* Actions */}
+<div className="flex gap-2 mt-2">
+  {booking.status === "AWAITING_PAYMENT" && (
+    <>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => onViewDetails?.(booking.id)}
+        className="flex-1 py-5"
+      >
+        Details
+      </Button>
+
+      <PaymentConfirmModal
+        bookingId={booking.id}
+        amount={booking.serviceRequest?.budget || 0}
+      >
+        <Button
+          size="sm"
+          className="flex-1 py-5 bg-primary text-primary-foreground hover:bg-primary/90"
+        >
+          Pay Now
+        </Button>
+      </PaymentConfirmModal>
+    </>
+  )}
+
+  {booking.status === "CONFIRMED" && (
+    <>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => onViewDetails?.(booking.id)}
+        className="flex-1 py-5"
+      >
+        View Details
+      </Button>
+<RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate} bookingId={booking.id}>
+      <Button
+        size="sm"
+        variant="outline"
+        className="flex-1 py-5 border-primary text-primary"
+      >
+        <Clock className="w-4 h-4 mr-2" />
+        Reschedule
+      </Button>
+      </RescheduleRequestDialog>
+    </>
+  )}
+
+  {booking.status === "COMPLETED" && (
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => onViewDetails?.(booking.id)}
+      className="w-full py-5"
+    >
+      View Details
+    </Button>
+  )}
+</div>
       </CardContent>
     </Card>
   )
