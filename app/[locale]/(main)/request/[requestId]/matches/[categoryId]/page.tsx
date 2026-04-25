@@ -45,13 +45,13 @@ export default function TaskerMatchesPage() {
   return (
     <div className="min-h-screen bg-[#F9FAFB]">
       <MatchesHeader length={taskers.length}/>
-      <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-[280px_1fr] gap-8">
+      <div className="max-w-4xl mx-auto px-4 py-10  gap-8">
         {/* Sidebar */}
-        <div>
+        {/* <div>
           <FilterSidebar/>
-        </div>
+        </div> */}
         {/* Tasker List */}
-        <div className="space-y-6 grid grid-cols-1">
+        <div className="space-y-6 gri grid-cols-">
           {taskers.length === 0 ? (
             <p className="text-center bg-white p-10 rounded-lg shadow-xs text-gray-500">
               No taskers found
