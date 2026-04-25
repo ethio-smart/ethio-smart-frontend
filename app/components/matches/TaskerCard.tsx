@@ -94,7 +94,7 @@ export default function TaskerCard({
             </div>
           </div>
 
-    
+
         </div>
 
         {/* ACTION BUTTONS (BOTTOM RIGHT FIX) */}
@@ -107,15 +107,18 @@ export default function TaskerCard({
           >
             {loading ? "Sending..." : "Send Request"}
           </Button>
+          <Link href={`/en/tasker/${tasker.id}`}>
+            <Button variant="outline">View Profile</Button>
+          </Link>
 
-          <Link
+          {/* <Link
             href={{
               pathname: `/en/tasker/${tasker.id}`,
               query: { tasker: JSON.stringify(tasker) },
             }}
           >
             <Button variant="outline">View Profile</Button>
-          </Link>
+          </Link> */}
         </div>
       </div>
 
