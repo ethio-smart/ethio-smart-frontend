@@ -14,7 +14,7 @@ function SearchMatches() {
   const query = searchParams.get("query")
 
   const { results, loading } = useAppSelector(state => state.search)
-   console.log('🐰🐰🐰',results)
+  console.log('🐰🐰🐰', results)
   useEffect(() => {
     if (!query) return
 
@@ -25,20 +25,20 @@ function SearchMatches() {
   }, [query, dispatch])
 
   return (
- <div className="space-y-6 w-full px-4">
-  
-  
-  <MatchesHeader length={results?.results?.length ?? 0} />
+    <div className="space-y-6 w-full px-4 bg-[#F9FAFB]">
 
 
-  <div className="max-w-4xl mx-auto space-y-6 ">
-    {results?.results?.map((result) => (
-      <TaskerMatchCard key={result.taskerId} result={result} />
-    ))}
-  </div>
-        <AppPagination  totalPages={results?.results?.length} currentPage={1} onPageChange={(page) => console.log("Go to page:", page)} />
+      <MatchesHeader length={results?.results?.length ?? 0} />
 
-</div>
+
+      <div className="max-w-4xl mx-auto space-y-6 ">
+        {results?.results?.map((result) => (
+          <TaskerMatchCard key={result.taskerId} result={result} />
+        ))}
+      </div>
+      <AppPagination totalPages={results?.results?.length} currentPage={1} onPageChange={(page) => console.log("Go to page:", page)} />
+
+    </div>
   )
 }
 
