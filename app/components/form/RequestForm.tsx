@@ -13,13 +13,29 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
+import { fetchCategories } from "@/app/store/slices/categorySlice"
 
 
 
 export function RequestForm({ formData, setFormData }: any) {
   const [locationOpen, setLocationOpen] = useState(false)
   const [location, setLocation] = useState("")
-  // const params = useParams()
+  
+  const dispatch = useAppDispatch()
+  const { categories, loading } = useAppSelector((state) => state.category)
+
+  // Fetch categories on component mount
+  useMemo(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
 
   // console.log("request form data ", formData)
 
@@ -61,9 +77,38 @@ export function RequestForm({ formData, setFormData }: any) {
 
   return (
     <div className="space-y-6">
-      <form className="space-y-6"  onSubmit={(e) => e.preventDefault()}>
+      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
 
-        {/* Location */}
+        {/* CATEGORY SELECTION */}
+        <div className="space-y-2">
+          <Label className="flex items-center gap-2 font-medium">
+            <NotebookPen size={18} className="text-primary" />
+            Category
+          </Label>
+          <Select
+            value={formData.categoryId || ""}
+            onValueChange={(value) => handleChange("categoryId", value)}
+          >
+            <SelectTrigger className="w-full py-5">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {loading ? (
+                <div className="px-2 py-1 text-sm text-muted-foreground">
+                  Loading categories...
+                </div>
+              ) : (
+                categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* LOCATION */}
         <div className="space-y-2 relative">
           <Label className="flex items-center gap-2 font-medium">
             <MapPin size={18} className="text-primary" />
