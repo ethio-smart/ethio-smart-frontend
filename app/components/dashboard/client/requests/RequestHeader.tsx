@@ -41,7 +41,7 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
                 key={inv.id}
                 className="bg-white p-4 md:p-5 rounded-md shadow-xs border space-y-4"
               >
-                {/* keep float but reduce impact */}
+                {/* */}
                 <Badge className="bg-secondary float-end text-primary text-[8px] mb-2 md:mb-4">
                   {inv.status}
                 </Badge>
