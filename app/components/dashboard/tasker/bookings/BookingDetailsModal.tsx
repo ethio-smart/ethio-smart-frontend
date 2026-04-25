@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import {
@@ -13,13 +12,14 @@ import {
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, Clock } from 'lucide-react';
 import { Booking, BookingStatus } from '@/app/types/types';
 import { bookingStatusStyles } from '@/app/lib/constants/booking';
 import RaiseDisputeModal from '@/app/components/modal/RaiseDisputeModal';
 import CompleteTaskModal from './CompleteTaskModal';
 import { cleaningCompletionFields, tutoringCompletionFields } from '@/app/lib/constants/task-completion.constants';
 import { useState } from 'react';
+import RescheduleRequestDialog from '../../client/requests/RescheduleRequestDialog';
 
 
 type Props = {
@@ -139,11 +139,12 @@ export default function BookingDetailsModal({
         {/* ACTIONS */}
         <DialogFooter className="flex justify-between gap-4">
           <RaiseDisputeModal bookingId={booking.id}>
-            {(booking.taskCompletions?.status === "ACCEPTED" ||
+            {(booking.TaskCompletion?.status === "ACCEPTED" ||
               booking.status === "DISPUTED") ? null : (
               <Button
                 variant="outline"
                 onClick={() => onDispute(booking.id)}
+                className='py-5'
               >
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 Raise Dispute
@@ -157,9 +158,21 @@ export default function BookingDetailsModal({
           // onSuccess={() => setOpen(false)}
 
           >
-            {booking.taskCompletions.status === "PENDING" ? <Button>Complete Task</Button> : ""}
+            {booking.TaskCompletion.status === "PENDING" ? <Button className='py-5'>Complete Task</Button> : ""}
 
           </CompleteTaskModal>
+          {booking.status === "CONFIRMED" ?
+            <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate} bookingId={booking.id}>
+              <Button
+                size="sm"
+                variant="outline"
+                className=" py-5  border-primary text-primary"
+              >
+                <Clock className="w-4 h-4 mr-2" />
+                Reschedule
+              </Button>
+            </RescheduleRequestDialog>
+            : ""}
         </DialogFooter>
       </DialogContent>
     </Dialog>
