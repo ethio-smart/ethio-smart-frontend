@@ -216,6 +216,17 @@
     "title": "What Our Users Say",
     "subtitle": "Join thousands of customers and professionals transforming how services are delivered in Ethiopia."
   }
+  ,
+  
+  "nav": {
+    "home": "Home",
+    "howItWorks": "How It Works",
+    "about": "About",
+    "categories": "Categories",
+    "login": "Login",
+    "getStarted": "Get Started"
+  
+}
 
 
 }
