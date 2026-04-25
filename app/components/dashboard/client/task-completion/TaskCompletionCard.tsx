@@ -2,43 +2,22 @@
 
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-
 import { TaskCompletion } from "@/app/types/types"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
-import { updateTaskCompletionStatus } from "@/app/store/slices/taskCompletion"
+import ConfirmCompletionModal from "@/app/components/modal/ConfimCompletionModal"
+import DeclineCompletionModal from "@/app/components/modal/DeclineCompletionModal"
 
 type Props = {
   data: TaskCompletion
 }
 
 export default function TaskCompletionCard({ data }: Props) {
-  const dispatch = useAppDispatch()
-
-  const { loading } = useAppSelector((state) => state.task)
-
-  const handleTaskConfrim = (id: string) => {
-    dispatch(
-      updateTaskCompletionStatus({
-        id,
-        status: "ACCEPTED",
-      })
-    )
-  }
-
-  const handleRequestDecline = (id: string) => {
-    dispatch(
-      updateTaskCompletionStatus({
-        id,
-        status: "DECLINED",
-      })
-    )
-  }
+  console.log('data from task completion',data)
 
   return (
     <Card className="p-4 space-y-1 shadow-none">
-      
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-lg capitalize">
@@ -50,8 +29,8 @@ export default function TaskCompletionCard({ data }: Props) {
             data.status === "ACCEPTED"
               ? "bg-blue-100 text-blue-700 "
               : data.status === "DECLINED"
-              ? "bg-red-100 text-red-700"
-              : "bg-yellow-100 text-yellow-700"
+                ? "bg-red-100 text-red-700"
+                : "bg-yellow-100 text-yellow-700"
           }
         >
           {data.status}
@@ -74,25 +53,41 @@ export default function TaskCompletionCard({ data }: Props) {
 
       <div className="flex gap-2">
         {data.status === "PENDING" &&
-        <>
-        <Button
+          <>
+
+            {/* <Button
           size="lg"
           className="bg-primary hover:bg-primary/80 text-white"
           onClick={() => handleTaskConfrim(data.id)}
         >
           {loading.update.confirm ? "Confirming..." : "Confirm"}
-        </Button>
+        </Button> */}
+            <ConfirmCompletionModal bookingId={data.booking?.id} id={data.id}>
+              <Button size="lg" className="bg-primary text-white">
+                Confirm
+              </Button>
+            </ConfirmCompletionModal>
 
-        <Button
+            <DeclineCompletionModal id={data.id}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-red-500 border-red-500 hover:bg-red-500 hover:text-white"
+              >
+                Decline
+              </Button>
+            </DeclineCompletionModal>
+
+            {/* <Button
           size="lg"
           variant="outline"
           className="text-red-500 border-red-500 hover:bg-red-500 hover:text-white"
           onClick={() => handleRequestDecline(data.id)}
         >
           {loading.update.decline ? "Declining..." : "Decline"}
-        </Button>
-        </>
-}
+        </Button> */}
+          </>
+        }
 
         <Link href={`/en/client/requests/`}>
           <Button
