@@ -200,29 +200,7 @@ export type BookingType = {
   createdAt: Date;
 };
 
-export type TaskerType = {
-  id: string;
-  userId: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    image?: string;
-  };
-  status: string;
-  location?: string;
-  bio?: string;
-  languages: string[];
-  resumeUrl?: string | null;
-  availability: boolean;
-  rating: number;
-  totalReviews: number;
-  totalEarnings: number;
-  isVerified: boolean;
-  services: ServiceType[];
-  bookings: BookingType[];
-  reviews: ReviewType[];
-};
+
 
 // Booking types based on API response
 export type PaymentResponse = {
@@ -284,5 +262,5 @@ export type Booking = {
   serviceRequest: Request;
   tasker: Tasker;
   payment: Payment | null;
-    taskCompletions:TaskCompletion
+    TaskCompletion:TaskCompletion
 };
