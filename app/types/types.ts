@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 //user
-export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | " SYSTEM_ADMIN";
+export type VerificationStatus = "Verified" | "Unverified";
+export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | "SYSTEM_ADMIN";
 export type User = {
   id: string;
   firstName: string;
@@ -162,13 +163,13 @@ export type ServiceRequestFrom= {
   dynamicData?: Record<string, any>
 }
 
-export type Dispute={
-  id:string,
-  bookingId: string,
-  reason: string,
-  description: string
+// export type Dispute={
+//   id:string,
+//   bookingId: string,
+//   reason: string,
+//   description: string
 
-}
+// }
 export type NotificationType=
    'SERVICE_REQUEST '|
  ' PAYMENT_UPDATE' |
@@ -400,6 +401,7 @@ export type DisputeResolutionBody = {
 export type PaymentStatus = "PENDING" | "PAID" | "COMPLETED" | "FAILED" | "REFUNDED"; // adjust if needed
 
 export interface Payment {
+  
   id: string;
   amount: number;
   status: PaymentStatus;
@@ -448,13 +450,27 @@ export type BookingStatus =
   | "CANCELLED"
   | "DISPUTED";
 
-  export type PaymentStatus= 
-  |'PENDING'
-  |'PAID'
-  |'HELD'
-  |'RELEASED'
-  |'REFUNDED'
-  |'FAILED'
+  export type UserManagementUser = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  role: Role;
+  verified: boolean;
+  verificationStatus: VerificationStatus;
+  joinedDate: string;
+  avatar: string;
+  imageurl: string | null;
+  backendRole?: Role;
+};
+
+  // export type PaymentStatus= 
+  // |'PENDING'
+  // |'PAID'
+  // |'HELD'
+  // |'RELEASED'
+  // |'REFUNDED'
+  // |'FAILED'
 
 
 export type PaymentState = {
@@ -467,17 +483,17 @@ export type PaymentState = {
   error: string | null;
 };
 
-export type Payment = {
-  id: string
-  amount: number
-  status: PaymentStatus
-  chapaRef: string
-  bookingId: string
-  booking?: Booking[]
-  createdAt: string
-  updatedAt: string
+// export type Payment = {
+//   id: string
+//   amount: number
+//   status: PaymentStatus
+//   chapaRef: string
+//   bookingId: string
+//   booking?: Booking[]
+//   createdAt: string
+//   updatedAt: string
   
-}
+// }
 
 export type Booking = {
   id: string;
