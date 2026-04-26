@@ -122,7 +122,7 @@ export default function IncomingRequestCard({ invitation, }: IncomingRequestCard
             <StatusBadge status={invitation.status} />
 
           </div>
-          <p className="text-sm text-muted-foreground line-clamp-4">
+          <p className="text-sm text-muted-foreground line-clamp-3">
 
             {request.description}
 
