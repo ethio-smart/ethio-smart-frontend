@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Icon from '@/components/ui/AppIcon';
+import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
+import { fetchTaskerOverview, selectTaskerOverview, selectOverviewLoading, selectOverviewError } from '@/app/store/slices/overviewSlice';
 
 interface KPICard {
   id: string;
   title: string;
   value: string;
-  change: number;
+  
   changeLabel: string;
   icon: string;
   color: string;
@@ -15,53 +17,54 @@ interface KPICard {
   sparkline: number[];
 }
 
-const kpiData: KPICard[] = [
-  {
-    id: 'earnings',
-    title: 'Total Earnings',
-    value: '$12,847.50',
-    change: 18.4,
-    changeLabel: 'vs last period',
-    icon: 'BanknotesIcon',
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-50',
-    sparkline: [40, 55, 48, 62, 70, 65, 80, 75, 90, 85, 95, 100],
-  },
-  {
-    id: 'bookings',
-    title: 'Active Bookings',
-    value: '34',
-    change: 7.2,
-    changeLabel: 'vs last period',
-    icon: 'CalendarDaysIcon',
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
-    sparkline: [20, 28, 25, 32, 30, 38, 35, 40, 38, 42, 40, 45],
-  },
-  {
-    id: 'requests',
-    title: 'active requests',
-    value: '96',
-    change: 3.5,
-    changeLabel: 'vs last period',
-    icon: 'CheckCircleIcon',
-    color: 'text-emerald-600',
-    bgColor: 'bg-emerald-50',
-    sparkline: [88, 90, 89, 91, 92, 91, 93, 94, 93, 95, 96, 96],
-  },
-  {
-    id: 'rating',
-    title: 'Average Rating',
-    value: '4.87',
-    change: 2.1,
-    changeLabel: 'vs last period',
-    icon: 'StarIcon',
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    sparkline: [4.5, 4.6, 4.55, 4.7, 4.65, 4.75, 4.8, 4.78, 4.82, 4.85, 4.87, 4.87],
-  },
-
-];
+const generateKPIData = (overview: any): KPICard[] => {
+  return [
+    {
+      id: 'earnings',
+      title: 'Total Earnings',
+      value: `ETB ${overview?.earnings?.toLocaleString() || 0}`,
+      // change: 18.4,
+      changeLabel: 'vs last period',
+      icon: 'BanknotesIcon',
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50',
+      sparkline: [40, 55, 48, 62, 70, 65, 80, 75, 90, 85, 95, 100],
+    },
+    {
+      id: 'activeBookings',
+      title: 'Active Bookings',
+      value: String(overview?.activeBookings || 0),
+      // change: 7.2,
+      changeLabel: 'vs last period',
+      icon: 'CalendarDaysIcon',
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50',
+      sparkline: [20, 28, 25, 32, 30, 38, 35, 40, 38, 42, 40, 45],
+    },
+    {
+      id: 'totalRequests',
+      title: 'Total Requests',
+      value: String(overview?.totalRequests || 0),
+      // change: 3.5,
+      changeLabel: 'vs last period',
+      icon: 'CheckCircleIcon',
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50',
+      sparkline: [88, 90, 89, 91, 92, 91, 93, 94, 93, 95, 96, 96],
+    },
+    {
+      id: 'totalBookings',
+      title: 'Total Bookings',
+      value: String(overview?.totalBookings || 0),
+      // change: 2.1,
+      changeLabel: 'vs last period',
+      icon: 'StarIcon',
+      color: 'text-amber-600',
+      bgColor: 'bg-amber-50',
+      sparkline: [4.5, 4.6, 4.55, 4.7, 4.65, 4.75, 4.8, 4.78, 4.82, 4.85, 4.87, 4.87],
+    },
+  ];
+};
 
 const MiniSparkline = ({ data, color }: { data: number[]; color: string }) => {
   const max = Math.max(...data);
@@ -95,13 +98,21 @@ const MiniSparkline = ({ data, color }: { data: number[]; color: string }) => {
 };
 
 export default function KPICards() {
+  const dispatch = useAppDispatch();
+  const overview = useAppSelector(selectTaskerOverview);
+  const loading = useAppSelector(selectOverviewLoading);
+  const error = useAppSelector(selectOverviewError);
   const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
     setIsHydrated(true);
-  }, []);
+    // Fetch overview data when component mounts
+    dispatch(fetchTaskerOverview());
+  }, [dispatch]);
 
-  if (!isHydrated) {
+  const kpiData = generateKPIData(overview);
+
+  if (!isHydrated || loading) {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         {[1, 2, 3, 4].map((i) => (
@@ -115,9 +126,17 @@ export default function KPICards() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="bg-card rounded-xl border border-red-200 p-5">
+        <p className="text-red-600 text-sm">Error loading overview data: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-      {kpiData.map((card) => (
+      {kpiData.map((card: KPICard) => (
         <div
           key={card.id}
           className="bg-card rounded-xl border border-border p-5 hover:shadow-warm-md transition-standard hover-lift"
@@ -134,12 +153,12 @@ export default function KPICards() {
             </div>
           </div>
           <div className="flex items-end justify-between">
-            <div className="flex items-center gap-1">
+            {/* <div className="flex items-center gap-1">
               <Icon
                 name={card.change >= 0 ? 'ArrowTrendingUpIcon' : 'ArrowTrendingDownIcon'}
                 size={14}
                 variant="solid"
-                className={card.change >= 0 ? 'text-emerald-600' : 'text-red-500'}
+           
               />
               <span
                 className={`text-xs font-semibold ${card.change >= 0 ? 'text-emerald-600' : 'text-red-500'}`}
@@ -147,7 +166,7 @@ export default function KPICards() {
                 {card.change >= 0 ? '+' : ''}{card.change}%
               </span>
               <span className="text-xs text-muted-foreground">{card.changeLabel}</span>
-            </div>
+            </div> */}
             <MiniSparkline data={card.sparkline} color={card.color} />
           </div>
         </div>
