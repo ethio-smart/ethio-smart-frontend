@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+Create a local environment file before running the app:
+
+```bash
+cp .env.example .env.local
+```
+
+Set your API URL in `.env.local`:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://ethio-smart-backend.onrender.com
+```
+
 First, run the development server:
 
 ```bash
