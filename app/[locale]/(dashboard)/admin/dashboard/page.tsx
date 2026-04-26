@@ -37,10 +37,10 @@ export default function DashboardOverviewPage() {
   }, [dispatch]);
 
   const isLoading =
-    loadingOverview ||
-    loadingWeekly ||
-    loadingMonthly ||
-    loadingWeeklySeries ||
+    loadingOverview 
+    loadingWeekly 
+    loadingMonthly 
+    loadingWeeklySeries 
     loadingMonthlySeries;
 
   return (
