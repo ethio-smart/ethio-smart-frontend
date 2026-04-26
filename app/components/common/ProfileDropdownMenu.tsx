@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from "next/link"
@@ -16,26 +17,47 @@ import { LayoutDashboard, Loader2, LogOut, Settings, User } from "lucide-react"
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { useRouter } from "next/navigation"
+import { RootState } from "@/app/store/store"
 import { Role } from "@/app/types/types"
-import ThemeToggle from "./ThemeToggle"
+import ThemeToggle from "@/app/components/common/ThemeToggle"
+import { useLocale } from "next-intl"
 
 interface Props {
   children: React.ReactNode
-  role:Role
 }
 
-function ProfileDropdownMenu({ children,role }: Props) {
+function ProfileDropdownMenu({ children }: Props) {
   const dispatch = useAppDispatch()
-  const userRole = useAppSelector((state) => state.auth.user?.role)
+  const {user} = useAppSelector((state: RootState) => state.auth)
+  // console.log('user role💥💥💥💥💥💥',userRole)
   const router = useRouter()
   const [loggingOut, setLoggingOut] = useState(false)
+const locale=useLocale()
+  const resolveDashboardPath = (role?: Role) => {
+    if (role === "TASKER") return `${locale}/tasker/dashboard`
+    if (role === "SUPER_ADMIN"  ) return `${locale}/admin/dashboard`
+    if (role === "USER"  ) return `${locale}/client/dashboard`
+    return `${locale}/client/dashboard` // fallback
+  }
+
+  const resolveProfilePath = (role?: Role) => {
+    if (role === "TASKER") return  `${locale}/tasker/profile`
+    if (role === "SUPER_ADMIN" ) return  `${locale}/admin/profile`
+    return `${locale}/client/profile`
+  }
+
+  const resolveSettingsPath = (role?: Role) => {
+    if (role === "TASKER") return `${locale}/tasker/profile`
+    if (role === "SUPER_ADMIN" || role === "SYSTEM_ADMIN") return `${locale}/admin/settings`
+    return `${locale}/client/settings`
+  }
 
   const handleLogout = () => {
     setLoggingOut(true)
 
     setTimeout(() => {
       dispatch(logout())
-      router.push("/")
+      router.push("/sign-in")
     }, 800) 
   }
 
@@ -65,21 +87,24 @@ function ProfileDropdownMenu({ children,role }: Props) {
             </div>
 
             <DropdownMenuItem asChild>
-              {/* <Link href={resolveDashboardPath(userRole)}>
+              <Link href={resolveDashboardPath(user?.role)}>
                 <LayoutDashboard />
-                Dashboard */}
-              {/* </Link> */}
+                Dashboard
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
-              <Link href="/client/dashboard">Dashboard</Link>
+              <Link href={resolveProfilePath(user?.role)}>
+                <User />
+                Profile
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
-              {/* <Link href={resolveSettingsPath(userRole)}>
+              <Link href={resolveSettingsPath(user?.role)}>
                 <Settings />
                 Settings
-              </Link> */}
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
