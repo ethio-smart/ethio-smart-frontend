@@ -47,7 +47,7 @@ export default function RefundModal({ payment, open, onClose, onConfirm }: Props
 
         {step === 1 ? (
           <div className="space-y-4 mt-4">
-            <div className="bg-muted/40 p-4 rounded-lg flex justify-between">
+            <div className="flex justify-between rounded-lg bg-muted/20 p-4">
               <div>
                 <p className="text-sm text-muted-foreground">Amount</p>
                 <p className="text-xl font-semibold">${payment.amount.toFixed(2)}</p>
@@ -61,7 +61,7 @@ export default function RefundModal({ payment, open, onClose, onConfirm }: Props
             <select
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-              className="w-full border rounded px-3 py-2"
+              className="w-full rounded border border-border bg-background px-3 py-2"
             >
               <option value="">Select reason</option>
               <option value="client_request">Client request</option>
