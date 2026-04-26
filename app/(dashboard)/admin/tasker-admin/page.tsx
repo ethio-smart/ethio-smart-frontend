@@ -214,7 +214,7 @@ export default function TaskerAdministrationPage() {
       )}
 
       {activeTab === 'all' && (
-        <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div className=" rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
           <TaskerFiltersBar
             search={search}
             onSearchChange={setSearch}
