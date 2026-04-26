@@ -23,7 +23,7 @@ const taskers: tasker[] = [
     role: "Master Electrician",
     rating: 4.9,
     jobs: 128,
-    avatar: "/profile.png",
+    avatar: "/men%20worker%20profile.jpg",
   },
   {
     id: 2,
@@ -31,7 +31,7 @@ const taskers: tasker[] = [
     role: "Interior Designer & Painter",
     rating: 5.0,
     jobs: 45,
-    avatar: "/download.png",
+    avatar: "/women%20worker%20for%20profile.jpg",
   },
   // {
   //   id: 3,
@@ -53,22 +53,22 @@ export default function Hero() {
 
   return (
     
-    <section className="h-scree w-full bg-[linear-gradient(135deg,#F1FDFA,#DDF1ED)] px-10 py-20">
-      <div className="mx-auto max-w-7xl flex  justify-between  ">     
+    <section className="w-full bg-[radial-gradient(circle_at_top_right,#d0f2ea_0%,#f3fbf8_45%,#eef6f3_100%)] px-6 py-16 md:px-10 md:py-20">
+      <div className="mx-auto max-w-7xl flex flex-col gap-10 lg:flex-row lg:justify-between">     
         {/* LEFT  */}
-        <div className="lg:max-w-xl w-full text-center space-y-5 lg:text-start">
+        <div className="w-full space-y-5 text-center lg:max-w-xl lg:text-start">
           <Badge className="inline-block text-xs text-primary rounded-2xl px-6 py-1.5 border border-primary bg-[#E5F6F2] font-medium">
             {/* Verified Local Talent • Secure Payments */}
             {tHero("badge")}
           </Badge>
 
-          <h1 className="md:text-6xl text-5xl font-bold leading-tight">
+          <h1 className="text-4xl font-bold leading-tight md:text-6xl">
             {/* Find Verified Skilled <br />
             taskers in <span className="text-primary">Ethiopia</span> */}
             {tHero("title")}
           </h1>
 
-          <p className="text-xl text-[#343841]">
+          <p className="text-lg text-[#343841] md:text-xl">
             {/* Connect with the top 1% of service professionals in minutes.
             AI-powered matching with secure escrow protection. */}
              {tHero("description")}
@@ -81,11 +81,11 @@ export default function Hero() {
         </div>
 
         {/* RIGHT CARDS */}
-        <div className="hidden lg:flex flex-col space-y-6  ">
+        <div className="hidden lg:flex flex-col space-y-6">
           {taskers.map((tasker, index) => (
             <Card
               key={tasker.id}
-              className={`w-[20rem] p-4 border-none shadow-md transform transition duration-300 ${offsets[index]}`}
+              className={`w-84 rounded-2xl border border-emerald-100/80 bg-white/90 p-4 shadow-xl shadow-emerald-100/60 backdrop-blur transform transition duration-300 ${offsets[index]}`}
             >
               <div className="flex gap-4">
                 <Image
@@ -93,7 +93,7 @@ export default function Hero() {
                   width={56}
                   height={56}
                   alt={tasker.name}
-                  className="rounded-full object-cover"
+                  className="rounded-full object-cover ring-2 ring-emerald-100"
                 />
 
                 <div className="flex-1">
@@ -124,7 +124,7 @@ export default function Hero() {
         </div>
 
       </div>
-           <div className="py-20 flex items-center justify-center">
+          <div className="flex items-center justify-center py-14 md:py-20">
              <SearchBar/>
           </div>
     </section>

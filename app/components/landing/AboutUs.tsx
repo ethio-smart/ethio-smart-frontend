@@ -51,15 +51,33 @@ export default function AboutUs() {
         </div>
 
         {/* RIGHT IMAGE */}
-        <div className="relative pt-10 rounded-3xl h-[600px] w-full overflow-hidden hidden lg:block">
+        <div className="relative pt-10 rounded-3xl h-150 w-full overflow-hidden hidden lg:block">
           <Image
-            src="/profile.png"
+            src="/woman%20cleaning%20house.jpeg"
             alt="Premium standards"
             fill
             className="object-cover"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-emerald-700/80 to-transparent flex items-end p-10">
+          <div className="absolute left-5 top-5 h-28 w-28 overflow-hidden rounded-2xl border-4 border-white shadow-xl">
+            <Image
+              src="/teacher%20profile%20picture.jpg"
+              alt="Professional tasker"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="absolute right-5 top-20 h-24 w-24 overflow-hidden rounded-2xl border-4 border-white shadow-xl">
+            <Image
+              src="/profile%20picture.jpg"
+              alt="Verified provider"
+              fill
+              className="object-cover"
+            />
+          </div>
+
+          <div className="absolute inset-0 bg-linear-to-t from-emerald-700/80 to-transparent flex items-end p-10">
             <div className="bg-white space-y-2 rounded-2xl px-7 py-4">
               <p className="text-primary uppercase font-semibold">
                 {t("missionLabel")}
