@@ -12,12 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { Loader2 } from "lucide-react"
-import { useAppDispatch } from "@/app/hooks/hooks"
+import { LayoutDashboard, Loader2, LogOut, Settings, User } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { useRouter } from "next/navigation"
 import { Role } from "@/app/types/types"
-import { useLocale } from "next-intl"
+import ThemeToggle from "./ThemeToggle"
 
 interface Props {
   children: React.ReactNode
@@ -26,31 +26,26 @@ interface Props {
 
 function ProfileDropdownMenu({ children,role }: Props) {
   const dispatch = useAppDispatch()
+  const userRole = useAppSelector((state) => state.auth.user?.role)
   const router = useRouter()
   const [loggingOut, setLoggingOut] = useState(false)
-  const roleRouteMap: Record<string, string> = {
-  user: "client",
-  tasker: "tasker",
-  admin: "admin",
-}
-  const normalizedRole = roleRouteMap[role.toLowerCase()] || role.toLowerCase()
-     const locale=useLocale()
+
   const handleLogout = () => {
     setLoggingOut(true)
 
     setTimeout(() => {
       dispatch(logout())
       router.push("/")
-    }, 200) 
+    }, 800) 
   }
 
   return (
     <>
       {/* Full screen logout spinner */}
       {loggingOut && (
-        <div className="fixed inset-0 z-999 flex items-center justify-center bg-white">
+        <div className="fixed inset-0 z-999 flex items-center justify-center bg-background/90 backdrop-blur-sm">
           <Loader2 className="size-10 animate-spin text-primary" />
-          <span>logging out...</span>
+          <span className="ml-2">Logging out...</span>
         </div>
       )}
 
@@ -59,24 +54,39 @@ function ProfileDropdownMenu({ children,role }: Props) {
           {children}
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent className="w-48" align="end">
+        <DropdownMenuContent className="w-56" align="end">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
           <DropdownMenuSeparator />
 
           <DropdownMenuGroup>
+            <div className="px-2 pb-2 pt-1">
+              <ThemeToggle />
+            </div>
+
             <DropdownMenuItem asChild>
-              <Link href={`${locale}/${normalizedRole}/dashboard`}>Dashboard</Link>
+              {/* <Link href={resolveDashboardPath(userRole)}>
+                <LayoutDashboard />
+                Dashboard */}
+              {/* </Link> */}
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>
-              <Link href="/settings">Settings</Link>
+              <Link href="/client/dashboard">Dashboard</Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild>
+              {/* <Link href={resolveSettingsPath(userRole)}>
+                <Settings />
+                Settings
+              </Link> */}
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={handleLogout}>
+          <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+            <LogOut />
             Logout
           </DropdownMenuItem>
         </DropdownMenuContent>

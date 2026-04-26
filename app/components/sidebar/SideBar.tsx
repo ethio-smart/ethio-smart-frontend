@@ -40,15 +40,15 @@ export default function Sidebar({ role }: SidebarProps) {
   return (
     <>
     {/* Logout Spinner */}
-     {loggingOut && (
-        <div className="fixed inset-0 z-999 flex items-center justify-center bg-white">
+      {loggingOut && (
+        <div className="fixed inset-0 z-999 flex items-center justify-center bg-background/90 backdrop-blur-sm">
           <Loader2 className="size-10 animate-spin text-primary" />
           <span>logging out...</span>
         </div>
       )}
       {/* Sidebar Content  */}
 
-    <aside className="w-64 h-screen border-r flex flex-col bg-white">
+    <aside className="flex h-screen w-64 flex-col border-r bg-card">
 
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b">
@@ -88,7 +88,7 @@ export default function Sidebar({ role }: SidebarProps) {
       </nav>
 
       {/* Bottom */}
-      <div className="p-4 border-t text-sm">
+      <div className="border-t p-4 text-sm">
         <button className="w-full text-left text-red-500 hover:text-red-600" onClick={handleLogout} disabled={loggingOut}>
           Sign Out
         </button>
