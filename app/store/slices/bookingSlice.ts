@@ -6,24 +6,32 @@ import { Booking } from "@/app/types/types";
 
 interface BookingState {
   bookings: Booking[];
+  adminBookings: Booking[];
+  selectedAdminBooking: Booking | null;
   //   selectedBooking: Booking | null
   loading: {
     fetchClient: boolean;
     fetchTasker: boolean;
+    fetchAdminList: boolean;
+    fetchAdminDetails: boolean;
   };
   error: string | null;
-  success:boolean
+  success: boolean;
 }
 
 const initialState: BookingState = {
   bookings: [],
+  adminBookings: [],
+  selectedAdminBooking: null,
   //   selectedBooking: null,
   loading: {
     fetchClient: false,
     fetchTasker: false,
+    fetchAdminList: false,
+    fetchAdminDetails: false,
   },
   error: null,
-  succss:false
+  success: false,
 };
 
 // Fetch client bookings
@@ -52,6 +60,38 @@ export const fetchTaskerBookings = createAsyncThunk(
     } catch (err: any) {
       return rejectWithValue(
         err.response?.data || err.message || "Failed to fetch bookings",
+      );
+    }
+  },
+);
+
+// fetch admin bookings list
+export const fetchAdminBookings = createAsyncThunk(
+  "booking/fetchAdminBookings",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await api.get("/admin/bookings");
+      const payload = res.data?.data ?? res.data;
+      if (Array.isArray(payload)) return payload;
+      return payload ? [payload] : [];
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data || err.message || "Failed to fetch admin bookings",
+      );
+    }
+  },
+);
+
+// fetch admin booking details by id
+export const fetchAdminBookingById = createAsyncThunk(
+  "booking/fetchAdminBookingById",
+  async (bookingId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.get(`/admin/bookings/${bookingId}`);
+      return res.data?.data ?? res.data;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data || err.message || "Failed to fetch booking details",
       );
     }
   },
@@ -91,8 +131,13 @@ const bookingSlice = createSlice({
     },
     clearBookings: (state) => {
       state.bookings = [];
+      state.adminBookings = [];
+      state.selectedAdminBooking = null;
       //   state.selectedBooking = null
       state.error = null;
+    },
+    clearSelectedAdminBooking: (state) => {
+      state.selectedAdminBooking = null;
     },
   },
   extraReducers: (builder) => {
@@ -129,6 +174,38 @@ const bookingSlice = createSlice({
         state.loading.fetchTasker = false;
         state.error = action.payload as string;
       })
+      // fetch admin bookings list
+      .addCase(fetchAdminBookings.pending, (state) => {
+        state.loading.fetchAdminList = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchAdminBookings.fulfilled,
+        (state, action: PayloadAction<Booking[]>) => {
+          state.loading.fetchAdminList = false;
+          state.adminBookings = action.payload;
+        },
+      )
+      .addCase(fetchAdminBookings.rejected, (state, action) => {
+        state.loading.fetchAdminList = false;
+        state.error = action.payload as string;
+      })
+      // fetch admin booking details
+      .addCase(fetchAdminBookingById.pending, (state) => {
+        state.loading.fetchAdminDetails = true;
+        state.error = null;
+      })
+      .addCase(
+        fetchAdminBookingById.fulfilled,
+        (state, action: PayloadAction<Booking>) => {
+          state.loading.fetchAdminDetails = false;
+          state.selectedAdminBooking = action.payload;
+        },
+      )
+      .addCase(fetchAdminBookingById.rejected, (state, action) => {
+        state.loading.fetchAdminDetails = false;
+        state.error = action.payload as string;
+      })
       .addCase(rescheduleBooking.pending, (state) => {
         state.error = null;
       })
@@ -153,5 +230,5 @@ const bookingSlice = createSlice({
   },
 });
 
-export const { clearBookingError, clearBookings } = bookingSlice.actions;
+export const { clearBookingError, clearBookings, clearSelectedAdminBooking } = bookingSlice.actions;
 export default bookingSlice.reducer;
