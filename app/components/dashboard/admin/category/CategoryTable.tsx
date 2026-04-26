@@ -58,7 +58,7 @@ export default function CategoryTable({
                       #{index + 1}
                     </Badge>
                   </div>
-                  <p className="font-mono text-xs text-muted-foreground break-all">{category.id}</p>
+                  <p className="font-mono break-all text-xs text-muted-foreground">{category.id}</p>
                 </div>
               </TableCell>
               <TableCell>
