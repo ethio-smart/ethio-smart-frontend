@@ -3,6 +3,7 @@
 import {
   CalendarCheck2,
   CircleDollarSign,
+  Dot,
   Clock3,
   ListChecks,
   Users,
@@ -66,20 +67,26 @@ export default function StatCardsGrid() {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-      {statCards.map((c) => (
-        <Card key={c.label} className="hover:shadow-sm transition-shadow">
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      {statCards.map((c, index) => (
+        <Card
+          key={c.label}
+          className="group relative overflow-hidden border-border/80 bg-card/95 transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-md"
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-primary/20 via-primary/60 to-primary/20 opacity-70" />
           <CardContent className="p-5">
-            <div className="flex items-start justify-between mb-3">
-              <div className="size-9 rounded-md bg-primary/10 text-primary flex items-center justify-center">
+            <div className="mb-4 flex items-start justify-between">
+              <div className="flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
                 {c.icon}
               </div>
+              <span className="text-xs text-muted-foreground">#{index + 1}</span>
             </div>
-            <p className="text-2xl font-semibold text-foreground leading-none mb-1">
+            <p className="mb-1 text-2xl leading-none font-semibold text-foreground">
               {c.value}
             </p>
             <p className="text-sm font-medium text-foreground">{c.label}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="mt-1 flex items-start gap-1 text-xs text-muted-foreground">
+              <Dot className="mt-0.5 h-3.5 w-3.5 shrink-0" />
               {c.description}
             </p>
           </CardContent>
