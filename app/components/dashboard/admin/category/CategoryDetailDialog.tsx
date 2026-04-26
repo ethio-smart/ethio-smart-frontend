@@ -51,7 +51,7 @@ export default function CategoryDetailDialog({
           </div>
         ) : category ? (
           <div className="space-y-4">
-            <div className="rounded-xl border bg-muted/20 p-4 space-y-3">
+            <div className="space-y-3 rounded-xl border border-border bg-muted/20 p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-wide text-muted-foreground">Name</p>
@@ -63,7 +63,7 @@ export default function CategoryDetailDialog({
               </div>
 
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div className="rounded-lg border bg-background p-3">
+                <div className="rounded-lg border border-border bg-background p-3">
                   <p className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Hash className="size-4" />
                     Category ID
@@ -73,7 +73,7 @@ export default function CategoryDetailDialog({
                   </p>
                 </div>
 
-                <div className="rounded-lg border bg-background p-3">
+                <div className="rounded-lg border border-border bg-background p-3">
                   <p className="flex items-center gap-2 text-xs text-muted-foreground">
                     <CalendarDays className="size-4" />
                     Created At
@@ -85,7 +85,7 @@ export default function CategoryDetailDialog({
               </div>
             </div>
 
-            <div className="rounded-xl border bg-background p-4">
+            <div className="rounded-xl border border-border bg-background p-4">
               <p className="flex items-center gap-2 text-xs uppercase tracking-wide text-muted-foreground">
                 <FileText className="size-4" />
                 Description
