@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
-import type { UserManagementUser, VerificationStatus } from '@/app/types/types';
+import type { UserManagementUser } from '@/app/types/types';
 import { fetchAdminUsers } from '@/app/store/slices/adminUsersSlice';
 import UserManagementHeader from '@/app/components/dashboard/admin/user/UserManagementHeader';
 import UserFiltersBar, {
