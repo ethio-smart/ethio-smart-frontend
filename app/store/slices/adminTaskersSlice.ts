@@ -7,9 +7,11 @@ import { api } from "@/app/utils/axiosinstance";
 type AdminTaskersState = {
   taskers: Tasker[];
   pendingTaskers: Tasker[];
+  rejectedTaskers: Tasker[];
   selectedTasker: Tasker | null;
   loadingList: boolean;
   loadingPending: boolean;
+  loadingRejected: boolean;
   loadingDetail: boolean;
   actionLoading: boolean;
   error: string | null;
@@ -18,9 +20,11 @@ type AdminTaskersState = {
 const initialState: AdminTaskersState = {
   taskers: [],
   pendingTaskers: [],
+  rejectedTaskers: [],
   selectedTasker: null,
   loadingList: false,
   loadingPending: false,
+  loadingRejected: false,
   loadingDetail: false,
   actionLoading: false,
   error: null,
@@ -81,6 +85,20 @@ export const fetchPendingAdminTaskers = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch pending taskers"),
+      );
+    }
+  },
+);
+
+export const fetchRejectedAdminTaskers = createAsyncThunk(
+  "adminTaskers/fetchRejectedAdminTaskers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get("/admin/taskers/rejected");
+      return toTaskerArray(response.data?.data ?? response.data);
+    } catch (error: any) {
+      return rejectWithValue(
+        getErrorMessage(error, "Failed to fetch rejected taskers"),
       );
     }
   },
@@ -261,6 +279,18 @@ const adminTaskersSlice = createSlice({
         state.loadingPending = false;
         state.error = action.payload as string;
       })
+      .addCase(fetchRejectedAdminTaskers.pending, (state) => {
+        state.loadingRejected = true;
+        state.error = null;
+      })
+      .addCase(fetchRejectedAdminTaskers.fulfilled, (state, action) => {
+        state.loadingRejected = false;
+        state.rejectedTaskers = action.payload;
+      })
+      .addCase(fetchRejectedAdminTaskers.rejected, (state, action) => {
+        state.loadingRejected = false;
+        state.error = action.payload as string;
+      })
       .addCase(fetchAdminTaskerById.pending, (state) => {
         state.loadingDetail = true;
         state.error = null;
@@ -305,6 +335,7 @@ const adminTaskersSlice = createSlice({
         const updatedTasker = action.payload as TaskerUpdate;
         state.taskers = updateTaskerInList(state.taskers, updatedTasker);
         state.pendingTaskers = removeTaskerById(state.pendingTaskers, updatedTasker.id);
+        state.rejectedTaskers = removeTaskerById(state.rejectedTaskers, updatedTasker.id);
         if (state.selectedTasker?.id === updatedTasker.id) {
           state.selectedTasker = {
             ...state.selectedTasker,
@@ -325,6 +356,14 @@ const adminTaskersSlice = createSlice({
         const updatedTasker = action.payload as TaskerUpdate;
         state.taskers = updateTaskerInList(state.taskers, updatedTasker);
         state.pendingTaskers = removeTaskerById(state.pendingTaskers, updatedTasker.id);
+        state.rejectedTaskers = updateTaskerInList(
+          [
+            ...(state.rejectedTaskers.some((tasker) => tasker.id === updatedTasker.id)
+              ? state.rejectedTaskers
+              : [...state.rejectedTaskers, updatedTasker as Tasker]),
+          ],
+          updatedTasker,
+        );
         if (state.selectedTasker?.id === updatedTasker.id) {
           state.selectedTasker = {
             ...state.selectedTasker,
@@ -348,6 +387,10 @@ const adminTaskersSlice = createSlice({
           state.pendingTaskers,
           updatedTasker,
         );
+        state.rejectedTaskers = updateTaskerInList(
+          state.rejectedTaskers,
+          updatedTasker,
+        );
         if (state.selectedTasker?.id === updatedTasker.id) {
           state.selectedTasker = {
             ...state.selectedTasker,
@@ -369,6 +412,10 @@ const adminTaskersSlice = createSlice({
         state.taskers = updateTaskerInList(state.taskers, updatedTasker);
         state.pendingTaskers = updateTaskerInList(
           state.pendingTaskers,
+          updatedTasker,
+        );
+        state.rejectedTaskers = updateTaskerInList(
+          state.rejectedTaskers,
           updatedTasker,
         );
         if (state.selectedTasker?.id === updatedTasker.id) {

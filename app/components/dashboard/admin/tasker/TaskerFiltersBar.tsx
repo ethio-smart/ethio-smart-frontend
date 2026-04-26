@@ -26,15 +26,15 @@ export default function TaskerFiltersBar({
   onFilterStatusChange: (value: string) => void;
 }) {
   return (
-    <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex flex-wrap gap-3">
-      <div className="relative flex-1 min-w-[200px]">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+    <div className="flex flex-wrap gap-3 border-b border-border p-4">
+      <div className="relative flex-1" style={{ minWidth: '200px' }}>
+        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="text"
           placeholder="Search taskers..."
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          className="pl-9 pr-4 py-2 text-sm border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus-visible:ring-teal-500/30 focus-visible:border-teal-500"
+          className="rounded-lg border-border bg-background pl-9 pr-4 py-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:border-primary/30 focus-visible:ring-primary/20"
         />
       </div>
 
@@ -42,7 +42,7 @@ export default function TaskerFiltersBar({
         value={filterVerification}
         onValueChange={onFilterVerificationChange}
       >
-        <SelectTrigger className="w-[170px] h-9 text-sm bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+        <SelectTrigger className="h-9 border-border bg-background text-sm text-foreground" style={{ width: '170px' }}>
           <SelectValue placeholder="All Verification" />
         </SelectTrigger>
         <SelectContent>
@@ -54,7 +54,7 @@ export default function TaskerFiltersBar({
       </Select>
 
       <Select value={filterStatus} onValueChange={onFilterStatusChange}>
-        <SelectTrigger className="w-[150px] h-9 text-sm bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300">
+        <SelectTrigger className="h-9 border-border bg-background text-sm text-foreground" style={{ width: '150px' }}>
           <SelectValue placeholder="All Status" />
         </SelectTrigger>
         <SelectContent>

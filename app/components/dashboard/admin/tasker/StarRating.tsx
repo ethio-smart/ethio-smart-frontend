@@ -12,13 +12,13 @@ export default function StarRating({ rating }: { rating: number }) {
             className={`w-3.5 h-3.5 ${
               star <= Math.floor(rating)
                 ? "text-amber-400"
-                : "text-slate-200 dark:text-slate-700"
+                : "text-muted-foreground/30 dark:text-muted-foreground/40"
             }`}
             fill="currentColor"
           />
         ))}
       </div>
-      <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+      <span className="text-xs font-semibold text-foreground">
         {rating}
       </span>
     </div>

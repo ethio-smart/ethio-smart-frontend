@@ -1,13 +1,7 @@
 'use client';
 
-
-
+import DisputeResolutionClient from '@/app/components/dashboard/admin/dispute/DisputeResolutionClient';
 
 export default function DisputeResolutionPage() {
-  return (
-    <
-    >
-      <h1 className="text-2xl font-bold">Dispute Resolution</h1>
-    </>
-  );
+  return <DisputeResolutionClient />;
 }

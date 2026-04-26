@@ -26,7 +26,7 @@ export default function ViewPaymentModal({ payment, open, onClose }: Props) {
       : payment.status === "FAILED"
       ? "bg-red-100 text-red-700"
       : payment.status === "REFUNDED"
-      ? "bg-slate-100 text-slate-700"
+      ? "bg-muted text-muted-foreground"
       : "bg-amber-100 text-amber-700";
 
   return (
@@ -44,14 +44,14 @@ export default function ViewPaymentModal({ payment, open, onClose }: Props) {
 
         <div className="space-y-5 mt-4">
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-muted/40 p-3 rounded-lg">
+            <div className="rounded-lg bg-muted/20 p-3">
               <p className="text-xs text-muted-foreground">Amount</p>
               <p className="text-xl font-semibold">
                 {Number(payment.amount ?? 0).toLocaleString()} ETB
               </p>
             </div>
 
-            <div className="bg-muted/40 p-3 rounded-lg">
+            <div className="rounded-lg bg-muted/20 p-3">
               <p className="text-xs text-muted-foreground">Status</p>
               <span className={`inline-flex mt-1 px-2 py-0.5 rounded-full text-xs ${statusClass}`}>
                 {payment.status}

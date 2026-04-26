@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import { CalendarRange } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 import { useAppSelector } from "@/app/hooks/hooks";
 
@@ -27,11 +29,17 @@ export default function DashboardOverviewHeader() {
   }, [weekly?.periodEnd, weekly?.periodStart]);
 
   return (
-    <div className="mb-6">
-      <h1 className="font-heading font-semibold text-[22px] text-foreground">
+    <div className="space-y-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-medium text-secondary hover:bg-primary/10">
+          Admin Analytics
+        </Badge>
+      </div>
+      <h1 className="font-heading text-2xl font-semibold tracking-tight text-foreground md:text-[30px]">
         Dashboard Overview
       </h1>
-      <p className="mt-0.5 text-[14px] font-caption text-muted-foreground">
+      <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+        <CalendarRange className="h-4 w-4" />
         {periodText}
       </p>
     </div>

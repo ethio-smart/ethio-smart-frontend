@@ -9,25 +9,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { UserRole, VerificationStatus } from "@/app/types/types";
+import type { UserRole } from "@/app/types/types";
 
 export type RoleFilter = "All" | UserRole;
-export type VerificationFilter = "All" | VerificationStatus;
 
 export default function UserFiltersBar({
   search,
   onSearchChange,
   roleFilter,
   onRoleFilterChange,
-  verificationFilter,
-  onVerificationFilterChange,
 }: {
   search: string;
   onSearchChange: (value: string) => void;
   roleFilter: RoleFilter;
   onRoleFilterChange: (value: RoleFilter) => void;
-  verificationFilter: VerificationFilter;
-  onVerificationFilterChange: (value: VerificationFilter) => void;
 }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
@@ -53,22 +48,6 @@ export default function UserFiltersBar({
           <SelectItem value="Client">Client</SelectItem>
           <SelectItem value="Tasker">Tasker</SelectItem>
           <SelectItem value="Admin">Admin</SelectItem>
-        </SelectContent>
-      </Select>
-
-      <Select
-        value={verificationFilter}
-        onValueChange={(value) =>
-          onVerificationFilterChange(value as VerificationFilter)
-        }
-      >
-        <SelectTrigger className="w-full sm:w-45">
-          <SelectValue placeholder="Verification" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="All">All Verification</SelectItem>
-          <SelectItem value="Verified">Verified</SelectItem>
-          <SelectItem value="Unverified">Unverified</SelectItem>
         </SelectContent>
       </Select>
     </div>

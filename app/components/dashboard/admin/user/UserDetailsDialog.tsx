@@ -20,12 +20,10 @@ export default function UserDetailsDialog({
   user,
   index,
   onClose,
-  onToggleVerify,
 }: {
   user: UserManagementUser | null;
   index: number;
   onClose: () => void;
-  onToggleVerify: () => void;
 }) {
   return (
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>
@@ -75,13 +73,7 @@ export default function UserDetailsDialog({
               </div>
             </div>
 
-            <DialogFooter className="gap-2 sm:justify-between">
-              <Button
-                variant={user.verified ? "outline" : "default"}
-                onClick={onToggleVerify}
-              >
-                {user.verified ? "Unverify User" : "Verify User"}
-              </Button>
+            <DialogFooter className="gap-2 sm:justify-end">
               <Button variant="outline" onClick={onClose}>
                 Close
               </Button>

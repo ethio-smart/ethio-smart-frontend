@@ -23,11 +23,11 @@ export default function TaskerTable({
   onToggleSuspend: (id: string) => void;
 }) {
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
       <div className="overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
-            <TableRow className="bg-slate-50 dark:bg-slate-800/50">
+            <TableRow className="bg-muted/30">
               {[
                 "Tasker",
                 "Skills",
@@ -39,29 +39,29 @@ export default function TaskerTable({
               ].map((h) => (
                 <TableHead
                   key={h}
-                  className="px-4 py-3 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider whitespace-nowrap"
+                  className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                 >
                   {h}
                 </TableHead>
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody className="divide-y divide-slate-100 dark:divide-slate-800">
+          <TableBody className="divide-y divide-border">
             {taskers.map((tasker) => (
               <TableRow
                 key={tasker.id}
-                className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors duration-150"
+                className="transition-colors duration-150 hover:bg-muted/20"
               >
                 <TableCell className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-linear-to-br from-teal-400 to-emerald-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
                       {tasker.avatar}
                     </div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                      <p className="text-sm font-semibold text-foreground">
                         {tasker.name}
                       </p>
-                      <p className="text-xs text-slate-400">{tasker.email}</p>
+                      <p className="text-xs text-muted-foreground">{tasker.email}</p>
                     </div>
                   </div>
                 </TableCell>
@@ -70,13 +70,13 @@ export default function TaskerTable({
                     {tasker.skills.slice(0, 2).map((skill) => (
                       <span
                         key={skill}
-                        className="px-2 py-0.5 text-xs rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 border border-teal-100 dark:border-teal-800"
+                        className="rounded-full border border-border  px-2 py-0.5 text-xs text-secondary-foreground"
                       >
                         {skill}
                       </span>
                     ))}
                     {tasker.skills.length > 2 && (
-                      <span className="px-2 py-0.5 text-xs rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500">
+                      <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                         +{tasker.skills.length - 2}
                       </span>
                     )}
@@ -86,7 +86,7 @@ export default function TaskerTable({
                   <StarRating rating={tasker.rating} />
                 </TableCell>
                 <TableCell className="px-4 py-3">
-                  <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+                  <span className="text-sm font-semibold text-foreground">
                     {tasker.completedJobs.toLocaleString()}
                   </span>
                 </TableCell>
@@ -114,7 +114,7 @@ export default function TaskerTable({
                       type="button"
                       size="xs"
                       variant="outline"
-                      className="text-xs font-medium text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/20 border-teal-200 dark:border-teal-800 hover:bg-teal-100 dark:hover:bg-teal-900/40"
+                      className="border-border bg-background text-xs font-medium text-primary hover:bg-muted"
                       onClick={() => onView(tasker)}
                     >
                       View
@@ -123,10 +123,10 @@ export default function TaskerTable({
                       type="button"
                       size="xs"
                       variant="outline"
-                      className={`text-xs font-medium rounded-lg border transition-colors duration-150 ${
+                      className={`rounded-lg border text-xs font-medium transition-colors duration-150 ${
                         tasker.status === "suspended"
-                          ? "text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100"
-                          : "text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 hover:bg-red-100"
+                            ? "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
+                            : "border-red-200 bg-red-50 text-red-600 hover:bg-red-100"
                       }`}
                       onClick={() => onToggleSuspend(tasker.id)}
                     >

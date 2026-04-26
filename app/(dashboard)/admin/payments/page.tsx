@@ -103,7 +103,7 @@ export default function AdminPaymentsPage() {
 
       <PaymentStats stats={stats} />
 
-      <div className="rounded-xl border bg-white p-4">
+      <div className="rounded-xl border  p-4">
         <div className="mb-4 flex items-center justify-between gap-2">
           <PaymentFilters
             search={search}

@@ -20,14 +20,15 @@ const statusClassMap: Record<string, string> = {
   COMPLETED: "bg-emerald-100 text-emerald-700",
   PENDING: "bg-amber-100 text-amber-700",
   FAILED: "bg-red-100 text-red-700",
-  REFUNDED: "bg-slate-100 text-slate-700",
+  REFUNDED: "bg-muted text-muted-foreground",
 };
 
 export default function PaymentTable({ data, onView }: Props) {
   return (
-    <Table>
+    <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+      <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="bg-muted/30">
           <TableHead>Payment ID</TableHead>
           <TableHead>Booking ID</TableHead>
           <TableHead>Chapa Ref</TableHead>
@@ -41,7 +42,7 @@ export default function PaymentTable({ data, onView }: Props) {
       <TableBody>
         {data.map((p) => {
           const status = p.status ?? "PENDING";
-          const badgeClass = statusClassMap[status] ?? "bg-slate-100 text-slate-700";
+          const badgeClass = statusClassMap[status] ?? "bg-muted text-muted-foreground";
 
           return (
             <TableRow key={p.id}>
@@ -79,6 +80,7 @@ export default function PaymentTable({ data, onView }: Props) {
           );
         })}
       </TableBody>
-    </Table>
+      </Table>
+    </div>
   );
 }
