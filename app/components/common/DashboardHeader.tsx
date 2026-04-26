@@ -50,7 +50,7 @@ export default function DashboardHeader() {
         </Button>
 
         {/* Profile */}
-        <ProfileDropdownMenu>
+        <ProfileDropdownMenu >
           <div className="flex items-center gap-3 cursor-pointer rounded-lg border border-transparent px-2 py-1 transition hover:border-border hover:bg-muted/40">
             <div className="text-right">
               <p className="text-xs font-medium">{user?.firstName} {user?.lastName}</p>
