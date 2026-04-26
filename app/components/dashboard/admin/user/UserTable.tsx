@@ -23,12 +23,10 @@ export default function UserTable({
   users,
   allUsers,
   onView,
-  onToggleVerify,
 }: {
   users: UserManagementUser[];
   allUsers: UserManagementUser[];
   onView: (user: UserManagementUser, index: number) => void;
-  onToggleVerify: (id: string) => void;
 }) {
   const verificationCounts: Record<VerificationStatus, number> = {
     Verified: allUsers.filter((u) => u.verified).length,
@@ -46,7 +44,7 @@ export default function UserTable({
                 "Email",
                 "Phone",
                 "Role",
-                "Verified",
+               
                 "Joined Date",
                 "Actions",
               ].map((header) => (
@@ -90,11 +88,7 @@ export default function UserTable({
                     <TableCell className="px-4 py-3 text-muted-foreground">{user.email}</TableCell>
                     <TableCell className="px-4 py-3 text-muted-foreground">{user.phone ?? "—"}</TableCell>
                     <TableCell className="px-4 py-3"><RoleBadge role={user.role} /></TableCell>
-                    <TableCell className="px-4 py-3">
-                      <VerificationBadge
-                        status={user.verificationStatus}
-                      />
-                    </TableCell>
+                   
                     <TableCell className="px-4 py-3 text-muted-foreground">{user.joinedDate}</TableCell>
 
                     <TableCell className="px-4 py-3">
@@ -105,13 +99,6 @@ export default function UserTable({
                           onClick={() => onView(user, originalIndex)}
                         >
                           View
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant={user.verified ? "outline" : "default"}
-                          onClick={() => onToggleVerify(user.id)}
-                        >
-                          {user.verified ? "Unverify" : "Verify"}
                         </Button>
                       </div>
                     </TableCell>
