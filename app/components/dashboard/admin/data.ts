@@ -135,7 +135,7 @@ export const verificationColors: Record<AdminVerificationStatus, string> = {
   verified:
     "bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400",
   unverified:
-    "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400",
+    "bg-muted text-muted-foreground",
   pending:
     "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
   rejected:
