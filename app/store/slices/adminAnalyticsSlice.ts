@@ -22,6 +22,74 @@ type AdminAnalyticsState = {
   error: string | null;
 };
 
+const toNumber = (value: unknown) => {
+  const numeric = Number(value ?? 0);
+  return Number.isFinite(numeric) ? numeric : 0;
+};
+
+const normalizeSeriesItem = (item: any): AdminAnalyticsSeriesResponse["data"][number] => ({
+  label: String(item?.label ?? item?.periodLabel ?? item?.name ?? "N/A"),
+  periodStart: String(item?.periodStart ?? item?.startDate ?? ""),
+  periodEnd: String(item?.periodEnd ?? item?.endDate ?? ""),
+  totalBookings: toNumber(item?.totalBookings ?? item?.bookings),
+  activeBookings: toNumber(item?.activeBookings ?? item?.inProgressBookings),
+  earnings: toNumber(item?.earnings ?? item?.totalEarnings ?? item?.revenue),
+  totalRequests: toNumber(item?.totalRequests ?? item?.requests),
+  totalTaskers: toNumber(item?.totalTaskers ?? item?.taskers),
+});
+
+const normalizeSeriesPayload = (payload: unknown): AdminAnalyticsSeriesResponse => {
+  if (Array.isArray(payload)) {
+    return { data: payload.map(normalizeSeriesItem) };
+  }
+
+  if (payload && typeof payload === "object") {
+    const typedPayload = payload as Record<string, unknown>;
+    const rawSeries =
+      typedPayload.data ??
+      typedPayload.series ??
+      typedPayload.result ??
+      typedPayload.items;
+
+    if (Array.isArray(rawSeries)) {
+      return {
+        weeks: typedPayload.weeks ? toNumber(typedPayload.weeks) : undefined,
+        months: typedPayload.months ? toNumber(typedPayload.months) : undefined,
+        data: rawSeries.map(normalizeSeriesItem),
+      };
+    }
+  }
+
+  return { data: [] };
+};
+
+const normalizeOverviewPayload = (payload: unknown): AdminAnalyticsOverview => {
+  const rawTotals = (payload as any)?.totals ?? payload ?? {};
+  return {
+    totals: {
+      totalBookings: toNumber(rawTotals?.totalBookings),
+      activeBookings: toNumber(rawTotals?.activeBookings),
+      earnings: toNumber(rawTotals?.earnings),
+      totalRequests: toNumber(rawTotals?.totalRequests),
+      totalTaskers: toNumber(rawTotals?.totalTaskers),
+      approvedTaskers: toNumber(rawTotals?.approvedTaskers),
+    },
+  };
+};
+
+const normalizeSnapshotPayload = (payload: unknown): AdminAnalyticsPeriodSnapshot => {
+  const raw = (payload as any) ?? {};
+  return {
+    periodStart: String(raw?.periodStart ?? ""),
+    periodEnd: String(raw?.periodEnd ?? ""),
+    totalBookings: toNumber(raw?.totalBookings),
+    activeBookings: toNumber(raw?.activeBookings),
+    earnings: toNumber(raw?.earnings),
+    totalRequests: toNumber(raw?.totalRequests),
+    totalTaskers: toNumber(raw?.totalTaskers),
+  };
+};
+
 const initialState: AdminAnalyticsState = {
   overview: null,
   weekly: null,
@@ -44,7 +112,7 @@ export const fetchAdminAnalyticsOverview = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/admin/analytics/overview");
-      return (response.data?.data ?? response.data) as AdminAnalyticsOverview;
+      return normalizeOverviewPayload(response.data?.data ?? response.data);
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch analytics overview"),
@@ -58,7 +126,7 @@ export const fetchAdminAnalyticsWeekly = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/admin/analytics/weekly");
-      return (response.data?.data ?? response.data) as AdminAnalyticsPeriodSnapshot;
+      return normalizeSnapshotPayload(response.data?.data ?? response.data);
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch weekly analytics"),
@@ -72,7 +140,7 @@ export const fetchAdminAnalyticsMonthly = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await api.get("/admin/analytics/monthly");
-      return (response.data?.data ?? response.data) as AdminAnalyticsPeriodSnapshot;
+      return normalizeSnapshotPayload(response.data?.data ?? response.data);
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch monthly analytics"),
@@ -88,7 +156,7 @@ export const fetchAdminAnalyticsWeeklySeries = createAsyncThunk(
       const response = await api.get("/admin/analytics/weekly/series", {
         params: { weeks },
       });
-      return (response.data?.data ?? response.data) as AdminAnalyticsSeriesResponse;
+      return normalizeSeriesPayload(response.data?.data ?? response.data);
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch weekly analytics series"),
@@ -104,7 +172,7 @@ export const fetchAdminAnalyticsMonthlySeries = createAsyncThunk(
       const response = await api.get("/admin/analytics/monthly/series", {
         params: { months },
       });
-      return (response.data?.data ?? response.data) as AdminAnalyticsSeriesResponse;
+      return normalizeSeriesPayload(response.data?.data ?? response.data);
     } catch (error: any) {
       return rejectWithValue(
         getErrorMessage(error, "Failed to fetch monthly analytics series"),
