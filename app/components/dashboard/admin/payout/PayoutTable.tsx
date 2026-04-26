@@ -69,8 +69,8 @@ export default function PayoutTable({
     onStateChange({ ...state, ...patch });
 
   return (
-    <div className="bg-card border border-border rounded-xl shadow-card">
-      <div className="p-5 border-b border-border">
+    <div className="rounded-xl border border-border bg-card shadow-sm">
+      <div className="border-b border-border p-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-base font-semibold text-foreground">
@@ -102,7 +102,7 @@ export default function PayoutTable({
                 })
               }
             >
-              <SelectTrigger className="h-9 w-[160px]">
+              <SelectTrigger className="h-9 w-40">
                 <SelectValue placeholder="All Status" />
               </SelectTrigger>
               <SelectContent>
@@ -118,9 +118,9 @@ export default function PayoutTable({
       </div>
 
       <div className="overflow-x-auto">
-        <Table className="min-w-[800px]">
+        <Table className="min-w-200">
           <TableHeader>
-            <TableRow className="border-b border-border bg-muted/40">
+            <TableRow className="border-b border-border bg-muted/30">
               <TableHead className="px-5 py-3 text-xs text-muted-foreground">
                 Payout ID
               </TableHead>
@@ -161,7 +161,7 @@ export default function PayoutTable({
                 return (
                   <TableRow
                     key={payout.id}
-                    className={`border-b border-border hover:bg-muted/30 transition-standard ${
+                    className={`border-b border-border transition-colors hover:bg-muted/20 $
                       idx % 2 === 0 ? "" : "bg-muted/10"
                     }`}
                   >
@@ -208,7 +208,7 @@ export default function PayoutTable({
                         <button
                           type="button"
                           onClick={() => onViewDetails(payout)}
-                          className="w-7 h-7 flex items-center justify-center rounded hover:bg-muted transition-standard"
+                          className="flex h-7 w-7 items-center justify-center rounded hover:bg-muted transition-colors"
                           title="View details"
                         >
                           <Eye className="size-3.5 text-muted-foreground" />
@@ -218,7 +218,7 @@ export default function PayoutTable({
                             <button
                               type="button"
                               onClick={() => onQuickApprove(payout)}
-                              className="w-7 h-7 flex items-center justify-center rounded hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-standard"
+                              className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                               title="Approve payout"
                             >
                               <Check className="size-3.5 text-emerald-600" />
@@ -226,7 +226,7 @@ export default function PayoutTable({
                             <button
                               type="button"
                               onClick={() => onQuickReject(payout)}
-                              className="w-7 h-7 flex items-center justify-center rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition-standard"
+                              className="flex h-7 w-7 items-center justify-center rounded transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                               title="Reject payout"
                             >
                               <X className="size-3.5 text-red-500" />
@@ -244,7 +244,7 @@ export default function PayoutTable({
       </div>
 
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-5 py-3 border-t border-border">
+        <div className="flex items-center justify-between border-t border-border px-5 py-3">
           <p className="text-sm text-muted-foreground">
             Showing {(currentPage - 1) * perPage + 1}–
             {Math.min(currentPage * perPage, filtered.length)} of{" "}
@@ -257,7 +257,7 @@ export default function PayoutTable({
                 updateState({ page: Math.max(1, currentPage - 1) })
               }
               disabled={currentPage === 1}
-              className="w-8 h-8 flex items-center justify-center rounded border border-border text-muted-foreground hover:bg-muted disabled:opacity-40 transition-standard"
+              className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-40"
             >
               <ChevronLeft className="size-3.5" />
             </button>
@@ -266,7 +266,7 @@ export default function PayoutTable({
                 key={p}
                 type="button"
                 onClick={() => updateState({ page: p })}
-                className={`w-8 h-8 flex items-center justify-center rounded border text-sm font-medium transition-standard ${
+                className={`flex h-8 w-8 items-center justify-center rounded border text-sm font-medium transition-colors $
                   p === currentPage
                     ? "border-primary bg-primary text-white"
                     : "border-border text-muted-foreground hover:bg-muted"
@@ -283,7 +283,7 @@ export default function PayoutTable({
                 })
               }
               disabled={currentPage === totalPages}
-              className="w-8 h-8 flex items-center justify-center rounded border border-border text-muted-foreground hover:bg-muted disabled:opacity-40 transition-standard"
+              className="flex h-8 w-8 items-center justify-center rounded border border-border text-muted-foreground transition-colors hover:bg-muted disabled:opacity-40"
             >
               <ChevronRight className="size-3.5" />
             </button>
