@@ -4,6 +4,7 @@ import "./globals.css";
 import ReduxProvider from "./store/Provider";
 import { Toaster } from "@/components/ui/sonner";
 import AppInitializer from "./AppInitializer";
+import ThemeProvider from "./ThemeProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,13 +28,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} ${geistMono.variable} antialiased`}>
-        
-        <ReduxProvider>
-          {/* <AppInitializer />    */}
-          {children}
-        </ReduxProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ReduxProvider>
+            {/* <AppInitializer />    */}
+            {children}
+          </ReduxProvider>
+        </ThemeProvider>
 
         <Toaster />
       </body>
