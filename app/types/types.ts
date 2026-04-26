@@ -245,6 +245,75 @@ export type AdminUserApiResponse = {
   imageurl: string | null;
   tasker?: Tasker | null;
 };
+
+export type OfficerApiResponse = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password?: string;
+  role: Role;
+  createdAt: string;
+  updatedAt?: string;
+  isVerified: boolean;
+  imageurl: string | null;
+};
+
+export type OfficerListItem = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  role: Role;
+  createdAt: string;
+  updatedAt?: string;
+  isVerified: boolean;
+  imageurl: string | null;
+};
+
+export type CreateOfficerPayload = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password: string;
+};
+
+export type OfficerFormValues = CreateOfficerPayload;
+
+export type AdminMeApiResponse = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string | null;
+  password?: string;
+  role: Role;
+  createdAt: string;
+  updatedAt: string;
+  isVerified: boolean;
+  imageurl: string | null;
+  tasker?: Tasker | null;
+};
+
+export type AdminProfile = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  email: string;
+  phone: string | null;
+  role: Role;
+  createdAt: string;
+  updatedAt: string;
+  isVerified: boolean;
+  imageurl: string | null;
+  maskedPassword: string;
+};
+
 export interface Refund {
   id: string;
   amount: number;
@@ -260,13 +329,21 @@ export interface Refund {
 export interface Dispute {
   id: string;
   reason: string;
-  resolved: boolean;
   bookingId: string;
   createdAt: string;
+
+  resolved?: boolean;
   resolvedAt?: string;
+  updatedAt?: string;
+
+  againstUserId?: string;
+  raisedById?: string;
+  refundAmount?: number | null;
+  resolutionNote?: string | null;
+  resolution?: DisputeResolutionType | null;
+  status?: BackendDisputeStatus;
 
   // UI-facing dispute fields used by admin dispute components
-  status?: DisputeStatus;
   severity?: SeverityLevel;
   client?: DisputeParty;
   tasker?: DisputeParty;
@@ -277,8 +354,10 @@ export interface Dispute {
   createdDate?: string;
   updatedDate?: string;
 
-  // relation
-  booking?: Booking;
+  // backend relations
+  booking?: DisputeBookingSummary;
+  User_Dispute_raisedByIdToUser?: DisputeUserSummary;
+  User_Dispute_againstUserIdToUser?: DisputeUserSummary;
 }
 export type DisputeStatus =
   | "open"
@@ -288,10 +367,48 @@ export type DisputeStatus =
 
 export type SeverityLevel = "low" | "medium" | "high";
 
+export type DisputeResolutionType = "FULL_REFUND" | "NO_REFUND" | "PARTIAL_REFUND";
+
+export type BackendDisputeStatus =
+  | "OPEN"
+  | "IN_REVIEW"
+  | "RESOLVED"
+  | "REJECTED"
+  | "CLOSED"
+  | "open"
+  | "investigating"
+  | "resolved"
+  | "escalated";
+
+export type DisputeUserSummary = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string | null;
+  password?: string;
+  role?: Role;
+  createdAt?: string;
+  updatedAt?: string;
+  isVerified?: boolean;
+  imageurl?: string | null;
+};
+
+export type DisputeBookingSummary = Booking & {
+  user?: DisputeUserSummary;
+  tasker?: Tasker;
+  payment?: Payment;
+};
+
 export type DisputeParty = {
   name: string;
   email: string;
   avatar: string;
+};
+export type DisputeResolutionBody = {
+  resolution: DisputeResolutionType;
+  resolutionNote: string;
+  refundAmount?: number;
 };
 export type PaymentStatus = "PENDING" | "PAID" | "COMPLETED" | "FAILED" | "REFUNDED"; // adjust if needed
 
@@ -316,7 +433,9 @@ export interface Payout {
   id: string;
 
   totalAmount: number;
-  platformFee: number;
+  booking?: DisputeBookingSummary;
+  User_Dispute_raisedByIdToUser?: DisputeUserSummary;
+  User_Dispute_againstUserIdToUser?: DisputeUserSummary;
   taskerAmount: number;
 
   taskerId: string;
