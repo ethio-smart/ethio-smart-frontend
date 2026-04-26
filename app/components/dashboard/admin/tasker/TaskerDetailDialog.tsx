@@ -46,10 +46,10 @@ export default function TaskerDetailDialog({
               {tasker.avatar}
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">
+              <h3 className="text-lg font-bold text-foreground">
                 {tasker.name}
               </h3>
-              <p className="text-sm text-slate-400">{tasker.email}</p>
+              <p className="text-sm text-muted-foreground">{tasker.email}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span
                   className={`px-2 py-0.5 text-xs font-semibold rounded-full ${statusColors[tasker.status]}`}
@@ -66,35 +66,35 @@ export default function TaskerDetailDialog({
           </div>
 
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-slate-800 dark:text-slate-100">
+            <div className="rounded-xl border border-border bg-muted/20 p-3 text-center">
+              <p className="text-xl font-bold text-foreground">
                 {tasker.rating}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">Rating</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">Rating</p>
             </div>
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-center">
-              <p className="text-xl font-bold text-slate-800 dark:text-slate-100">
+            <div className="rounded-xl border border-border bg-muted/20 p-3 text-center">
+              <p className="text-xl font-bold text-foreground">
                 {tasker.completedJobs}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">Jobs Done</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">Jobs Done</p>
             </div>
-            <div className="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 text-center">
-              <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mt-1">
+            <div className="rounded-xl border border-border bg-muted/20 p-3 text-center">
+              <p className="mt-1 text-xs font-semibold text-foreground">
                 {tasker.joinedDate}
               </p>
-              <p className="text-xs text-slate-500 mt-0.5">Joined</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">Joined</p>
             </div>
           </div>
 
           <div>
-            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Skills
             </p>
             <div className="flex flex-wrap gap-1.5">
               {tasker.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="px-2.5 py-1 text-xs rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-400 border border-teal-100 dark:border-teal-800"
+                  className="rounded-full border border-border bg-secondary px-2.5 py-1 text-xs text-secondary-foreground"
                 >
                   {skill}
                 </span>
