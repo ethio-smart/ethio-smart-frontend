@@ -1,7 +1,4 @@
 import PaymentHistory from "@/app/components/dashboard/client/payment/PaymentHistory";
-import PaymentStats from "@/app/components/dashboard/client/payment/PaymentStats";
-import SpendingChart from "@/app/components/dashboard/client/payment/SpendingChart";
-
 
 
 export default function PaymentsPage() {
@@ -17,8 +14,7 @@ export default function PaymentsPage() {
         </p>
       </div>
 
-      <PaymentStats/>
-      <SpendingChart />
+     
       <PaymentHistory />
 
     </div>

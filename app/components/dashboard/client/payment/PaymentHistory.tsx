@@ -17,7 +17,7 @@ const columns = [
       const tasker = row.original.booking?.tasker
       return (
         <span>
-          {/* {tasker ? : "—"} */}
+          {/* {tasker } */}
         </span>
       )
     },
@@ -94,15 +94,15 @@ export default function PaymentHistory() {
   const { paymentHistory, loading } = useAppSelector(
     (state) => state.payment
   )
-  console.log('payment history',paymentHistory)
+  console.log('payment historyyyy',paymentHistory)
 
   useEffect(() => {
     dispatch(fetchPaymentHistory())
   }, [dispatch])
 
-  if (loading.paymentHistory) {
-    return <div className="p-6">Loading payments...</div>
-  }
+  // if (loading.paymentHistory) {
+  //   return <div className="p-6">Loading payments...</div>
+  // }
 
   if (!paymentHistory || paymentHistory.length === 0) {
     return (
