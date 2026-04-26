@@ -36,12 +36,14 @@ export const navigation = {
   SUPER_ADMIN: [
     { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
     { name: "Users", href: "/admin/user-management", icon: Users },
+    { name: "Officers", href: "/admin/officers", icon: Shield },
     { name: "Taskers", href: "/admin/tasker-admin", icon: Users },
+    { name: "Pending Taskers", href: "/admin/pending-taskers", icon: Shield },
     { name: "Categories", href: "/admin/category-management", icon: Briefcase },
     { name: "Disputes", href: "/admin/disputes", icon: AlertTriangle },
     { name: "Transactions", href: "/admin/payments", icon: Wallet },
     { name: "Bookings", href: "/admin/booking-management", icon: CalendarCheck },
-    { name: "Settings", href: "/admin/settings", icon: Shield },
+    // { name: "Settings", href: "/admin/settings", icon: Shield },
     
   ],
 
