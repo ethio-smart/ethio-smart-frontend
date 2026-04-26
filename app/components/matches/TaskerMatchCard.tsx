@@ -112,7 +112,7 @@ export default function TaskerMatchCard({ result }: { result: Result }) {
 
             </div>
           </div>
-          <div className="">
+          <div className="line-clamp-3 text-sm">
             {result.bio}
           </div>
 
