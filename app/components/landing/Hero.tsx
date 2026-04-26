@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 
 import SearchBar from "../common/SearchBar"
 import { Card } from "@/components/ui/card"
+import { useTranslations } from "next-intl"
 
 
 type tasker = {
@@ -48,24 +49,29 @@ export default function Hero() {
     "translate-x-0",
     "-translate-x-20",
   ]
+     const tHero = useTranslations("hero")
 
   return (
+    
     <section className="h-scree w-full bg-[linear-gradient(135deg,#F1FDFA,#DDF1ED)] px-10 py-20">
       <div className="mx-auto max-w-7xl flex  justify-between  ">     
         {/* LEFT  */}
         <div className="lg:max-w-xl w-full text-center space-y-5 lg:text-start">
           <Badge className="inline-block text-xs text-primary rounded-2xl px-6 py-1.5 border border-primary bg-[#E5F6F2] font-medium">
-            Verified Local Talent • Secure Payments
+            {/* Verified Local Talent • Secure Payments */}
+            {tHero("badge")}
           </Badge>
 
           <h1 className="md:text-6xl text-5xl font-bold leading-tight">
-            Find Verified Skilled <br />
-            taskers in <span className="text-primary">Ethiopia</span>
+            {/* Find Verified Skilled <br />
+            taskers in <span className="text-primary">Ethiopia</span> */}
+            {tHero("title")}
           </h1>
 
           <p className="text-xl text-[#343841]">
-            Connect with the top 1% of service professionals in minutes.
-            AI-powered matching with secure escrow protection.
+            {/* Connect with the top 1% of service professionals in minutes.
+            AI-powered matching with secure escrow protection. */}
+             {tHero("description")}
           </p>
           {/* search bar */}
           {/* <div className="py-8">
@@ -124,3 +130,4 @@ export default function Hero() {
     </section>
   )
 }
+

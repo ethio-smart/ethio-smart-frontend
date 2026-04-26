@@ -1,4 +1,6 @@
+
 import TestimonialCard from "../cards/TestimonialCard"
+import { useTranslations } from "next-intl"
 
 const testimonials = [
   {
@@ -49,17 +51,19 @@ const testimonials = [
 ]
 
 function Testimonial() {
+  const t=useTranslations("testimonial")
   return (
     <section className="bg-secondary py-20">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
         {/* texts */}
         <div className="text-center  max-w-2xl mx-auto">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">
-            What Our Users Say
+          
+            {t("title")}
           </h2>
           <p className="text-gray-600 text-lg">
-            Join thousands of happy customers and professionals who are
-            transforming how work gets done in Ethiopia.
+            
+            {t("subtitle")}
           </p>
         </div>
 

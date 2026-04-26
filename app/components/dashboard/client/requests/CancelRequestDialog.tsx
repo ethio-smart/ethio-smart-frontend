@@ -11,6 +11,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { useAppSelector } from "@/app/hooks/hooks"
 
 interface CancelRequestDialogProps {
   children: React.ReactNode
@@ -21,6 +22,7 @@ export default function CancelRequestDialog({
   children,
   onConfirm,
 }: CancelRequestDialogProps) {
+  const{loading}=useAppSelector((state) => state.request)
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -46,7 +48,8 @@ export default function CancelRequestDialog({
             variant="destructive"
             onClick={onConfirm}
           >
-            Yes, Cancel Request
+            {loading.cancel ? "Cancelling..." :  "Yes, Cancel Request"}
+           
           </Button>
         </DialogFooter>
       </DialogContent>

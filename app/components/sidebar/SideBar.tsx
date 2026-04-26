@@ -1,18 +1,12 @@
 "use client"
-
 import { navigation } from "@/app/config/navigation"
 import { useAppDispatch } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { Role } from "@/app/types/types"
 import { Loader2 } from "lucide-react"
-
-
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-
 import { useState } from "react"
-
-
 
 interface SidebarProps {
   role: Role
@@ -24,13 +18,22 @@ export default function Sidebar({ role }: SidebarProps) {
   const router=useRouter()
   const dispatch = useAppDispatch()
     const [loggingOut, setLoggingOut] = useState(false)
+    
+    // Get current locale from pathname
+    const getCurrentLocale = () => {
+      const segments = pathname.split("/").filter(Boolean)
+      return segments[0] || "en"
+    }
+    
+    const currentLocale = getCurrentLocale()
+    
     //handle logout
    const handleLogout = () => {
     setLoggingOut(true)
 
     setTimeout(() => {
       dispatch(logout())
-      router.push("/")
+      router.push(`/${currentLocale}`)
     }, 800) 
   }
 
@@ -49,7 +52,7 @@ export default function Sidebar({ role }: SidebarProps) {
 
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b">
-        <Link href="/" className="text-lg font-semibold text-primary">
+        <Link href={`/${currentLocale}`} className="text-lg font-semibold text-primary">
           Ethio Smart
         </Link>
       </div>
@@ -59,12 +62,12 @@ export default function Sidebar({ role }: SidebarProps) {
 
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname.startsWith(item.href)
+          const isActive = pathname.startsWith(`/${currentLocale}${item.href}`)
         // console.log('current route',isActive)
           return (
             <Link
               key={item.name}
-              href={item.href}
+              href={`/${currentLocale}${item.href}`}
               className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm transition
               ${
                 isActive

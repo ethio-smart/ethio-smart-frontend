@@ -1,151 +1,180 @@
-"use client";
 
-import * as React from "react";
-import { Phone, TriangleAlert } from "lucide-react";
+'use client';
 
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { BookingStatus, StatusBadge } from "../StatusBadge";
-import { PaymentBadge, PaymentStatus } from "../PaymentBadge";
-import { BookingTimeline } from "./BookingTimeline";
-import { TaskerButton } from "../TaskerButton";
-import { TaskerModal } from "../TaskerModal";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from '@/components/ui/dialog';
+
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { AlertTriangle, Clock } from 'lucide-react';
+import { Booking, BookingStatus } from '@/app/types/types';
+import { bookingStatusStyles } from '@/app/lib/constants/booking';
+import RaiseDisputeModal from '@/app/components/modal/RaiseDisputeModal';
+import CompleteTaskModal from './CompleteTaskModal';
+import { cleaningCompletionFields, tutoringCompletionFields } from '@/app/lib/constants/task-completion.constants';
+import { useState } from 'react';
+import RescheduleRequestDialog from '../../client/requests/RescheduleRequestDialog';
 
 
-export type BookingDetails = {
-  id: string;
-  service: string;
-  clientName: string;
-  location: string;
-  scheduledDate: string;
-  status: BookingStatus;
-  paymentStatus: PaymentStatus;
-  budget: number;
-  clientEmail: string;
-  clientPhone: string;
-  notes: string;
+type Props = {
+  booking: Booking;
+  children: React.ReactNode;
+  onComplete: (id: string) => void;
+  onDispute: (id: string) => void;
 };
 
-export type BookingDetailsModalProps = {
-  booking: BookingDetails | null;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  timelineSteps: readonly string[];
-  getTimelineStep: (status: BookingStatus) => number;
-  onRaiseDispute: (bookingId: string) => void;
-  className?: string;
-};
+export default function BookingDetailsModal({
+  booking,
+  children,
+  onDispute,
+}: Props) {
+  if (!booking) return null;
 
-export const BookingDetailsModal = React.memo(
-  ({
-    booking,
-    open,
-    onOpenChange,
-    timelineSteps,
-    getTimelineStep,
-    onRaiseDispute,
-    className,
-  }: BookingDetailsModalProps) => {
-    const b = booking;
-    if (!b) return null;
+  const status: BookingStatus = booking.status;
+  const [open, setOpen] = useState(false);
+  // const paymentStatus: PaymentStatus =
+  //   booking.payment?.status || 'PENDING';
 
-    return (
-      <TaskerModal
-        open={open}
-        onOpenChange={onOpenChange}
-        title="Booking Details"
-        description={b.id}
-        contentClassName={cn(
-          "p-0 overflow-hidden max-w-lg max-h-[90vh]",
-          className
-        )}
-      >
-        <div className="p-5 space-y-5 overflow-y-auto max-h-[calc(90vh-112px)]">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 rounded-lg bg-muted/50">
-              <p className="text-xs text-muted-foreground mb-1">Service</p>
-              <p className="text-sm font-medium text-foreground">{b.service}</p>
-            </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <p className="text-xs text-muted-foreground mb-1">Budget</p>
-              <p className="text-sm font-medium text-foreground font-mono">
-                ${b.budget}
+  // const date=new Date(booking.serviceRequest?.preferedDate)
+
+  const serviceDate = booking.serviceRequest?.preferedDate
+    ? new Date(booking.serviceRequest.preferedDate)
+    : null;
+  //format date
+  const formattedDate = serviceDate
+    ? serviceDate.toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+    : 'Date not available';
+
+  const formattedTime = serviceDate
+    ? serviceDate.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+    })
+    : 'Time not available';
+
+
+  const completionFieldMap = {
+    Tutoring: tutoringCompletionFields,
+    Cleaning: cleaningCompletionFields,
+  };
+
+  const serviceType = booking.serviceRequest.category.name
+  const fields = completionFieldMap[serviceType];
+
+
+  return (
+    <Dialog>
+
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+
+      <DialogContent className="max-w-3xl p-10">
+        {/* HEADER */}
+        <DialogHeader className=''>
+          <div className="flex justify-between">
+            <DialogTitle>Booking Details</DialogTitle>
+            <Badge variant="outline" className={`${bookingStatusStyles[status]}`}>{status}</Badge>
+          </div>
+        </DialogHeader>
+
+
+        <div className="space-y-5">
+          {/* SERVICE INFO */}
+          <div>
+            <h2 className="text-lg font-semibold">
+              {booking.serviceRequest?.tittle}
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              {booking.serviceRequest?.description}
+            </p>
+          </div>
+
+          {/* INFO GRID */}
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            {/* client name */}
+            <div className='bg-neutral-100 rounded-md p-3'>
+              <p className="text-muted-foreground">Client</p>
+              <p className="font-medium">
+                {booking.user?.firstName}{' '}
+                {booking.user?.lastName}
               </p>
             </div>
+            {/* location */}
+            <div className='bg-neutral-100 rounded-md p-3'>
+              <p className="text-muted-foreground">Location</p>
+              <p className="font-medium ">
+                {booking.serviceRequest?.location}
+              </p>
+            </div>
+            {/* budget */}
+            <div className='bg-neutral-100 rounded-md p-3'>
+              <p className="text-muted-foreground">Budget</p>
+              <p className="font-medium">
+                ETB {booking.serviceRequest?.budget}
+              </p>
+            </div>
+            {/*prefered date and time  */}
+            <div className='bg-neutral-100 rounded-md p-4'>
+              <p className="text-muted-foreground">Preferred Date & Time</p>
+              <p className="font-medium">{formattedDate}</p>
+              <p className="font-medium text-primary">{formattedTime}</p>
+            </div>
+
           </div>
 
-          <div className="p-4 rounded-lg border border-border">
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-              Client Information
-            </p>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-bold text-primary">
-                {b.clientName.charAt(0)}
-              </div>
-              <div>
-                <p className="font-medium text-foreground">{b.clientName}</p>
-                <p className="text-xs text-muted-foreground">{b.clientEmail}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Phone className="h-[13px] w-[13px]" />
-              {b.clientPhone}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="p-3 rounded-lg bg-muted/50">
-              <p className="text-xs text-muted-foreground mb-1">Location</p>
-              <p className="text-sm font-medium text-foreground">{b.location}</p>
-            </div>
-            <div className="p-3 rounded-lg bg-muted/50">
-              <p className="text-xs text-muted-foreground mb-1">Scheduled Date</p>
-              <p className="text-sm font-medium text-foreground">{b.scheduledDate}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <StatusBadge status={b.status} />
-            <PaymentBadge status={b.paymentStatus} />
-          </div>
-
-          <div>
-            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
-              Booking Timeline
-            </p>
-            <BookingTimeline
-              steps={timelineSteps}
-              currentStep={getTimelineStep(b.status)}
-            />
-          </div>
-
-          {b.notes ? (
-            <div className="p-3 rounded-lg bg-amber-50 border border-amber-100">
-              <p className="text-xs font-medium text-amber-700 mb-1">Notes</p>
-              <p className="text-sm text-amber-800">{b.notes}</p>
-            </div>
-          ) : null}
         </div>
 
-        <Separator />
-        <div className="flex items-center justify-between p-5">
-          <TaskerButton
-            tone="warning"
-            className="flex items-center gap-2 px-3 py-2 rounded-lg border border-amber-300 text-amber-700 text-sm hover:bg-amber-50"
-            onClick={() => onRaiseDispute(b.id)}
-          >
-            <TriangleAlert className="h-[14px] w-[14px]" /> Raise Dispute
-          </TaskerButton>
-          <TaskerButton
-            className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:bg-secondary press-effect"
-            onClick={() => onOpenChange(false)}
-          >
-            Close
-          </TaskerButton>
-        </div>
-      </TaskerModal>
-    );
-  }
-);
-BookingDetailsModal.displayName = "BookingDetailsModal";
+        {/* ACTIONS */}
+        <DialogFooter className="flex justify-between gap-4">
+          <RaiseDisputeModal bookingId={booking.id}>
+            {(booking.TaskCompletion?.status === "ACCEPTED" ||
+              booking.status === "DISPUTED") ? null : (
+              <Button
+                variant="outline"
+                onClick={() => onDispute(booking.id)}
+                className='py-5'
+              >
+                <AlertTriangle className="w-4 h-4 mr-2" />
+                Raise Dispute
+              </Button>
+            )}
+          </RaiseDisputeModal>
+          <CompleteTaskModal
+            serviceType={fields}
+            bookingId={booking.id}
+            fields={fields}
+          // onSuccess={() => setOpen(false)}
 
+          >
+            {booking.TaskCompletion.status === "PENDING" ? <Button className='py-5'>Complete Task</Button> : ""}
+
+          </CompleteTaskModal>
+          {booking.status === "CONFIRMED" ?
+            <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate} bookingId={booking.id}>
+              <Button
+                size="sm"
+                variant="outline"
+                className=" py-5  border-primary text-primary"
+              >
+                <Clock className="w-4 h-4 mr-2" />
+                Reschedule
+              </Button>
+            </RescheduleRequestDialog>
+            : ""}
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}

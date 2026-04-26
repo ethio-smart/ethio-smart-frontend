@@ -1,48 +1,59 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit"
 import { api } from "@/app/utils/axiosinstance"
-import { Request } from "@/app/types/types"
+import {  Invitation, Request, ServiceRequestFrom } from "@/app/types/types"
 
-
-// interface RequestState {
-//   requests: Request
-//   selectedRequestId: string | null
-//   loading: boolean
-//   error: string | null
-// }
-
-// const initialState: RequestState = {
-//   requests: {},
-//   selectedRequestId: null,
-//   loading: false,
-//   error: null,
-// }
 interface RequestState {
   request: Request | null
   selectedRequestId: string | null
-  loading: boolean
+serviceRequestFrom: ServiceRequestFrom | null
+  loading: {
+    create: boolean
+    invite: boolean
+    fetchOutgoing: boolean
+    fetchIncoming: boolean
+    createFromService: boolean
+    accept: boolean
+    reject: boolean
+    cancel: boolean
+  }
+
+  outgoingInvitations: Request[]
+  incomingInvitations: Invitation[]
+
   error: string | null
 }
 
 const initialState: RequestState = {
   request: null,
   selectedRequestId: null,
-  loading: false,
+  serviceRequestFrom:  null,
+  loading: {
+    create: false,
+    invite: false,
+    fetchOutgoing: false,
+    fetchIncoming: false,
+    createFromService:false,
+    accept: false,
+    reject: false,
+    cancel: false,
+  },
+
+  outgoingInvitations: [],
+  incomingInvitations: [],
+
   error: null,
 }
 
 
-//1. CREATE REQUEST
+
+// CREATE REQUEST
 export const createRequest = createAsyncThunk(
   "request/create",
   async (data: Partial<Request>, { rejectWithValue }) => {
-          const token = localStorage.getItem("accessToken") 
     try {
-      const res = await api.post("/requests", data,
-        {headers:{
-            Authorization: `Bearer ${token}`,
-        }}
-    )
-    console.log('request response',res)
+      const res = await api.post("/requests", data)
+      console.log('create request response', res.data)
       return res.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data)
@@ -50,38 +61,30 @@ export const createRequest = createAsyncThunk(
   }
 )
 
-//2.INVITE TASKER TO REQUEST
+// INVITE TASKER
 export const inviteTasker = createAsyncThunk(
   "request/inviteTasker",
-  async ({ requestId, taskerId }: { requestId: string; taskerId: string }, { rejectWithValue }) => {  
-    const token = localStorage.getItem("accessToken")
+  async (
+    { requestId, taskerId }: { requestId: string; taskerId: string },
+    { rejectWithValue }
+  ) => {
     try {
-      console.log('invite tasker✨✨📯')
       const res = await api.post(
-        // requests/23456709/invite-taskers/987456789
-        `/requests/${requestId}/invite-taskers/${taskerId}`,
-         
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `/requests/${requestId}/invite-taskers/${taskerId}`
       )
-      console.log('invite tasker response',res)
-      // return res.data
-    }
-      catch (err: any) {
-      return rejectWithValue(err.response?.data)
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || "Something went wrong")
     }
   }
 )
 
-// 3.FETCH OUTGOING REQUESTS-CLIENT
+// FETCH OUTGOING
 export const fetchOutgoingRequests = createAsyncThunk(
-  "request/fetchAll",
+  "request/fetchOutgoing",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get("/requests/outgoing ")
+      const res = await api.get("/requests/outgoing")
       return res.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data)
@@ -89,12 +92,12 @@ export const fetchOutgoingRequests = createAsyncThunk(
   }
 )
 
-//4. FETCH INCOMING REQUEST-TASKER
+// FETCH INCOMING
 export const fetchIncomingRequests = createAsyncThunk(
-  "request/fetchById",
+  "request/fetchIncoming",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await api.get(`/requests/incoming`)
+      const res = await api.get("/requests/tasker/incoming")
       return res.data
     } catch (err: any) {
       return rejectWithValue(err.response?.data)
@@ -102,20 +105,72 @@ export const fetchIncomingRequests = createAsyncThunk(
   }
 )
 
+// ACCEPT
+export const acceptRequest = createAsyncThunk(
+  "request/accept",
+  async (invitationId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.post(
+        `requests/tasker/invitations/${invitationId}/accept`
+      )
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data)
+    }
+  }
+)
 
+// REJECT
+export const rejectRequest = createAsyncThunk(
+  "request/reject",
+  async (invitationId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.post(
+        `requests/tasker/invitations/${invitationId}/reject`
+      )
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data)
+    }
+  }
+)
+//cancel request
+export const cancelRequest = createAsyncThunk(
+  "request/cancel",
+  async (requestId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.patch(
+        `requests/${requestId}/cancel`
+      )
+      console.log('cancel request response',res.data)
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data)
+    }
+  }
+)
+//request from service
+export const createRequestFromService = createAsyncThunk( 
+  "request/createFromService",
+  async (
+    data: ServiceRequestFrom,
+    { rejectWithValue }
+  ) => {
+    try {
+      console.log('--------------------------')
+      const res = await api.post(
+        `requests/from-service/${data.serviceId}`,
+      data
+      )
+      console.log('service request from 🐰🐰🐰',res.data)
 
-// DELETE
-// export const deleteRequest = createAsyncThunk(
-//   "request/delete",
-//   async (id: string, { rejectWithValue }) => {
-//     try {
-//       await api.delete(`/requests/${id}`)
-//       return id
-//     } catch (err: any) {
-//       return rejectWithValue(err.response?.data)
-//     }
-//   }
-// )
+      return res.data
+    } catch (err: any) {
+      return rejectWithValue(err.response?.data || "Failed to create request from service")
+    }
+  }
+)
+
 
 // ================= SLICE =================
 
@@ -126,7 +181,6 @@ const requestSlice = createSlice({
     setSelectedRequestId(state, action: PayloadAction<string | null>) {
       state.selectedRequestId = action.payload
     },
-
     clearRequestError(state) {
       state.error = null
     },
@@ -135,71 +189,163 @@ const requestSlice = createSlice({
   extraReducers: (builder) => {
     // CREATE
     builder.addCase(createRequest.pending, (state) => {
-      state.loading = true
+      state.loading.create = true
       state.error = null
     })
     builder.addCase(createRequest.fulfilled, (state, action) => {
-      state.loading = false
+      state.loading.create = false
       state.request = action.payload
     })
     builder.addCase(createRequest.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.payload as string
+      state.loading.create = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
     })
-    //INVITE-TASKER
+
+    // INVITE
     builder.addCase(inviteTasker.pending, (state) => {
-      state.loading = true
+      state.loading.invite = true
       state.error = null
     })
-    builder.addCase(inviteTasker.fulfilled, (state) => {
-      state.loading = false
+    builder.addCase(inviteTasker.fulfilled, (state, action) => {
+      state.loading.invite = false
+      state.outgoingInvitations.push(action.payload)
     })
     builder.addCase(inviteTasker.rejected, (state, action) => {
-      state.loading = false
-      state.error = action.payload as string
+      state.loading.invite = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
     })
 
-    // FETCH ALL
-    // builder.addCase(fetchRequests.pending, (state) => {
-    //   state.loading = true
-    // })
-    // builder.addCase(fetchRequests.fulfilled, (state, action) => {
-    //   state.loading = false
-    //   state.requests = action.payload
-    // })
-    // builder.addCase(fetchRequests.rejected, (state, action) => {
-    //   state.loading = false
-    //   state.error = action.payload as string
-    // })
+    // FETCH OUTGOING
+    builder.addCase(fetchOutgoingRequests.pending, (state) => {
+      state.loading.fetchOutgoing = true
+      state.error = null
+    })
+    builder.addCase(fetchOutgoingRequests.fulfilled, (state, action) => {
+      state.loading.fetchOutgoing = false
+      state.outgoingInvitations = action.payload
+    })
+    builder.addCase(fetchOutgoingRequests.rejected, (state, action) => {
+      state.loading.fetchOutgoing = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    })
 
-    // // FETCH BY ID (optional usage)
-    // builder.addCase(fetchRequestById.fulfilled, (state, action) => {
-    //   const exists = state.requests.find(r => r.id === action.payload.id)
+    // FETCH INCOMING
+    builder.addCase(fetchIncomingRequests.pending, (state) => {
+      state.loading.fetchIncoming = true
+      state.error = null
+    })
+    builder.addCase(fetchIncomingRequests.fulfilled, (state, action) => {
+      state.loading.fetchIncoming = false
+      state.incomingInvitations = action.payload
+    })
+    builder.addCase(fetchIncomingRequests.rejected, (state, action) => {
+      state.loading.fetchIncoming = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    })
 
-    //   if (!exists) {
-    //     state.requests.push(action.payload)
-    //   }
+    // ACCEPT
+    .addCase(acceptRequest.pending, (state, action) => {
+  const id = action.meta.arg
 
-    //   state.selectedRequestId = action.payload.id
-    // })
+  const inv = state.incomingInvitations.find(i => i.id === id)
+  if (inv) {
+    inv.status = "ACCEPTED"
+  }
+})
+    builder.addCase(acceptRequest.fulfilled, (state, action) => {
+      state.loading.accept = false
+      const updated = action.payload
+      state.incomingInvitations = state.incomingInvitations.map((inv) =>
+        inv.id === updated.id ? updated : inv
+      )
+    })
+    builder.addCase(acceptRequest.rejected, (state, action) => {
+      state.loading.accept = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    })
 
-    // // UPDATE
-    // builder.addCase(updateRequest.fulfilled, (state, action) => {
-    //   const index = state.requests.findIndex(
-    //     r => r.id === action.payload.id
-    //   )
+    // REJECT
+  
+    builder.addCase(rejectRequest.pending, (state, action) => {
+  const id = action.meta.arg
 
-    //   if (index !== -1) {
-    //     state.requests[index] = action.payload
-    //   }
-    // })
+  const inv = state.incomingInvitations.find(i => i.id === id)
+  if (inv) {
+    inv.status = "REJECTED"
+  }
+})
 
-    // // DELETE
-    // builder.addCase(deleteRequest.fulfilled, (state, action) => {
-    //   state.requests = state.requests.filter(
-    //     r => r.id !== action.payload
-    //   )
-    // })
+    builder.addCase(rejectRequest.fulfilled, (state, action) => {
+      state.loading.reject = false
+      const updated = action.payload
+      state.incomingInvitations = state.incomingInvitations.map((inv) =>
+        inv.id === updated.id ? updated : inv
+      )
+    })
+    builder.addCase(rejectRequest.rejected, (state, action) => {
+      state.loading.reject = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    })
+    // CANCEL
+    builder.addCase(cancelRequest.pending, (state, action) => {
+      const id = action.meta.arg 
+      const req = state.outgoingInvitations.find(r => r.id === id)
+      if(req){
+        req.status = "CANCELLED"
+      }
+    })
+    builder.addCase(cancelRequest.fulfilled, (state, action) => {
+      state.loading.cancel = false
+      const updated = action.payload
+      state.outgoingInvitations = state.outgoingInvitations.map((req) =>
+        req.id === updated.id ? updated : req
+      )
+    })
+    builder.addCase(cancelRequest.rejected, (state, action) => {
+      state.loading.cancel = false
+      state.error =
+        typeof action.payload === "string"
+          ? action.payload
+          : action.payload?.message || "Something went wrong"
+    }
+    
+    )
+    // CREATE FROM SERVICE
+builder.addCase(createRequestFromService.pending, (state) => {
+  state.loading.createFromService = true
+  state.error = null
+})
+
+builder.addCase(createRequestFromService.fulfilled, (state, action) => {
+  state.loading.createFromService = false
+  state.serviceRequestFrom = action.payload
+})
+
+builder.addCase(createRequestFromService.rejected, (state, action) => {
+  state.loading.createFromService = false
+  state.error =
+    typeof action.payload === "string"
+      ? action.payload
+      : action.payload?.message || "Something went wrong"
+})
   },
 })
 

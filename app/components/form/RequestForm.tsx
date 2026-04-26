@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { MapPin, Calendar, FileText, DollarSign } from "lucide-react"
+import { MapPin, FileText, DollarSign, Calendar1, NotebookPen } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -12,23 +13,39 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command"
-import { useParams } from "next/navigation"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
+import { fetchCategories } from "@/app/store/slices/categorySlice"
+
+
 
 export function RequestForm({ formData, setFormData }: any) {
   const [locationOpen, setLocationOpen] = useState(false)
   const [location, setLocation] = useState("")
-  const params = useParams()
+  
+  const dispatch = useAppDispatch()
+  const { categories, loading } = useAppSelector((state) => state.category)
 
-  console.log("request form data from dynamic fields", formData)
+  // Fetch categories on component mount
+  useMemo(() => {
+    dispatch(fetchCategories())
+  }, [dispatch])
+
+  // console.log("request form data ", formData)
 
   const handleChange = (name: string, value: any) => {
     setFormData({ ...formData, [name]: value })
   }
-
-  // ✅ ONLY preferredDate is stored
+// ONLY preferedDate is stored
   const handleDateTimeChange = (value: string, type: "date" | "time") => {
-    const current = formData.preferredDate
-      ? new Date(formData.preferredDate)
+    const current = formData.preferedDate
+      ? new Date(formData.preferedDate)
       : new Date()
 
     let date = current.toISOString().split("T")[0]
@@ -46,7 +63,7 @@ export function RequestForm({ formData, setFormData }: any) {
 
     setFormData({
       ...formData,
-      preferredDate: combined,
+      preferedDate: combined,
     })
   }
 
@@ -60,9 +77,38 @@ export function RequestForm({ formData, setFormData }: any) {
 
   return (
     <div className="space-y-6">
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
 
-        {/* Location */}
+        {/* CATEGORY SELECTION */}
+        <div className="space-y-2">
+          <Label className="flex items-center gap-2 font-medium">
+            <NotebookPen size={18} className="text-primary" />
+            Category
+          </Label>
+          <Select
+            value={formData.categoryId || ""}
+            onValueChange={(value) => handleChange("categoryId", value)}
+          >
+            <SelectTrigger className="w-full py-5">
+              <SelectValue placeholder="Select a category" />
+            </SelectTrigger>
+            <SelectContent>
+              {loading ? (
+                <div className="px-2 py-1 text-sm text-muted-foreground">
+                  Loading categories...
+                </div>
+              ) : (
+                categories.map((category) => (
+                  <SelectItem key={category.id} value={category.id}>
+                    {category.name}
+                  </SelectItem>
+                ))
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* LOCATION */}
         <div className="space-y-2 relative">
           <Label className="flex items-center gap-2 font-medium">
             <MapPin size={18} className="text-primary" />
@@ -105,13 +151,22 @@ export function RequestForm({ formData, setFormData }: any) {
 
         {/* Description */}
         <div className="space-y-4">
+           <Label className="flex items-center gap-2 font-medium">
+           <NotebookPen size={18} className="text-primary" />
+            Title
+          </Label>
+          <Input
+            placeholder="eg Deep cleaning for 2-bedroom apartment"
+            className="w-full py-5"
+            onChange={(e) => handleChange("tittle", e.target.value)}
+          />
           <Label className="font-medium flex items-center gap-2">
             <FileText size={18} className="text-primary" />
             <span>Description</span>
           </Label>
 
           <Textarea
-            placeholder="Provide details so the worker knows what to do"
+            placeholder="Provide details so the tasker knows what to do"
             className="w-full h-32"
             onChange={(e) =>
               handleChange("description", e.target.value)
@@ -141,10 +196,9 @@ export function RequestForm({ formData, setFormData }: any) {
 
           <div className="space-y-4 w-full">
             <Label className="font-medium flex items-center gap-2">
-              <Calendar size={18} className="text-primary" />
+              <Calendar1 size={18} className="text-primary" />
               <span>Preferred Date</span>
-            </Label>
-
+            </Label>              
             <Input
               type="date"
               className="w-full py-5"
@@ -175,3 +229,4 @@ export function RequestForm({ formData, setFormData }: any) {
     </div>
   )
 }
+

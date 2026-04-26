@@ -16,23 +16,32 @@ import { Loader2 } from "lucide-react"
 import { useAppDispatch } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { useRouter } from "next/navigation"
+import { Role } from "@/app/types/types"
+import { useLocale } from "next-intl"
 
 interface Props {
   children: React.ReactNode
+  role:Role
 }
 
-function ProfileDropdownMenu({ children }: Props) {
+function ProfileDropdownMenu({ children,role }: Props) {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const [loggingOut, setLoggingOut] = useState(false)
-
+  const roleRouteMap: Record<string, string> = {
+  user: "client",
+  tasker: "tasker",
+  admin: "admin",
+}
+  const normalizedRole = roleRouteMap[role.toLowerCase()] || role.toLowerCase()
+     const locale=useLocale()
   const handleLogout = () => {
     setLoggingOut(true)
 
     setTimeout(() => {
       dispatch(logout())
       router.push("/")
-    }, 800) 
+    }, 200) 
   }
 
   return (
@@ -57,7 +66,7 @@ function ProfileDropdownMenu({ children }: Props) {
 
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link href="/client/dashboard">Dashboard</Link>
+              <Link href={`${locale}/${normalizedRole}/dashboard`}>Dashboard</Link>
             </DropdownMenuItem>
 
             <DropdownMenuItem asChild>

@@ -1,7 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { persistReducer, persistStore } from "redux-persist"
 import storage from "redux-persist/lib/storage"
-
 import authReducer from "./slices/authSlice"
 import taskerReducer from "./slices/taskerSlice"
 import serviceReducer from "./slices/serviceSlice"
@@ -14,6 +13,14 @@ import adminPaymentsReducer from "./slices/adminPaymentsSlice"
 
 
 
+import bookingReducer from "./slices/bookingSlice"
+import paymentReducer from "./slices/paymentSlice"
+import taskCompletionReducer from "./slices/taskCompletion"
+import disputeReducer from "./slices/disputeSlice"
+import notificationReducer from "./slices/notificationSlice"
+import searchReducer from "./slices/searchSlice"
+import reviewReducer from "./slices/reviewSlice"
+import resumeReducer from "./slices/resumeSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,6 +33,15 @@ const rootReducer = combineReducers({
   adminAnalytics: adminAnalyticsReducer,
   adminPayments: adminPaymentsReducer,
   
+  
+  booking: bookingReducer,
+  payment: paymentReducer,
+  task:taskCompletionReducer,
+  dispute:disputeReducer,
+  notification:notificationReducer,
+  search:searchReducer,
+  review:reviewReducer,
+  resume:resumeReducer,
 })
 
 const persistConfig = {

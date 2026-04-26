@@ -1,36 +1,90 @@
-import { Button } from "@/components/ui/button";
-import { FileText, MessageSquare, Star } from "lucide-react";
-import Image from "next/image";
 
+import { FileText, MapPin, Calendar } from "lucide-react";
+;
 
-export default function RequestDetails() {
+type RequestDetailsProps = {
+  description: string;
+  preferedDate: string;
+  location: string;
+  title: string;
+  dyanamicData: Record<string, any>;
+};
+
+export default function RequestDetails({
+  description,
+  preferedDate,
+  location,
+  title,
+  dyanamicData,
+}: RequestDetailsProps) {
+  const date = new Date(preferedDate);
+
   return (
-    <div className="bg-whit p-s rounded-lg  space-y-4">
-      <div className="flex items-center shadow space-x-4 bg-white p-4 rounded-lg" >
+    <div className="space-y-6">
+     
+      <div className="bg-white p-6 rounded-xl shadow-sm border space-y-6">
         
-        <Image src={'/profile.png'} alt="Alex Rivera" height={36} width={36} className="size-20 border-2 border-primary aspect-square object-cover rounded-md"/>
-        <div>
-          <h3 className="font-semibold text-lg">Alex Rivera</h3>
-          <p className="text-gray-500 text-sm">Professional Plumber · 8 years experience</p>
-          <p className="text-yellow-500 font-mediu text-sm flex items-center gap-2"><Star size={15}/> 4.9 (128 reviews)</p>
+        <div className="flex items-center gap-2">
+          <FileText size={18}  />
+          <h2 className="font-semibold text-lg">Service Details</h2>
         </div>
-        <Button variant="outline" className="ml-auto"><MessageSquare size={18}/> Message</Button>
-      </div>
 
-      <div className=" bg-white p-4 rounded-lg shadow space-y-8">
-        <h1 className="font-bold text-xl flex items-center gap-2">
-            <span><FileText size={19} className="text-primary"/></span>
-            <p>Service Details </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           
-        </h1>
-        <div className=" flex gap-10">
-            <span className="text-[#D0D9E4]"> Description</span>
-            <p className="text-sm">Fixing a major leaking pipe under the kitchen sink and replacing the main shut-off valve. Water pressure needs to be re-calibrated after installation.</p>
+          <div>
+            <p className="font-medium">Title</p>
+            <p className="text-muted-foreground">{title}</p>
+          </div>
+
+          <div>
+            <p className="font-medium">Location</p>
+            <p className="text-muted-foreground flex items-center gap-1">
+              <MapPin size={14} /> {location}
+            </p>
+          </div>
+
+          <div>
+            <p className="font-medium">Scheduled Date</p>
+            <p className="text-muted-foreground flex items-center gap-1">
+              <Calendar size={14} />
+              {date?.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}{" "}
+              at{" "}
+              {date?.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+              })}
+            </p>
+          </div>
         </div>
-        <p className="flex gap-10 text-sm"><span className="font-semibold  text-[#D0D9E4]">Scheduled Date</span> October 25, 2023 at 10:00 AM</p>
-        <p className="flex gap-10 text-sm"><span className="font-semibold text-[#D0D9E4]">Location</span> 123 Maple Avenue, Springfield, IL 62704</p>
-        <div className="bg-gray-100 h-40 flex items-center justify-center rounded-md">Map Placeholder</div>
+
+        {/* 🔹 Description */}
+        <div>
+          <p className="font-medium text-sm mb-1">Description</p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {description}
+          </p>
+        </div>
+
+        {/* 🔹 Additional Details */}
+        {Object.keys(dyanamicData).length > 0 && (
+          <div className="border-t pt-4">
+            <h3 className="font-semibold mb-3">Additional Details</h3>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+              {Object.entries(dyanamicData).map(([key, value]) => (
+                <div key={key} className="flex justify-between border rounded-md p-3 bg-gray-50">
+                  <span className="font-medium">{key}</span>
+                  <span className="font-medium text-right">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
-  )
+  );
 }

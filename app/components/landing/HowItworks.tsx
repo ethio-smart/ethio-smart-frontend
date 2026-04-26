@@ -1,61 +1,92 @@
-import { MessageSquare, BadgeCheck, ShieldCheck } from "lucide-react"
+import { MessageSquare, BadgeCheck, ShieldCheck, UserCheck, Settings, CheckCircle, DollarSign } from "lucide-react"
 import HowItWorksCard from "../cards/HowItworksCard"
+import { Button } from "@/components/ui/button"
+import BecomeTaskerModal from "../modal/BecometaskerModal"
 
-
-
-const steps = [
-  {
-    title: "Describe Your Need",
-    description:
-      "Tell us what you need. We match you with verified professionals instantly.",
-    icon: MessageSquare,
-  },
-  {
-    title: "Review & Select",
-    description:
-      "Compare profiles, ratings, and pricing. Choose the right professional with confidence.",
-    icon: BadgeCheck,
-  },
-  {
-    title: "Secure Payment",
-    description:
-      "Pay safely through escrow. Funds are released only after approval.",
-    icon: ShieldCheck,
-  },
-]
+import { useTranslations } from "next-intl"
 
 
 
 function HowItWorks() {
+  const t = useTranslations()
+
+  const clientSteps = t.raw('process.client.steps')
+  const taskerSteps = t.raw('process.tasker.steps')
+
+  const clientIcons = [MessageSquare, BadgeCheck, ShieldCheck]
+  const taskerIcons = [UserCheck, Settings, MessageSquare, CheckCircle, DollarSign]
+
   return (
     <section className="py-20 bg-[#F9FAFB]" id="how-it-work">
-      <div className="max-w-6xl mx-auto px-6 text-center space-y-4">
-        <span className="inline-block bg-secondary text-primary text-sm font-medium px-4 py-1 rounded-full ">
-          The Process
+      <div className="max-w-7xl mx-auto px-6 text-center space-y-4">
+
+        <span className="inline-block bg-secondary text-primary text-sm font-medium px-4 py-1 rounded-full">
+          {t('process.badge')}
         </span>
 
         <h2 className="text-4xl font-bold mb-4">
-          How ServiceLink Works
+          {t('process.title')}
         </h2>
 
         <p className="text-gray-600 max-w-2xl mx-auto mb-16">
-          We've simplified the process of finding and hiring skilled labor.
-          Three simple steps to get your job done.
+          {t('process.description')}
         </p>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map((item,index) => (
-            <HowItWorksCard
-              key={index} 
-              title={item.title}
-              description={item.description}
-              icon={item.icon}
-            />
-          ))}
+        {/* Client */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <h3 className="w-fit bg-secondary text-primary text-2xl font-bold px-4 py-1 rounded-full">
+              {t('process.client.title')}
+            </h3>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {clientSteps.map((item: any, index: number) => (
+              <HowItWorksCard
+                key={index}
+                title={item.title}
+                description={item.description}
+                icon={clientIcons[index]}
+              />
+            ))}
+          </div>
         </div>
+
+        {/* Tasker */}
+        <div>
+          <div className="text-center mb-12">
+            <h3 className="w-fit bg-secondary text-primary text-2xl font-bold px-4 py-1 rounded-full mb-4">
+              {t('process.tasker.title')}
+            </h3>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {taskerSteps.map((item: any, index: number) => (
+              <HowItWorksCard
+                key={index}
+                title={item.title}
+                description={item.description}
+                icon={taskerIcons[index]}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="mt-20 text-center">
+          <BecomeTaskerModal>
+            <Button className="px-8 py-5 bg-primary text-white hover:bg-primary/80">
+              {t('process.cta.title')}
+            </Button>
+          </BecomeTaskerModal>
+
+          <p className="text-gray-600 mt-4 text-sm">
+            {t('process.cta.description')}
+          </p>
+        </div>
+
       </div>
     </section>
   )
 }
-
 export default HowItWorks

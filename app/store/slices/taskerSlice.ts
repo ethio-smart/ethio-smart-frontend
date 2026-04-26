@@ -1,6 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { api } from "@/app/utils/axiosinstance";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { Tasker } from "@/app/types/types"
+import { api } from "@/app/utils/axiosinstance"
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit"
+
+
+
+// export interface Tasker {
+//   taskerId: string
+//   name: string
+//   image: string | null
+//   bio: string
+//   location: string
+//   rating: number
+//   isVerified: boolean
+//   service: any
+// }
 
 interface TaskerState {
   // CREATE TASKER
@@ -12,6 +30,10 @@ interface TaskerState {
   taskersByCategory: Record<string, Tasker[]>
   fetchLoading: boolean
   fetchError: string | null
+  //
+   tasker: Tasker | null
+  singleFetchLoading: boolean
+  singleFetchError: string | null
 }
 
 /*
@@ -26,6 +48,10 @@ const initialState: TaskerState = {
   taskersByCategory: {},
   fetchLoading: false,
   fetchError: null,
+
+    tasker: null,
+  singleFetchLoading: false,
+  singleFetchError: null,
 }
 
 /*
@@ -35,23 +61,15 @@ const initialState: TaskerState = {
 export const createTasker = createAsyncThunk(
   "tasker/createTasker",
   async (formData: any, { rejectWithValue }) => {
-    console.log("form data🙄🙄🙄", formData);
     try {
-      const token = localStorage.getItem("accessToken");
-      console.log("access-token0000", token);
       const response = await api.post("/users/tasker", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      console.log("response to create tasker", response);
-      return response.data;
+       
+      })
+      return response.data
     } catch (error: any) {
-      console.log("error💥💥", error);
       return rejectWithValue(
         error.response?.data?.message || "Failed to create tasker",
-      );
+      )
     }
   },
 )
@@ -78,6 +96,25 @@ export const fetchTaskersByCategory = createAsyncThunk(
     }
   },
 )
+export const fetchTaskerById = createAsyncThunk(
+  "tasker/fetchTaskerById",
+  async (taskerId: string, { rejectWithValue }) => {
+    console.log('⭐⭐⭐')
+    try {
+      const response = await api.get(
+        `/users/taskers/${taskerId}`,
+      )
+      console.log('fetch tasker by id',response.data)
+
+      return response.data
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Failed to fetch tasker",
+      )
+    }
+  },
+)
 
 /*
    SLICE
@@ -88,30 +125,81 @@ const taskerSlice = createSlice({
   initialState,
   reducers: {
     resetTaskerState: (state) => {
-      state.loading = false;
-      state.success = false;
-      state.error = null;
+      state.loading = false
+      state.success = false
+      state.error = null
+    },
+
+    clearTaskersByCategory: (
+      state,
+      action: PayloadAction<string>,
+    ) => {
+      delete state.taskersByCategory[action.payload]
     },
   },
+
   extraReducers: (builder) => {
     builder
 
+      /*
+         CREATE TASKER
+      */
       .addCase(createTasker.pending, (state) => {
-        state.loading = true;
-        state.error = null;
+        state.loading = true
+        state.error = null
+        state.success = false
       })
-
       .addCase(createTasker.fulfilled, (state) => {
-        state.loading = false;
-        state.success = true;
+        state.loading = false
+        state.success = true
+      })
+      .addCase(createTasker.rejected, (state, action: any) => {
+        state.loading = false
+        state.error = action.payload
       })
 
-      .addCase(createTasker.rejected, (state, action: any) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
-  },
-});
+      /*
+         FETCH TASKERS
+      */
+      .addCase(fetchTaskersByCategory.pending, (state) => {
+        state.fetchLoading = true
+        state.fetchError = null
+      })
+      .addCase(
+        fetchTaskersByCategory.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          const { categoryId, data } = action.payload
 
-export const { resetTaskerState } = taskerSlice.actions;
-export default taskerSlice.reducer;
+          state.taskersByCategory[categoryId] = data
+          state.fetchLoading = false
+        },
+      )
+      .addCase(
+        fetchTaskersByCategory.rejected,
+        (state, action: any) => {
+          state.fetchLoading = false
+          state.fetchError = action.payload
+        },
+      )
+            .addCase(fetchTaskerById.pending, (state) => {
+        state.singleFetchLoading = true
+        state.singleFetchError = null
+      })
+      .addCase(fetchTaskerById.fulfilled, (state, action: PayloadAction<Tasker>) => {
+        state.singleFetchLoading = false
+        state.tasker = action.payload
+      })
+      .addCase(fetchTaskerById.rejected, (state, action: any) => {
+        state.singleFetchLoading = false
+        state.singleFetchError = action.payload
+      })
+  },
+})
+
+
+export const {
+  resetTaskerState,
+  clearTaskersByCategory,
+} = taskerSlice.actions
+
+export default taskerSlice.reducer

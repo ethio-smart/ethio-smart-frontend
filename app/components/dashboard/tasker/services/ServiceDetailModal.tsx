@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
 
 interface ServiceDetailModalProps {
   service: Service;
-    open: boolean;
+  open: boolean;
   onClose: () => void;
 
 }
@@ -21,13 +21,12 @@ export function ServiceDetailModal({ service, open, onClose }: ServiceDetailModa
   const { selectedCategory } = useAppSelector((state) => state.category);
   const dispatch = useAppDispatch();
  console.log('selectedCategory from service detail',selectedCategory)
- console.log('category id',service.categoryId
- )
+//  console.log('category id',service.categoryId)
  //fetch category
 useEffect(() => {
-  if (service.categoryId) {
+  // if (service.categoryId) {
     dispatch(fetchCategoryById(service.categoryId));
-  }
+  // }
 }, [service.categoryId, dispatch]);
 
   return (

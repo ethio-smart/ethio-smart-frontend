@@ -1,71 +1,101 @@
+
+
 "use client"
 
 import {
-Dialog,
-DialogTrigger,
-DialogContent,
-DialogHeader,
-DialogTitle,
-DialogDescription,
-DialogClose,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog"
 
 import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
+import { updateTaskCompletionStatus } from "@/app/store/slices/taskCompletion"
+import { toast } from "sonner"
+import RatetaskerModal from "./RateWorkerModal"
 
 interface Props {
-children: React.ReactNode
-onConfirm: () => void
+  children: React.ReactNode
+  id: string,
+  bookingId:string
 }
 
-export default function ConfirmCompletionModal({
-children,
-onConfirm,
-}: Props) {
-return ( <Dialog>
+export default function ConfirmCompletionModal({ children, id,bookingId }: Props) {
+  const dispatch = useAppDispatch()
+  const [openRating, setOpenRating] = useState(false)
+  const { loading, success } = useAppSelector((state) => state.task)
 
-  <DialogTrigger asChild>
-    {children}
-  </DialogTrigger>
+  const [open, setOpen] = useState(false)
 
-  <DialogContent className="max-w-md">
+  const handleConfirm = () => {
+    dispatch(
+      updateTaskCompletionStatus({
+        id,
+        status: "ACCEPTED",
+      })
+    )
+  }
 
-    <DialogHeader>
-      <DialogTitle className="flex items-center gap-2">
-        <CheckCircle className="text-green-500" size={20} />
-        Confirm Completion
-      </DialogTitle>
+  // close modal on success
+  useEffect(() => {
+    if (success.confirm) {
+       toast.success("Task confirmed successfully")
+      setOpen(false)
+        setOpenRating(true)
+    }
+    
+  }, [success.confirm])
 
-      <DialogDescription>
-        Once confirmed, the payment will be released to the tasker
-        and the service request will be marked as completed.
-        This action cannot be undone.
-      </DialogDescription>
-    </DialogHeader>
+  return (
+    <>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
 
-    <div className="flex justify-end gap-3 pt-6">
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <CheckCircle className="text-green-500" size={20} />
+            Confirm Completion
+          </DialogTitle>
 
-      <DialogClose asChild>
-        <Button variant="outline">
-          Cancel
-        </Button>
-      </DialogClose>
+          <DialogDescription>
+            Once confirmed, payment will be released to the tasker.
+            This action cannot be undone.
+          </DialogDescription>
+        </DialogHeader>
 
-      <DialogClose asChild>
-        <Button
-          onClick={onConfirm}
-          className="bg-primary text-white"
-        >
-          Confirm
-        </Button>
-      </DialogClose>
+        <div className="flex justify-end gap-3 pt-6">
+          <Button
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={loading.update.confirm}
+          >
+            Cancel
+          </Button>
 
-    </div>
+          <Button
+            onClick={handleConfirm}
+            disabled={loading.update.confirm}
+            className="bg-primary text-white"
+          >
+            {loading.update.confirm ? "Confirming..." : "Confirm"}
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
 
-  </DialogContent>
-
-</Dialog>
-
-
-)
+<RatetaskerModal
+  open={openRating}
+  bookingId={bookingId}
+  onClose={() => setOpenRating(false)}
+/>
+</>
+  )
 }

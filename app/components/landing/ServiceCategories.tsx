@@ -1,45 +1,48 @@
+
 "use client"
 
 import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import ServiceCategoryCard from "../cards/ServiceCategoryCard"
-import { BookMinus, BrushCleaning, ChevronRight } from "lucide-react"
 
 import {
   Wrench,
   Zap,
-  Sparkles,
-  Laptop,
-  Hammer,
-  Paintbrush,
-  Smartphone,
-  ChefHat,
+  BookMinus,
+  BrushCleaning,
+  Baby,
+  Scissors,
+  ChevronRight,
+  LucideIcon,
 } from "lucide-react"
-
 
 import { useAppSelector } from "@/app/hooks/hooks"
 
 
-const categoryIcons: Record<string, JSX.Element> = {
-  plumbing: <Wrench className="w-6 h-6 text-primary" />,
-  electrical: <Zap className="w-6 h-6 text-primary" />,
-  tutoring: <BookMinus className="w-6 h-6 text-primary" />,
-  cleaning: <BrushCleaning  className="w-6 h-6 text-primary" />,
-  it: <Laptop className="w-6 h-6 text-primary" />,
-  carpentry: <Hammer className="w-6 h-6 text-primary" />,
-  painting: <Paintbrush className="w-6 h-6 text-primary" />,
-  gadget: <Smartphone className="w-6 h-6 text-primary" />,
-  catering: <ChefHat className="w-6 h-6 text-primary" />,
+// Stronger normalization 
+const normalizeCategory = (name: string) =>
+  name.toLowerCase().replace(/\s+/g, "")
+
+
+//  icon map 
+const categoryIcons: Record<string, LucideIcon> = {
+  plumbing: Wrench,
+  electrical: Zap,
+  tutoring: BookMinus,
+  cleaning: BrushCleaning,
+  babysitter: Baby,
+  hairdresser: Scissors,
 }
 
+
 function ServiceCategories() {
- 
-  const { categories, loading } = useAppSelector((state) => state.category);
+  const { categories, loading } = useAppSelector((state) => state.category)
 
   return (
     <section id="categories" className="bg-secondary w-full py-20">
       <div className="max-w-7xl mx-auto px-6">
 
+        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-14">
           <div className="space-y-7">
             <h2 className="text-4xl font-bold text-gray-900">
@@ -48,7 +51,6 @@ function ServiceCategories() {
 
             <p className="text-[#343841] max-w-xl">
               Whatever the project, we have the right expert for you.
-              All professionals are vetted for quality and reliability.
             </p>
           </div>
 
@@ -61,8 +63,10 @@ function ServiceCategories() {
           </Button>
         </div>
 
+        {/* Grid */}
         <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
+          {/* Loading state */}
           {loading &&
             Array.from({ length: 4 }).map((_, i) => (
               <div
@@ -74,21 +78,22 @@ function ServiceCategories() {
               </div>
             ))}
 
+          {/* Data */}
           {!loading &&
-            categories.map((category) => (
-              <ServiceCategoryCard
-                key={category.id}
-                name={category.name}
-                categoryId={category.id}
-                icon={
-                  categoryIcons[category.name.toLowerCase()] 
-                  // || (
-                    // <Sparkles className="w-6 h-6 text-primary" />
-                  // )
-                }
-                bgColor="bg-secondary"
-              />
-            ))}
+            categories.map((category) => {
+              const key = normalizeCategory(category.name)
+              const Icon = categoryIcons[key]
+
+              return (
+                <ServiceCategoryCard
+                  key={category.id}
+                  name={category.name}
+                  categoryId={category.id}
+                  icon={Icon}
+                  bgColor="#f3f4f6"
+                />
+              )
+            })}
         </div>
       </div>
     </section>

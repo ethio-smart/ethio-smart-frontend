@@ -1,75 +1,89 @@
-"use client"
 
-import { useState } from "react"
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogClose,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
+import { Star } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
-import Image from "next/image"
-
-import { Star } from "lucide-react"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-
-interface Worker {
-  name: string
-  avgRating: number
-  profileImg: string
-}
+import { createReview } from "@/app/store/slices/reviewSlice";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { toast } from "sonner";
 
 interface Props {
-  open: boolean
-  onClose: () => void
-  worker?: Worker
+  open: boolean;
+  onClose: () => void;
+  bookingId:string
 }
 
+export default function RateTaskerModal({
+  open,
+  onClose,
+  bookingId
+}: Props) {
+  const dispatch = useAppDispatch();
+  console.log('booking id',bookingId)
+  const { loading,success } = useAppSelector(state => state.review);
 
-const dummyWorker: Worker = {
-  name: "John Doe",
-  avgRating: 4.7,
-  profileImg: "/profile.png",
-}
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+ 
 
-export default function RateWorkerModal({ open, onClose, worker }: Props) {
-  const [rating, setRating] = useState(0)
+  const reset = () => {
+    setRating(0);
+    setComment("");
+  };
 
-  const displayWorker = worker || dummyWorker
+  const handleSubmit = async () => {
+    if (!rating) return;
+
+    await dispatch(
+      createReview({
+        bookingId: bookingId, 
+        rating,
+        comment,
+      })
+    ); 
+
+   
+   
+  };
+  useEffect(() => {
+  if (success) {
+    toast.success("Tasker rated successfully");
+    onClose();
+     reset();
+  }
+}, [success,onClose]);
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog
+      open={open}
+      onOpenChange={() => {
+        onClose();
+        reset();
+      }}
+    >
       <DialogContent className="max-w-md">
-
-        {/* Worker Info */}
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full overflow-hidden border border-gray-200">
-            <Image
-              src={displayWorker.profileImg}
-              alt={displayWorker.name}
-              width={64}
-              height={64}
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <p className="font-semibold text-lg">{displayWorker.name}</p>
-            
-          </div>
-        </div>
-
         <DialogHeader>
-          <DialogTitle className="text-center">Rate the Worker</DialogTitle>
+          <DialogTitle className="text-center">
+            Rate the tasker
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
-          <Label>How was your Experience?</Label>
+          <Label>How was your experience?</Label>
 
-          {/* Rating Stars */}
+          {/* Stars */}
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
@@ -85,21 +99,36 @@ export default function RateWorkerModal({ open, onClose, worker }: Props) {
             ))}
           </div>
 
-          <Label>Write Your Review</Label>
+          {/* Comment */}
+          <Label>Write your review</Label>
           <Textarea
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
             placeholder="Share your experience (optional)"
-            className="min-h-[120px]"
+            className="min-h-30"
           />
 
           {/* Buttons */}
           <div className="flex justify-end gap-3">
             <DialogClose asChild>
-              <Button variant="outline">Skip</Button>
+              <Button
+                variant="outline"
+              
+              >
+                Skip
+              </Button>
             </DialogClose>
-            <Button className="bg-primary text-white">Submit Review</Button>
+
+            <Button
+              onClick={handleSubmit}
+              disabled={loading || !rating}
+              className="bg-primary text-white"
+            >
+              {loading ? "Submitting..." : "Submit Review"}
+            </Button>
           </div>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

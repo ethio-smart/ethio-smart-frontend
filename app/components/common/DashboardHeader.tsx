@@ -1,7 +1,5 @@
 "use client"
-
 import { Bell, Search } from "lucide-react"
-import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -55,7 +53,7 @@ export default function DashboardHeader() {
           </div>
 
           <Avatar className="cursor-pointer size-10">
-                <AvatarImage src={user.imageurl} alt={user.firstName}/>
+                <AvatarImage src={user?.imageurl} alt={user?.firstName}/>
                 <AvatarFallback className="bg-gray-200 text-gray-700 font-bold">
                   {getInitials()}
                 </AvatarFallback>

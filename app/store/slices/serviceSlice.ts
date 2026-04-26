@@ -133,6 +133,19 @@ export const deactivateService = createAsyncThunk(
     }
   }
 );
+export const activateService = createAsyncThunk(
+  'service/activateService',
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await api.patch(`/services/${id}/activate`, { active: true });
+      return id;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data?.message || 'Failed to activate service'
+      );
+    }
+  }
+);
 
 /* 
    SLICE
@@ -146,86 +159,104 @@ const serviceSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      /* FETCH SERVICES */
-      .addCase(fetchServices.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        fetchServices.fulfilled,
-        (state, action: PayloadAction<Service[]>) => {
-          state.loading = false;
-          state.services = action.payload; 
-        }
-      )
-      .addCase(fetchServices.rejected, (state, action) => {
+  builder
+    /* FETCH SERVICES */
+    .addCase(fetchServices.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(
+      fetchServices.fulfilled,
+      (state, action: PayloadAction<Service[]>) => {
         state.loading = false;
-        state.error = action.payload as string;
-      })
+        state.services = action.payload;
+      }
+    )
+    .addCase(fetchServices.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    })
 
-      /* CREATE SERVICE */
-      .addCase(createService.pending, (state) => {
-        state.creating = true;
-        state.error = null;
-      })
-      .addCase(
-        createService.fulfilled,
-        (state, action: PayloadAction<Service>) => {
-          state.creating = false;
-          state.services.unshift(action.payload);
-        }
-      )
-      .addCase(createService.rejected, (state, action) => {
+    /* CREATE SERVICE */
+    .addCase(createService.pending, (state) => {
+      state.creating = true;
+      state.error = null;
+    })
+    .addCase(
+      createService.fulfilled,
+      (state, action: PayloadAction<Service>) => {
         state.creating = false;
-        state.error = action.payload as string;
-      })
+        state.services.unshift(action.payload);
+      }
+    )
+    .addCase(createService.rejected, (state, action) => {
+      state.creating = false;
+      state.error = action.payload as string;
+    })
 
-      /* FETCH  SERVICE BY USERID */
-      .addCase(fetchServicesByTaskerId.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(
-        fetchServicesByTaskerId.fulfilled,
-        (state, action: PayloadAction<Service>) => {
-          state.loading = false;
-          state.services = action.payload; 
-        }
-      )
-      .addCase(fetchServicesByTaskerId.rejected, (state, action) => {
+    /* FETCH SERVICES BY TASKER */
+    .addCase(fetchServicesByTaskerId.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(
+      fetchServicesByTaskerId.fulfilled,
+      (state, action: PayloadAction<Service[]>) => {
         state.loading = false;
-        state.error = action.payload as string;
-      })
+        state.services = action.payload; // FIXED: must be array
+      }
+    )
+    .addCase(fetchServicesByTaskerId.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    })
 
-      /* UPDATE SERVICE */
-      .addCase(
-        updateService.fulfilled,
-        (state, action: PayloadAction<Service>) => {
-          const index = state.services.findIndex(
-            (s) => s.id === action.payload.id
-          );
+    /* UPDATE SERVICE */
+    .addCase(
+      updateService.fulfilled,
+      (state, action: PayloadAction<Service>) => {
+        const index = state.services.findIndex(
+          (s) => s.id === action.payload.id
+        );
 
-          if (index !== -1) {
-            state.services[index] = action.payload;
-          }
-
-          if (state.currentService?.id === action.payload.id) {
-            state.currentService = action.payload;
-          }
+        if (index !== -1) {
+          state.services[index] = action.payload;
         }
-      )
 
-      /* DEACTIVATE SERVICE */
-      .addCase(
-        deactivateService.fulfilled,
-        (state, action: PayloadAction<string>) => {
-          state.services = state.services.filter(
-            (s) => s.id !== action.payload
-          );
+        if (state.currentService?.id === action.payload.id) {
+          state.currentService = action.payload;
         }
-      );
-  },
+      }
+    )
+
+    /* DEACTIVATE SERVICE */
+    .addCase(
+      deactivateService.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        const service = state.services.find(
+          (s) => s.id === action.payload
+        );
+
+        if (service) {
+          service.isActive = false;
+        }
+      }
+    )
+
+    /* ACTIVATE SERVICE */
+    .addCase(
+      activateService.fulfilled,
+      (state, action: PayloadAction<string>) => {
+        const service = state.services.find(
+          (s) => s.id === action.payload
+        );
+
+        if (service) {
+          service.isActive = true;
+        }
+      }
+    );
+}
 });
 
 export const { clearServiceError } = serviceSlice.actions;

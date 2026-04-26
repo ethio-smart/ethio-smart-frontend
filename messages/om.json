@@ -1,0 +1,194 @@
+{
+  "hero": {
+    "badge": "Ogeeyyii Naannoo Mirkanaa'an • Kafaltii Amansiisaa",
+
+    "title": "Ogeeyyii dandeettii qaban Itoophiyaa keessatti argadhu",
+
+    "description": "Daqiiqaa muraasa keessatti ogeeyyii tajaajilaa ciccoo waliin wal qunnamaa. AI'n walitti madaaksuu fi eegumsa kafaltii amansiisaa waliin."
+  },
+
+  "process": {
+    "badge": "Adeemsicha",
+
+    "title": "ServiceLink Akkamitti Hojjeta?",
+
+    "description": "Adeemsicha maamiltootaa fi ogeeyyiidhaaf salphisneerra. Jalqabuuf karaa keessan filadha.",
+
+    "client": {
+      "title": "Maamiltootaaf",
+
+      "steps": [
+        {
+          "title": "Fedhii Keessan Ibsa",
+
+          "description": "Maal akka barbaaddan nutti hima. Ogeeyyii mirkanaa'an waliin hatattamaan isin wal qunnamsiisna."
+        },
+
+        {
+          "title": "Xiinxalaa fi Filadhaa",
+
+          "description": "Proofayila, sadarkaa fi gatii wal bira qabaa madaalaa. Ogeessa sirrii ta'e amanamummaan filadha."
+        },
+
+        {
+          "title": "Kafaltii Amansiisaa",
+
+          "description": "Karaa amansiisaa ta'een kafalaa. Maallaqni kan gadi lakkifamu yoo hojiin mirkanaa'e qofa."
+        }
+      ]
+    },
+
+    "tasker": {
+      "title": "Ogeeyyiidhaaf",
+
+      "steps": [
+        {
+          "title": "Ogeessa Ta'uuf Galmaa'aa",
+
+          "description": "Proofayila, dandeettii fi muuxannoo keessan galchaa. Gareen keenya galmee keessan xiinxalee mirkaneessa."
+        },
+
+        {
+          "title": "Tajaajila Keessan Gurmeessaa",
+
+          "description": "Akaakuu tajaajila keessanii uumaa, gatii dorgomaa ta'e mureessaa, fi yeroo hojiitti argamtan murteessaa."
+        },
+
+        {
+          "title": "Gaaffii Hojii Argadhaa",
+
+          "description": "Gaaffii hojii dandeettii keessan waliin deemu argadhaa. Hojiiwwan sirrii ta'an xiinxaluun fudhadhaa."
+        },
+
+        {
+          "title": "Hojicha Xumuraa",
+
+          "description": "Tajaajila qulqullina qabu haala ogummaa qabuun kennaa. Sadarkaa gaariin beekamtii keessan ijaaraa."
+        },
+
+        {
+          "title": "Kafaltii Amansiisaan Argadhaa",
+
+          "description": "Kafaltiin haala amansiisaan qabama, akkuma maamilichi hojicha mirkaneesseen hatattamaan gadi lakkifama."
+        }
+      ]
+    },
+
+    "cta": {
+      "title": "Ogeessa Ta'aa",
+
+      "description": "Maamiltoota gammadoo fi ogeeyyii milkaa'an kumaatamaan lakkaawaman waliin miseensa ta'aa."
+    }
+  },
+  "about": {
+    "badge": "Maaliif Ethio-Smart?",
+    "title": "Nageenya Itoophiyaaf Ijaarame",
+    "description": "Nuti marsariitii tarreeffamaa qofa miti. Nuti bu’uura teeknooloojii kan maatiiwwan biyyattii hundaaf qulqullinaa fi nageenya mirkaneessu dha.",
+    "missionLabel": "ERGAMA KEENYA",
+    "missionText": "Ogeessota biyya keessaa jajjabeessuu fi jireenya maamiltootaa salphisuun",
+    "features": [
+      {
+        "title": "Walqabsiisa AI’n Deeggarame",
+        "description": "Algoriizimiin keenya addaa, sadarkaa dandeettii, iddoo, fi seenaa mirkanaa’e irratti hundaa’uun ogeessa sirrii waliin si walqabsiisa."
+      },
+      {
+        "title": "Ogeessota Mirkanaa’an",
+        "description": "Ogeessi kamiyyuu ragaa eenyummaa fi madaallii dandeettii dabalatee qorannoo cimaa keessa darba."
+      },
+      {
+        "title": "Sirna Escrow Nageenya Qabu",
+        "description": "Kaffaltiin kee escrow keessatti eeggama; hojii xumuramee mirkanaa’ee booda qofa ogeessatti gad lakkifama."
+      },
+      {
+        "title": "Sirna Sadarkaa Iftaa",
+        "description": "Yaadota bal’inaan kennaman fi madaallii hojii iftoomina uumu; kunis tajaajila qulqullina olaanaa mirkaneessa."
+      }
+    ]
+  },
+  "faq": {
+    "title": "Gaaffilee Yeroo Baay’ee Gaafataman",
+    "items": [
+      {
+        "question": "Ethio-Smart ServiceLink akkamitti ogeessa sirrii na waliin walqabsiisa?",
+        "answer": "Nuti AI’n deeggaramee ibsa hojii, iddoo, baajata fi dandeettii barbaachisu qoranna. Sana booda odeeffannoo kana piroofaayilii ogeessota mirkanaa’an, seenaa hojii fi madaallii isaanii waliin walbira qabnee nama siif mijatu filanna."
+      },
+      {
+        "question": "Kaffaltiin koo nageenya qabaa?",
+        "answer": "Eeyyee. Kaffaltiin kee hanga hojii xumuramee fi mirkanaa’utti escrow keessatti eeggama. Kunis haqa fi itti gaafatamummaa maamiltootaa fi ogeessotaaf mirkaneessa."
+      },
+      {
+        "question": "Yoo tajaajila irratti hin gammadin maal godha?",
+        "answer": "Rakkoon yoo jiraate, sirreeffama gaafachuu ykn falmii banuu dandeessa. Sirni keenya dhimma sana qoratee murtii haqaa kenna; sana booda qofa kaffaltiin gad lakkifama."
+      },
+      {
+        "question": "Ogeessotni mirkanaa’anii jiru?",
+        "answer": "Eeyyee. Ogeessotni hojii fudhachuu isaanii dura ragaa eenyummaa isaanii mirkaneessu fi piroofaayiliin isaanii ni madaalama. Madaallii fi yaadonniis qulqullinaa fi amanamummaa dabalu."
+      }
+    ]
+  },
+
+  "footer": {
+    "company": {
+      "description": "Gabaa tajaajilaa guddaa Itoophiyaa"
+    },
+    "quickLinks": {
+      "title": "Links Saffisaa",
+      "about": "Waa'ee Keenya",
+      "howItWorks": "Akka Itti Hojjatu",
+      "services": "Tajaajiloota"
+    },
+    "services": {
+      "title": "Tajaajiloota",
+      "hairdresser": "Tajaajila Saffisaa Haaromsaa",
+      "plumbing": "Tajaajila Bishaanii fi Boollaa",
+      "cleaning": "Tajaajila Qulqulleessuu",
+      "babysitter": "Kunuunsa Daa’immanii",
+      "tutoring": "Tajaajila Barsiisummaa"
+    },
+    "contact": {
+      "title": "Odeeffannoo Qunnamtii",
+      "phone": "+251 911 234 567",
+      "email": "info@ethiosmart.com",
+      "address": "Bole, Finfinnee, Itoophiyaa"
+    },
+    "bottom": {
+      "companyName": "Ethio Smart",
+      "allRightsReserved": "Mirgi hundi eegameera.",
+      "privacy": "Imaammata Dhoksaa",
+      "terms": "Haala Tajaajilaa",
+      "cookies": "Imaammata Kukii"
+    }
+  },
+
+  "becomeTasker": {
+    "title": "Ogummaa kee har'a galiitti jijjiiri.",
+    "description": "Ogummaa qabdaa? Tajaajila Itoophiyaa keessatti adda duree ta’e waliin makami. Maamiltoota gatii olaanaa kaffalan argadhu, daldala kee immoo guddifadhuu.",
+    "stats": {
+      "clients": "15,000+ Maamiltoota sochii keessa jiran",
+      "payments": "Kaffaltii amanamaa"
+    },
+    "button": "Tajaajilaa ta’i",
+    "aiTitle": "AI-tti fayyadamee walitti makuu ogeessotaa",
+    "aiDescription": "Ogeessota mirkanaa’an dafanii fi hubannoo qabaachuun argi"
+  },
+  "searchBar": {
+    "placeholder": "Tajaajila maal barbaadda?",
+    "locationPlaceholder": "Bakka",
+    "button": "Barbaadi",
+    "noResults": "Bu'aan hin argamne"
+  },
+  "testimonial": {
+    "title": "Maamiltoonni Keenya Maal jedhu",
+    "subtitle": "Namoota fi ogeessota kuma hedduu hojii itti hojjetamu akkamitti akka jijjiiran keessatti hirmaatan waliin makami."
+  },
+  
+  "nav": {
+    "home": "Mana",
+    "howItWorks": "Akka Itti Hojjatu",
+    "about": "Waa'ee Keenya",
+    "categories": "Gosaalee",
+     "login": "Seeni",
+    "getStarted": "Jalqabi"
+  
+}
+}

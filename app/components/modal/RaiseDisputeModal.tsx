@@ -12,28 +12,57 @@ import {
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
-
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-
 import { Label } from "@/components/ui/label"
 
 import { AlertTriangle } from "lucide-react"
-import { LuImage } from "react-icons/lu"
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
+import { useEffect, useState } from "react"
+import { clearDisputeState, createDispute } from "@/app/store/slices/disputeSlice"
+import { toast } from "sonner"
 
-interface Props {
+
+interface RaiseDisputeModalProps {
     children: React.ReactNode
+    bookingId: string
 }
 
-export default function RaiseDisputeModal({ children }: Props) {
-    return (
-        <Dialog>
+export default function RaiseDisputeModal({ children, bookingId }: RaiseDisputeModalProps) {
+    const dispatch = useAppDispatch()
+    const { creating, success, error } = useAppSelector(state => state.dispute)
+      const [open, setOpen] = useState(false)
+    const [form, setForm] = useState({
+        bookingId,
+        reason: '',
+        description: ''
+    })
+    const handleDispute = () => {
+        if (!form.reason || !form.description) {
+      toast.error("All fields are required ")
+      return
+    }
+        dispatch(createDispute(
+            form
+        ))
+    }
+    useEffect(() => {
+    if (success) {
+      toast.success("Dispute submitted successfully ")
 
+      setOpen(false)
+
+      setForm({
+        bookingId,
+        reason: "",
+        description: "",
+      })
+
+      dispatch(clearDisputeState())
+    }
+  }, [success, dispatch, bookingId])
+    console.log('dispute error', error)
+    console.log('dispute form', form)
+    return (
+        <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 {children}
             </DialogTrigger>
@@ -48,26 +77,17 @@ export default function RaiseDisputeModal({ children }: Props) {
                 </DialogHeader>
 
                 <div className="space-y-5 mt-4">
-
-                    {/* Dispute Type */}
                     <div className="space-y-2">
-                        <Label>Issue Type</Label>
-
-                        <Select>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="Select dispute reason" />
-                            </SelectTrigger>
-
-                            <SelectContent >
-                                <SelectItem value="no-show">tasker did not show up</SelectItem>
-                                <SelectItem value="quality">Poor service quality</SelectItem>
-                                <SelectItem value="price">Incorrect pricing</SelectItem>
-                                <SelectItem value="incomplete">Work not completed</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                        </Select>
+                        <Label>Reason</Label>
+                        <Input
+                            onChange={(e) =>
+                                setForm((prev) => ({
+                                    ...prev,
+                                    reason: e.target.value,
+                                }))
+                            }
+                            placeholder="what is your reason?" />
                     </div>
-
                     {/* Description */}
                     <div className="space-y-2">
                         <Label>Describe the Issue</Label>
@@ -75,12 +95,18 @@ export default function RaiseDisputeModal({ children }: Props) {
                         <Textarea
                             placeholder="Explain what happened..."
                             className="min-h-30"
+                        onChange={(e) =>
+                            setForm((prev) => ({
+                                ...prev,
+                                description: e.target.value,
+                            }))
 
-                        />
+                        }
+                         />
                     </div>
 
                     {/* upload photo */}
-                    <div className="space-y-2">
+                    {/* <div className="space-y-2">
                         <Label className="flex items-center gap-2">
 
                             Upload Evidence
@@ -102,25 +128,9 @@ export default function RaiseDisputeModal({ children }: Props) {
                             multiple
                             className="hidden"
                         />
-                    </div>
+                    </div> */}
 
-                    {/* Resolution */}
-                    <div className="space-y-2">
-                        <Label>Preferred Resolution</Label>
 
-                        <Select>
-                            <SelectTrigger className="w-full">
-                                <SelectValue placeholder="What outcome do you want?" />
-                            </SelectTrigger>
-
-                            <SelectContent>
-                                <SelectItem value="refund">Full Refund</SelectItem>
-                                <SelectItem value="partial">Partial Refund</SelectItem>
-                                <SelectItem value="redo">Redo the Service</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                        </Select>
-                    </div>
 
                     {/* Buttons */}
                     <div className="flex justify-end gap-3 pt-4">
@@ -131,8 +141,8 @@ export default function RaiseDisputeModal({ children }: Props) {
                             </Button>
                         </DialogClose>
 
-                        <Button className="bg-primary  text-white">
-                            Submit Dispute
+                        <Button onClick={handleDispute} className={`bg-primary ${creating ? 'animate-pulse' : ''}  text-white`}>
+                            {creating ? 'Submitting' : 'Submit Dispute'}
                         </Button>
 
                     </div>

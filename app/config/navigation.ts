@@ -10,15 +10,18 @@ import {
   CalendarCheck,
   Wallet,
   Shield,
-  Users
+  Users,
+  AlarmClockCheck
 } from "lucide-react"
 
 export const navigation = {
   USER: [
     { name: "Dashboard", href: "/client/dashboard", icon: LayoutDashboard },
-    { name: "Service Requests", href: "/client/requests", icon: FileText },
+    { name: "Requests", href: "/client/requests", icon: FileText },
+      { name: "Booking", href: "/client/bookings", icon: Star },
     { name: "Payments", href: "/client/payments", icon: CreditCard },
-    { name: "Reviews", href: "/client/reviews", icon: Star },
+    { name: "Task Completion", href: "/client/task-completion", icon: AlarmClockCheck },
+    // { name: "Reviews", href: "/client/reviews", icon: Star },
     { name: "Disputes", href: "/client/disputes", icon: AlertTriangle },
     { name: "Profile", href: "/client/profile", icon: User },
   ],
@@ -29,7 +32,8 @@ export const navigation = {
     { name: "Bookings", href: "/tasker/bookings", icon: CalendarCheck },
      { name: " Requests", href: "/tasker/request", icon: FileText },
     { name: "Reviews", href: "/tasker/reviews", icon: Star },
-    { name: "Transactions", href: "/tasker/transactions", icon: Wallet },
+     { name: "Disputes", href: "/tasker/disputes", icon: AlertTriangle },
+    // { name: "Transactions", href: "/tasker/transactions", icon: Wallet },
     { name: "Profile", href: "/tasker/profile", icon: User },
   ],
 
@@ -45,7 +49,7 @@ export const navigation = {
     
   ],
 
-  SYSTEM_ADMIN: [
+  OFFICER: [
     { name: "Dashboard", href: "/system-admin/dashboard", icon: LayoutDashboard },
     { name: "Users", href: "/system-admin/users", icon: Users },
     { name: "Services", href: "/system-admin/services", icon: Briefcase },

@@ -1,42 +1,41 @@
-import { TaskerType } from "@/app/types/types"
+      
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { MapPin } from "lucide-react"
 import RatingStars from "../common/RatingStars"
+import { Tasker } from "@/app/types/types"
 
 export default function TaskerProfileHeader({
   tasker,
 }: {
-  tasker: TaskerType
+  tasker: Tasker
 }) {
   return (
     <div className="space-y-4">
 
       <div className="flex items-center gap-5">
         <Avatar className="h-24 w-24">
-          <AvatarImage src={tasker.user.image || ""} />
-          <AvatarFallback>
-            {tasker.user.name.charAt(0)}
+          <AvatarImage src={tasker.user?.imageurl || ""} />
+          <AvatarFallback className="font-bold">
+            {tasker.user?.firstName.charAt(0).toUpperCase()}
+            {tasker.user?.lastName.charAt(0).toUpperCase()}
           </AvatarFallback>
         </Avatar>
         
         <div className="space-y-2">
           <div className="flex items-center gap-3">
             <h2 className="sm:text-2xl font-bold">
-              {tasker.user.name}
+              {tasker.user?.firstName} {tasker.user?.lastName}
             </h2>
            
 
             {tasker.isVerified && (
               <Badge className="bg-green-100 text-green-700">
-                Verified Pro
+               {tasker.status}
               </Badge>
             )}
           </div>
 
-          <p className="text-muted-foreground sm:text-base font-medium uppercase">
-            {tasker.services[0]?.name}
-          </p>
 
           <div className="sm:flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-1">
@@ -58,7 +57,7 @@ export default function TaskerProfileHeader({
       {/* Trust Metrics */}
       <div className="grid grid-cols-3 gap-4 text-sm">
         <div className="bg-gray-50 p-3 rounded-lg text-center shadow-2xs border border-gray-300">
-          <p className="font-semibold">{tasker.bookings.length}+</p>
+          {/* <p className="font-semibold">{tasker.bookings.length}+</p> */}
           <p className="text-muted-foreground text-xs">Completed Jobs</p>
         </div>
 
