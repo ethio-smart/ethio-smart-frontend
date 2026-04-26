@@ -33,7 +33,7 @@ export const navigation = {
      { name: " Requests", href: "/tasker/request", icon: FileText },
     { name: "Reviews", href: "/tasker/reviews", icon: Star },
      { name: "Disputes", href: "/tasker/disputes", icon: AlertTriangle },
-    { name: "Transactions", href: "/tasker/transactions", icon: Wallet },
+    // { name: "Transactions", href: "/tasker/transactions", icon: Wallet },
     { name: "Profile", href: "/tasker/profile", icon: User },
   ],
 
