@@ -7,7 +7,6 @@ import { fetchAdminUsers } from '@/app/store/slices/adminUsersSlice';
 import UserManagementHeader from '@/app/components/dashboard/admin/user/UserManagementHeader';
 import UserFiltersBar, {
   type RoleFilter,
-  type VerificationFilter,
 } from '@/app/components/dashboard/admin/user/UserFiltersBar';
 import UserTable from '@/app/components/dashboard/admin/user/UserTable';
 import UserDetailsDialog from '@/app/components/dashboard/admin/user/UserDetailsDialog';
@@ -21,8 +20,6 @@ export default function UserManagementPage() {
   const [users, setUsers] = useState<UserManagementUser[]>([]);
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState<RoleFilter>('All');
-  const [verificationFilter, setVerificationFilter] =
-    useState<VerificationFilter>('All');
   const [selectedUser, setSelectedUser] = useState<{
     user: UserManagementUser;
     index: number;
@@ -43,37 +40,9 @@ export default function UserManagementPage() {
         user.email.toLowerCase().includes(search.toLowerCase()) ||
         (user.phone ?? '').toLowerCase().includes(search.toLowerCase());
       const matchRole = roleFilter === 'All' || user.role === roleFilter;
-      const matchVerification =
-        verificationFilter === 'All' || user.verificationStatus === verificationFilter;
-      return matchSearch && matchRole && matchVerification;
+      return matchSearch && matchRole;
     });
-  }, [users, search, roleFilter, verificationFilter]);
-
-  const toggleVerify = (id: string) => {
-    setUsers((prev) =>
-      prev.map((user) =>
-        user.id === id
-          ? {
-              ...user,
-              verified: !user.verified,
-              verificationStatus: user.verified ? 'Unverified' : 'Verified',
-            }
-          : user
-      )
-    );
-
-    setSelectedUser((prev) => {
-      if (!prev || prev.user.id !== id) return prev;
-      return {
-        ...prev,
-        user: {
-          ...prev.user,
-          verified: !prev.user.verified,
-          verificationStatus: prev.user.verified ? 'Unverified' : 'Verified',
-        },
-      };
-    });
-  };
+  }, [users, search, roleFilter]);
 
   return (
     <div className="space-y-4">
@@ -93,8 +62,6 @@ export default function UserManagementPage() {
         onSearchChange={setSearch}
         roleFilter={roleFilter}
         onRoleFilterChange={setRoleFilter}
-        verificationFilter={verificationFilter}
-        onVerificationFilterChange={setVerificationFilter}
       />
 
       {loading ? (
@@ -106,7 +73,6 @@ export default function UserManagementPage() {
           users={filteredUsers}
           allUsers={users}
           onView={(user, index) => setSelectedUser({ user, index })}
-          onToggleVerify={toggleVerify}
         />
       )}
 
@@ -114,11 +80,6 @@ export default function UserManagementPage() {
         user={selectedUser?.user ?? null}
         index={selectedUser?.index ?? 0}
         onClose={() => setSelectedUser(null)}
-        onToggleVerify={() => {
-          if (selectedUser) {
-            toggleVerify(selectedUser.user.id);
-          }
-        }}
       />
     </div>
   );
