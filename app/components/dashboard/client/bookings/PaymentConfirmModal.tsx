@@ -38,9 +38,11 @@ export default function PaymentConfirmModal({
       
       if (createPayment.fulfilled.match(result)) {
         const checkoutUrl = result.payload.data.checkout_url
+
         
         if (checkoutUrl) {
       window.open(checkoutUrl, "_blank")
+      setIsOpen(false)
     }
       }
     } catch (error) {
