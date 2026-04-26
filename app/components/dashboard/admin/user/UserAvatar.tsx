@@ -1,7 +1,7 @@
 "use client";
 
+import { avatarColors } from "@/app/[locale]/(dashboard)/admin/user-management/data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { avatarColors } from "@/app/(dashboard)/admin/user-management/data";
 
 export default function UserAvatar({
   initials,

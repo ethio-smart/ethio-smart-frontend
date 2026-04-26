@@ -1,10 +1,11 @@
 "use client";
 
 import { Badge } from "@/components/ui/badge";
-import { roleStyles, verificationStyles } from "@/app/(dashboard)/admin/user-management/data";
-import type { UserRole, VerificationStatus } from "@/app/types/types";
 
-export function RoleBadge({ role }: { role: UserRole }) {
+import type { Role, VerificationStatus } from "@/app/types/types";
+import { roleStyles, verificationStyles } from "@/app/[locale]/(dashboard)/admin/user-management/data";
+
+export function RoleBadge({ role }: { role: Role }) {
   return (
     <Badge
       variant="outline"
