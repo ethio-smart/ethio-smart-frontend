@@ -1,6 +1,6 @@
 
 
-import StatsOverview from "@/app/components/dashboard/client/dashboard/StatsOverview";
+import StatsOverview from "@/app/components/dashboard/client/dashboard/page";
 export default function ClientDashboard() {
   return (
     <div className="space-y-6">
