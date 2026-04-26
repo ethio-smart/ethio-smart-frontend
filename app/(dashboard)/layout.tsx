@@ -27,7 +27,7 @@ export default function DashboardLayout({
   if (!role) return null
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-background text-foreground">
 
       <Sidebar role={role} />
 
@@ -37,7 +37,7 @@ export default function DashboardLayout({
           <DashboardHeader />
         </div>
 
-        <main className="flex-1 overflow-y-auto p-6 bg-[#FAFAFA]">
+        <main className="flex-1 overflow-y-auto bg-muted/30 p-6">
           {children}
         </main>
 
