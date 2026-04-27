@@ -21,6 +21,7 @@ const statusConfig: Record<BookingStatus, {label: string;color: string;bg: strin
   CONFIRMED: { label: 'Confirmed', color: 'text-blue-700', bg: 'bg-blue-50', icon: 'CheckIcon' },
   IN_PROGRESS: { label: 'In Progress', color: 'text-emerald-700', bg: 'bg-emerald-50', icon: 'PlayIcon' },
   COMPLETED: { label: 'Completed', color: 'text-gray-600', bg: 'bg-gray-100', icon: 'CheckCircleIcon' },
+  PAYED_OUT: { label: 'Payed Out', color: 'text-emerald-700', bg: 'bg-emerald-50', icon: 'CheckCircleIcon' },
   CANCELLED: { label: 'Cancelled', color: 'text-red-600', bg: 'bg-red-50', icon: 'XCircleIcon' },
   DISPUTED: { label: 'Disputed', color: 'text-red-600', bg: 'bg-red-50', icon: 'XCircleIcon' }
 };
@@ -88,6 +89,7 @@ export default function BookingPipeline() {
             <SelectItem value="CONFIRMED">Confirmed</SelectItem>
             <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
             <SelectItem value="COMPLETED">Completed</SelectItem>
+            <SelectItem value="PAYED_OUT">Payed Out</SelectItem>
             <SelectItem value="CANCELLED">Cancelled</SelectItem>
             <SelectItem value="DISPUTED">Disputed</SelectItem>
           </SelectContent>

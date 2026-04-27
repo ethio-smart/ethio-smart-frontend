@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { Calendar, Clock, DollarSign, MapPin, TriangleAlert } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { bookingStatusStyles } from "@/app/lib/constants/booking";
@@ -14,6 +16,8 @@ import {
 import type { Booking } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useAppDispatch } from "@/app/hooks/hooks";
+import { payoutAdminBooking } from "@/app/store/slices/bookingSlice";
 
 export default function BookingDetailsDialog({
   open,
@@ -28,8 +32,10 @@ export default function BookingDetailsDialog({
   referralDisputeId?: string | null;
   onClose: () => void;
 }) {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const locale = useLocale();
+  const [isPayouting, setIsPayouting] = useState(false);
 
   const formatDate = (value?: string) => {
     if (!value) return "-";
@@ -66,6 +72,20 @@ export default function BookingDetailsDialog({
 
     onClose();
     router.push(`/${locale}/admin/disputes${query}`);
+  };
+
+  const handlePayout = async () => {
+    if (!booking) return;
+
+    try {
+      setIsPayouting(true);
+      await dispatch(payoutAdminBooking(booking.id)).unwrap();
+      toast.success("Booking paid out successfully");
+    } catch (error) {
+      toast.error(typeof error === "string" ? error : "Failed to payout booking");
+    } finally {
+      setIsPayouting(false);
+    }
   };
 
   return (
@@ -170,6 +190,12 @@ export default function BookingDetailsDialog({
             {booking.status === "IN_PROGRESS" && (
               <Button variant="destructive" className="w-full">
                 Cancel Booking
+              </Button>
+            )}
+
+            {booking.status === "COMPLETED" && (
+              <Button className="w-full" onClick={handlePayout} disabled={isPayouting}>
+                {isPayouting ? "Processing payout..." : "Payout Tasker"}
               </Button>
             )}
           </div>

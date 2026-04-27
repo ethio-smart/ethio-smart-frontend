@@ -11,6 +11,7 @@ const statusLabelMap: Record<Booking["status"], string> = {
   CONFIRMED: "Confirmed",
   IN_PROGRESS: "In Progress",
   COMPLETED: "Completed",
+  PAYED_OUT: "Payed Out",
   CANCELLED: "Cancelled",
   DISPUTED: "Disputed",
 };
@@ -30,6 +31,7 @@ export default function BookingStatusFilters({
     "CONFIRMED",
     "IN_PROGRESS",
     "COMPLETED",
+    "PAYED_OUT",
     "CANCELLED",
     "DISPUTED",
   ];
