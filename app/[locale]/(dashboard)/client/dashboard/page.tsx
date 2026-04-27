@@ -1,4 +1,4 @@
-
+'use client'
 
 import StatsOverview from "@/app/components/dashboard/client/dashboard/page";
 export default function ClientDashboard() {

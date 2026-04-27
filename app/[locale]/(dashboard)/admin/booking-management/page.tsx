@@ -3,12 +3,12 @@
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
-import type { Booking } from '@/app/(dashboard)/admin/booking-management/data';
-import { mockBookings } from '@/app/(dashboard)/admin/booking-management/data';
+
 import BookingStatusFilters from '@/app/components/dashboard/admin/booking/BookingStatusFilters';
 import BookingFiltersBar, { type SortBy } from '@/app/components/dashboard/admin/booking/BookingFiltersBar';
 import BookingTable from '@/app/components/dashboard/admin/booking/BookingTable';
 import BookingDetailsDialog from '@/app/components/dashboard/admin/booking/BookingDetailsDialog';
+import { Booking, mockBookings } from './data';
 
 export default function BookingManagementPage() {
   const [search, setSearch] = useState('');

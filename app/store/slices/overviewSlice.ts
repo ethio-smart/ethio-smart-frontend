@@ -10,14 +10,24 @@ export interface TaskerOverview {
   totalRequests: number
 }
 
+export interface ClientOverview {
+  totalRequests: number
+  activeServices: number
+  completedServices: number
+  pendingResponses: number
+  totalInvested: number
+}
+
 interface OverviewState {
-  overview: TaskerOverview | null
+  taskerOverview: TaskerOverview | null
+  clientOverview: ClientOverview | null
   loading: boolean
   error: string | null
 }
 
 const initialState: OverviewState = {
-  overview: null,
+  taskerOverview: null,
+  clientOverview: null,
   loading: false,
   error: null,
 }
@@ -40,12 +50,30 @@ export const fetchTaskerOverview = createAsyncThunk(
   }
 )
 
+// Async thunk for fetching client overview
+export const fetchClientOverview = createAsyncThunk(
+  'overview/fetchClientOverview',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.get('/users/overview')
+      
+      return response.data as ClientOverview
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message)
+      }
+      return rejectWithValue('Failed to fetch client overview')
+    }
+  }
+)
+
 const overviewSlice = createSlice({
   name: 'overview',
   initialState,
   reducers: {
     clearOverview: (state) => {
-      state.overview = null
+      state.taskerOverview = null
+      state.clientOverview = null
       state.error = null
     },
     clearError: (state) => {
@@ -62,14 +90,31 @@ const overviewSlice = createSlice({
       // Handle fetchTaskerOverview fulfilled state
       .addCase(fetchTaskerOverview.fulfilled, (state, action: PayloadAction<TaskerOverview>) => {
         state.loading = false
-        state.overview = action.payload
+        state.taskerOverview = action.payload
         state.error = null
       })
       // Handle fetchTaskerOverview rejected state
       .addCase(fetchTaskerOverview.rejected, (state, action) => {
         state.loading = false
         state.error = action.payload as string
-        state.overview = null
+        state.taskerOverview = null
+      })
+      // Handle fetchClientOverview pending state
+      .addCase(fetchClientOverview.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      // Handle fetchClientOverview fulfilled state
+      .addCase(fetchClientOverview.fulfilled, (state, action: PayloadAction<ClientOverview>) => {
+        state.loading = false
+        state.clientOverview = action.payload
+        state.error = null
+      })
+      // Handle fetchClientOverview rejected state
+      .addCase(fetchClientOverview.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload as string
+        state.clientOverview = null
       })
   },
 })
@@ -77,7 +122,8 @@ const overviewSlice = createSlice({
 export const { clearOverview, clearError } = overviewSlice.actions
 
 // Selectors
-export const selectTaskerOverview = (state: RootState) => state.overview.overview
+export const selectTaskerOverview = (state: RootState) => state.overview.taskerOverview
+export const selectClientOverview = (state: RootState) => state.overview.clientOverview
 export const selectOverviewLoading = (state: RootState) => state.overview.loading
 export const selectOverviewError = (state: RootState) => state.overview.error
 

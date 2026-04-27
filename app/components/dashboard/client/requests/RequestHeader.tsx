@@ -94,6 +94,7 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
           </ConfirmCompletionModal>
           {/* Rating modal opens  */}
           <RatetaskerModal
+            
             open={rateOpen}
             onClose={() => setRateOpen(false)}
           />

@@ -21,15 +21,9 @@ import Link from "next/link"
 import { Invitation, RequestStatus } from "@/app/types/types"
 
 import StatusBadge from "../../client/requests/StatusBage"
-
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
-
 import { acceptRequest, cancelRequest } from "@/app/store/slices/requestSlice"
-
 import { toast } from "sonner"
-
-
-
 
 
 type IncomingRequestCardProps = {
@@ -38,15 +32,12 @@ type IncomingRequestCardProps = {
 
 }
 
-
-
 export default function IncomingRequestCard({ invitation, }: IncomingRequestCardProps) {
 
   const request = invitation.serviceRequest
 
   const { incomingInvitations, loading } = useAppSelector(state => state.request)
 
-  // console.log('incoming invite from incoming request card ', incomingInvitations)
   console.log('incoming invite from incoming request card ', request)
 
   const date = request.preferedDate
@@ -56,7 +47,6 @@ export default function IncomingRequestCard({ invitation, }: IncomingRequestCard
     : null
 
   const dispatch = useAppDispatch()
-
 
 
   // accept request
@@ -223,9 +213,6 @@ export default function IncomingRequestCard({ invitation, }: IncomingRequestCard
                   {/* Accept */}
 
                 </Button>
-
-
-
                 <Button
 
                   size="lg"
@@ -250,7 +237,15 @@ export default function IncomingRequestCard({ invitation, }: IncomingRequestCard
 
             }
 
-            <Link href={`/en/client/requests/${request.id}`}>
+            {/* <Link href={`/en/client/requests/${request.id}`}> */}
+            <Link
+              href={{
+                pathname: `/en/client/requests/${request.id}`,
+                query: {
+                  invitation: JSON.stringify(invitation),
+                },
+              }}
+            >
 
               <Button
 

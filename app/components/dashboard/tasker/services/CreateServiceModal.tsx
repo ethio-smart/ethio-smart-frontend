@@ -167,10 +167,12 @@ export function CreateServiceModal({
               </SelectTrigger>
 
               <SelectContent>
+                
                 {categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
                     {category.name}
                   </SelectItem>
+                
                 ))}
               </SelectContent>
             </Select>

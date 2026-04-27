@@ -28,6 +28,7 @@ export default function OutgoingRequestCard({
   invitation: Invitation
 }) {
   console.log('invitation ------',invitation)
+  console.log('invitation ------',invitation.TaskerRequestInvitation)
   const date = invitation?.preferedDate
     ? new Date(invitation.preferedDate)
     : null

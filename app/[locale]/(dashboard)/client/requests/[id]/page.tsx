@@ -16,8 +16,9 @@ export default function ServiceRequestDetail() {
   const requestParam = searchParams.get("invitation")
   const invitation = requestParam ? JSON.parse(requestParam) : null
   const locale=useLocale()
-  
+  console.log('first')
   console.log('invitation in request detail page',invitation)
+  console.log('invitation in request detail page',invitation.TaskerRequestInvitation)
   return (
     <>
      <Link
@@ -28,21 +29,21 @@ export default function ServiceRequestDetail() {
         Back
       </Link>
     <div className="py-4">
-        <RequestHeader status={invitation?.status} invitation={invitation.invitations} />
+        <RequestHeader status={invitation?.status} invitation={invitation.TaskerRequestInvitation} />
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <RequestDetails 
-          description={invitation?.description}
-          preferedDate={invitation?.preferedDate}
-          location={invitation?.location}
-          title={invitation?.tittle}
-          dyanamicData={invitation?.dynamicData}
+          description={invitation.serviceRequest?.description}
+          preferedDate={invitation.serviceRequest?.preferedDate}
+          location={invitation.serviceRequest?.location}
+          title={invitation.serviceRequest?.tittle}
+          dyanamicData={invitation.serviceRequest?.dynamicData}
         />
-        <ServiceRequestProgress/>
+        {/* <ServiceRequestProgress/> */}
       </div>
 
       <div className="space-y-6">
-        <PaymentSummary/>
+        {/* <PaymentSummary/> */}
         {/* <RecentActivity /> */}
         <ActionButtons status={invitation?.status} />
       </div>
