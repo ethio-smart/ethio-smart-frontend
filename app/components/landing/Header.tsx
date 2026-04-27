@@ -81,7 +81,7 @@ const unreadCount = notifications.filter(
       {/* Logo */}
       <Link href={`/${currentLocale}`}>
         <Image
-          src="/seralink-removebg-preview.png"
+          src="/seralink-logo-removebg-preview.png"
           alt="logo"
           width={120}
           height={40}
