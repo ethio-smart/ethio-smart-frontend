@@ -36,7 +36,7 @@ export default function ServiceRequestDetail() {
           description={invitation?.description}
           preferedDate={invitation.preferedDate}
           location={invitation.location}
-          title={invitation.title}
+          title={invitation.tittle}
           dynamicData={invitation.dynamicData}
         />
         {/* <ServiceRequestProgress/> */}
