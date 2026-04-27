@@ -6,15 +6,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useAppSelector } from "@/app/hooks/hooks"
 import { RootState } from "@/app/store/store"
 import ProfileDropdownMenu from "@/app/components/common/ProfileDropdownMenu"
-import ThemeToggle from "@/app/components/common/ThemeToggle"
+
 
 
 export default function DashboardHeader() {
 
     const user = useAppSelector((state: RootState) => state.auth.user)
-    const isAdmin = user?.role === "SUPER_ADMIN" || user?.role === "SYSTEM_ADMIN"
-  // console.log('user from header',user)
-//flallback profile name incase image is null
+   
   const getInitials = () => {
     if (!user) return ""
     const first = user.firstName?.[0] || ""
@@ -23,7 +21,7 @@ export default function DashboardHeader() {
   }
   return (
     <header className="flex h-16 items-center justify-between border-b bg-card px-6">
-
+      
       {/* Search */}
       <div className="relative w-105">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
