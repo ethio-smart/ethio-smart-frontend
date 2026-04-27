@@ -47,7 +47,7 @@ export default function OutgoingRequestCard({
   }
   // Pending taskers 
   const pendingTaskers =
-    invitation.invitations
+    invitation.TaskerRequestInvitation
       ?.filter((inv) => inv.status === "PENDING")
       .map((inv) => inv.tasker?.user)
       .filter(Boolean) || []
@@ -58,12 +58,12 @@ export default function OutgoingRequestCard({
 
   // Accepted tasker 
   const acceptedTasker =
-    invitation.invitations?.find((inv) => inv.status === "ACCEPTED")
+    invitation.TaskerRequestInvitation?.find((inv) => inv.status === "ACCEPTED")
       ?.tasker?.user
 
   // Rejected taskers 
   const rejectedTaskers =
-    invitation.invitations
+    invitation.TaskerRequestInvitation
       ?.filter((inv) => inv.status === "REJECTED")
       .map((inv) => inv.tasker?.user)
       .filter(Boolean) || []
