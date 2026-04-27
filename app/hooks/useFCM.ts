@@ -14,6 +14,7 @@ const useFCM = () => {
     if (typeof window === "undefined") return;
 
     const msg = messaging();
+    if (!msg) return;
 
     const unsubscribe = onMessage(msg, (payload: MessagePayload) => {
       console.log("🔥 Foreground message received:", payload);

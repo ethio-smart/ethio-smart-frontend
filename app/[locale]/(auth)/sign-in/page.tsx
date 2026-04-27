@@ -97,8 +97,10 @@ function SignIn() {
         router.push("/")
       } else if (user.role === "TASKER") {
         router.push(`/${locale}/tasker/dashboard`)
-      } else if (user.role === "SUPER_ADMIN" || user.role === "SYSTEM_ADMIN") {
+      } else if (user.role === "SUPER_ADMIN") {
         router.push(`/${locale}/admin/dashboard`)
+      } else if (user.role === "SYSTEM_ADMIN") {
+        router.push(`/${locale}/admin/tasker-admin`)
       } else {
         router.push("/")
       }

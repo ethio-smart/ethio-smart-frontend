@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import type { BackendDisputeStatus, Dispute, DisputeResolutionBody } from '@/app/types/types';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
 import {
+  fetchAdminDisputeById,
   fetchAdminDisputes,
   resolveAdminDispute,
 } from '@/app/store/slices/adminDisputesSlice';
@@ -40,6 +42,9 @@ const getStatusLabel = (status?: BackendDisputeStatus) => (status ?? 'OPEN').toU
 
 export default function DisputeResolutionClient() {
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const disputeIdParam = searchParams.get('disputeId');
+  const bookingIdParam = searchParams.get('bookingId');
   const { disputes, loadingList, actionLoading, error } = useAppSelector(
     (state) => state.adminDisputes,
   ) as {
@@ -57,6 +62,33 @@ export default function DisputeResolutionClient() {
   useEffect(() => {
     dispatch(fetchAdminDisputes());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (loadingList) return;
+
+    if (disputeIdParam) {
+      const existing = disputes.find((dispute) => dispute.id === disputeIdParam);
+      if (existing) {
+        setSelectedDispute(existing);
+        return;
+      }
+
+      dispatch(fetchAdminDisputeById(disputeIdParam))
+        .unwrap()
+        .then((dispute) => {
+          if (dispute) setSelectedDispute(dispute as Dispute);
+        })
+        .catch(() => {
+          // no-op: error state is handled by slice
+        });
+      return;
+    }
+
+    if (bookingIdParam) {
+      const match = disputes.find((dispute) => dispute.bookingId === bookingIdParam);
+      if (match) setSelectedDispute(match);
+    }
+  }, [bookingIdParam, dispatch, disputeIdParam, disputes, loadingList]);
 
   const filtered = useMemo(() => {
     return disputes.filter((dispute) => {

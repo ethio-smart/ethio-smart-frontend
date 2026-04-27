@@ -51,13 +51,13 @@ export const navigation = {
     
   ],
 
-  OFFICER: [
-    { name: "Dashboard", href: "/system-admin/dashboard", icon: LayoutDashboard },
-    { name: "Users", href: "/system-admin/users", icon: Users },
-    { name: "Services", href: "/system-admin/services", icon: Briefcase },
-    { name: "Disputes", href: "/system-admin/disputes", icon: AlertTriangle },
-    { name: "Transactions", href: "/system-admin/transactions", icon: Wallet },
-    { name: "Reviews", href: "/system-admin/reviews", icon: Star },
-    { name: "Settings", href: "/system-admin/settings", icon: Shield },
+  SYSTEM_ADMIN: [
+    // { name: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+    { name: "Taskers", href: "/admin/tasker-admin", icon: Users },
+    { name: "Pending Taskers", href: "/admin/pending-taskers", icon: Shield },
+    { name: "Disputes", href: "/admin/disputes", icon: AlertTriangle },
+    { name: "Bookings", href: "/admin/booking-management", icon: CalendarCheck },
   ],
+
+ 
 }

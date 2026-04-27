@@ -10,7 +10,7 @@ const testimonials = [
     name: "Helen Mersha",
     role: "Property Manager",
     location: "Addis Ababa",
-    image: "/profile.png",
+    image: "/teacher%20profile%20picture.jpg",
   },
   {
     rating: 4,
@@ -19,7 +19,7 @@ const testimonials = [
     name: "Tewodros Kassahun",
     role: "Startup Founder",
     location: "Adama",
-    image: "/profile.png",
+    image: "/men%20worker%20profile.jpg",
   },
   {
     rating: 5,
@@ -28,7 +28,7 @@ const testimonials = [
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
-    image: "/profile.png",
+    image: "/woman%20tutor.jpg",
   },
   {
     rating: 2,
@@ -37,7 +37,7 @@ const testimonials = [
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
-    image: "/profile.png",
+    image: "/profile%20picture.jpg",
   },
   {
     rating: 5,
@@ -46,14 +46,14 @@ const testimonials = [
     name: "Saba Girmay",
     role: "Homeowner",
     location: "Bahir Dar",
-    image: "/profile.png",
+    image: "/women%20worker%20for%20profile.jpg",
   },
 ]
 
 function Testimonial() {
   const t=useTranslations("testimonial")
   return (
-    <section className="bg-secondary py-20">
+    <section className="bg-[linear-gradient(180deg,#f5fbf9_0%,#eaf5f1_100%)] py-20">
       <div className="max-w-7xl mx-auto px-6 space-y-10">
         {/* texts */}
         <div className="text-center  max-w-2xl mx-auto">
@@ -69,9 +69,9 @@ function Testimonial() {
 
         {/* Cards */}
          
-        <div className="flex gap-8 overflow-x-auto scroll-smooth w-full scrollbar-hide  snap-x snap-mandatory max-w-6xl ">
+        <div className="flex w-full max-w-6xl snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth scrollbar-hide md:gap-8">
           {testimonials.map((item, index) => (
-             <div className="w-full snap-start" key={index}>
+             <div className="w-full min-w-70 snap-start md:min-w-90" key={index}>
             <TestimonialCard key={index} {...item} />
             </div>
           ))}

@@ -34,23 +34,24 @@ function ProfileDropdownMenu({ children }: Props) {
   const [loggingOut, setLoggingOut] = useState(false)
 const locale=useLocale()
   const resolveDashboardPath = (role?: Role) => {
-    if (role === "TASKER") return `${locale}/tasker/dashboard`
-    if (role === "SUPER_ADMIN"  ) return `${locale}/admin/dashboard`
-    if (role === "USER"  ) return `${locale}/client/dashboard`
-    return `${locale}/client/dashboard` // fallback
+    if (role === "TASKER") return `/tasker/dashboard`
+    if (role === "SUPER_ADMIN" ) return `/admin/dashboard`
+     if (role ===   "SYSTEM_ADMIN") return `/admin/tasker-admin`
+    if (role === "USER"  ) return `/client/dashboard`
+    return `/client/dashboard` // fallback
   }
 
   const resolveProfilePath = (role?: Role) => {
-    if (role === "TASKER") return  `${locale}/tasker/profile`
-    if (role === "SUPER_ADMIN" ) return  `${locale}/admin/profile`
-    return `${locale}/client/profile`
+    if (role === "TASKER") return  `/tasker/profile`
+    if (role === "SUPER_ADMIN" || role === "SYSTEM_ADMIN") return  `/admin/profile`
+    return `/client/profile`
   }
 
-  const resolveSettingsPath = (role?: Role) => {
-    if (role === "TASKER") return `${locale}/tasker/profile`
-    if (role === "SUPER_ADMIN" || role === "SYSTEM_ADMIN") return `${locale}/admin/settings`
-    return `${locale}/client/settings`
-  }
+  // const resolveSettingsPath = (role?: Role) => {
+  //   if (role === "TASKER") return `${locale}/tasker/profile`
+  //   if (role === "SUPER_ADMIN" || role === "SYSTEM_ADMIN" || role === "OFFICER") return `${locale}/admin/settings`
+  //   return `${locale}/client/settings`
+  // }
 
   const handleLogout = () => {
     setLoggingOut(true)
@@ -100,12 +101,12 @@ const locale=useLocale()
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem asChild>
+            {/* <DropdownMenuItem asChild>
               <Link href={resolveSettingsPath(user?.role)}>
                 <Settings />
                 Settings
               </Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuGroup>
 
           <DropdownMenuSeparator />
