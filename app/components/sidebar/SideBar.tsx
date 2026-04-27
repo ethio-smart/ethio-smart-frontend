@@ -4,6 +4,7 @@ import { useAppDispatch } from "@/app/hooks/hooks"
 import { logout } from "@/app/store/slices/authSlice"
 import { Role } from "@/app/types/types"
 import { Loader2 } from "lucide-react"
+import Image from "next/image"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
@@ -52,9 +53,15 @@ export default function Sidebar({ role }: SidebarProps) {
 
       {/* Logo */}
       <div className="h-16 flex items-center px-6 border-b">
-        <Link href={`/${currentLocale}`} className="text-lg font-semibold text-primary">
-          Ethio Smart
-        </Link>
+        <Link href={`/${currentLocale}`}>
+        <Image
+          src="/seralink-logo-removebg-preview.png"
+          alt="logo"
+          width={120}
+          height={40}
+          className="h-14 w-auto"
+        />
+      </Link>
       </div>
 
       {/* Navigation */}
