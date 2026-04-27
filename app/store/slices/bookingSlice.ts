@@ -23,7 +23,7 @@ const initialState: BookingState = {
     fetchTasker: false,
   },
   error: null,
-  succss:false
+  success:false
 };
 
 // Fetch client bookings
