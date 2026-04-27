@@ -1,9 +1,9 @@
 'use client'
 import ActionButtons from "@/app/components/dashboard/client/requests/ActionButtons"
-import PaymentSummary from "@/app/components/dashboard/client/requests/PaymentSummary"
+
 import RequestDetails from "@/app/components/dashboard/client/requests/RequestDetail"
 import RequestHeader from "@/app/components/dashboard/client/requests/RequestHeader"
-import ServiceRequestProgress from "@/app/components/dashboard/client/requests/ServiceRequestProgress"
+
 import { ArrowLeft } from "lucide-react"
 import { useLocale } from "next-intl"
 import Link from "next/link"
@@ -16,9 +16,9 @@ export default function ServiceRequestDetail() {
   const requestParam = searchParams.get("invitation")
   const invitation = requestParam ? JSON.parse(requestParam) : null
   const locale=useLocale()
-  console.log('first')
-  console.log('invitation in request detail page',invitation)
-  console.log('invitation in request detail page',invitation.TaskerRequestInvitation)
+
+  console.log('invitation in request detail page✨✨✨',invitation)
+  console.log('invitation in request detail page✅✅✅✅',invitation.TaskerRequestInvitation)
   return (
     <>
      <Link
@@ -33,11 +33,11 @@ export default function ServiceRequestDetail() {
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <RequestDetails 
-          description={invitation.serviceRequest?.description}
-          preferedDate={invitation.serviceRequest?.preferedDate}
-          location={invitation.serviceRequest?.location}
-          title={invitation.serviceRequest?.tittle}
-          dyanamicData={invitation.serviceRequest?.dynamicData}
+          description={invitation?.description}
+          preferedDate={invitation.preferedDate}
+          location={invitation.location}
+          title={invitation.title}
+          dynamicData={invitation.dynamicData}
         />
         {/* <ServiceRequestProgress/> */}
       </div>
