@@ -24,6 +24,7 @@ import notificationReducer from "./slices/notificationSlice"
 import searchReducer from "./slices/searchSlice"
 import reviewReducer from "./slices/reviewSlice"
 import resumeReducer from "./slices/resumeSlice"
+import overviewReducer from "./slices/overviewSlice"
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   search:searchReducer,
   review:reviewReducer,
   resume:resumeReducer,
+  overview: overviewReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
