@@ -32,6 +32,7 @@ const initialState: BookingState = {
   },
   error: null,
   success: false,
+  success:false
 };
 
 // Fetch client bookings

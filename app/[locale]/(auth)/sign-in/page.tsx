@@ -118,9 +118,15 @@ function SignIn() {
     <div className="min-h-screen w-full flex items-center justify-center bg-muted">
       <Link
         href="/"
-        className="absolute top-6 left-6 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+        className={`absolute top-6 left-6 inline-flex items-center gap-2 text-sm transition-colors ${
+          loading 
+            ? "text-muted-foreground/50 cursor-not-allowed" 
+            : "text-muted-foreground hover:text-primary"
+        }`}
+        aria-disabled={loading}
+        tabIndex={loading ? -1 : undefined}
       >
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className={`h-4 w-4 ${loading ? "opacity-50" : ""}`} />
         Back
       </Link>
 

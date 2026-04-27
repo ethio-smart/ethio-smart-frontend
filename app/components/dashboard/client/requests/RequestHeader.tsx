@@ -77,7 +77,7 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
         {/* buttons  */}
         <div className="space-x-2 flex items-center">
           {/* Reschedule button */}
-          <RescheduleRequestDialog>
+          <RescheduleRequestDialog >
             <Button
               size="lg"
               variant="outline"
@@ -94,6 +94,7 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
           </ConfirmCompletionModal>
           {/* Rating modal opens  */}
           <RatetaskerModal
+            
             open={rateOpen}
             onClose={() => setRateOpen(false)}
           />

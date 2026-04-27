@@ -90,7 +90,7 @@ export default function TaskerMatchCard({ result }: { result: Result }) {
             <div className="flex items-center gap-2">
 
               <DollarSign size={16} />
-              {result.price}birr
+              {result.price}ETB
               {/* &nbsp; */}
               <span className="font-bold text-primary">
 

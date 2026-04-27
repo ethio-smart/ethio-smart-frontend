@@ -21,9 +21,9 @@ export default function StatsCard({
 
         <h3 className="text-2xl font-semibold">{value}</h3>
 
-        {description && (
+        {/* {description && (
           <p className="text-xs text-gray-400">{description}</p>
-        )}
+        )} */}
       </div>
 
       <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">

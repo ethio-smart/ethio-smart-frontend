@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import type { Booking } from '@/app/types/types';
+
+
 import BookingStatusFilters from '@/app/components/dashboard/admin/booking/BookingStatusFilters';
 import BookingFiltersBar, { type SortBy } from '@/app/components/dashboard/admin/booking/BookingFiltersBar';
 import BookingTable from '@/app/components/dashboard/admin/booking/BookingTable';
@@ -14,6 +16,7 @@ import {
   fetchAdminBookingById,
   fetchAdminBookings,
 } from '@/app/store/slices/bookingSlice';
+import { Booking, mockBookings } from './data';
 
 export default function BookingManagementPage() {
   const dispatch = useAppDispatch();

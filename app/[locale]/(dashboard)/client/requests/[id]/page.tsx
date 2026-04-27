@@ -1,9 +1,9 @@
 'use client'
 import ActionButtons from "@/app/components/dashboard/client/requests/ActionButtons"
-import PaymentSummary from "@/app/components/dashboard/client/requests/PaymentSummary"
+
 import RequestDetails from "@/app/components/dashboard/client/requests/RequestDetail"
 import RequestHeader from "@/app/components/dashboard/client/requests/RequestHeader"
-import ServiceRequestProgress from "@/app/components/dashboard/client/requests/ServiceRequestProgress"
+
 import { ArrowLeft } from "lucide-react"
 import { useLocale } from "next-intl"
 import Link from "next/link"
@@ -16,7 +16,9 @@ export default function ServiceRequestDetail() {
   const requestParam = searchParams.get("invitation")
   const invitation = requestParam ? JSON.parse(requestParam) : null
   const locale=useLocale()
-  console.log('invitation in request detail page',invitation)
+
+  console.log('invitation in request detail page✨✨✨',invitation)
+  console.log('invitation in request detail page✅✅✅✅',invitation.TaskerRequestInvitation)
   return (
     <>
      <Link
@@ -32,16 +34,16 @@ export default function ServiceRequestDetail() {
       <div className="lg:col-span-2 space-y-6">
         <RequestDetails 
           description={invitation?.description}
-          preferedDate={invitation?.preferedDate}
-          location={invitation?.location}
-          title={invitation?.tittle}
-          dyanamicData={invitation?.dynamicData}
+          preferedDate={invitation.preferedDate}
+          location={invitation.location}
+          title={invitation.title}
+          dynamicData={invitation.dynamicData}
         />
-        <ServiceRequestProgress/>
+        {/* <ServiceRequestProgress/> */}
       </div>
 
       <div className="space-y-6">
-        <PaymentSummary/>
+        {/* <PaymentSummary/> */}
         {/* <RecentActivity /> */}
         <ActionButtons status={invitation?.status} />
       </div>
