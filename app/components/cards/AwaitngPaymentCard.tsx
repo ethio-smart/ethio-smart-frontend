@@ -8,6 +8,8 @@ import { Star, MapPin, Clock, DollarSign } from "lucide-react"
 import { Booking } from "@/app/types/types"
 import PaymentConfirmModal from "../dashboard/client/bookings/PaymentConfirmModal"
 import RescheduleRequestDialog from "../dashboard/client/requests/RescheduleRequestDialog"
+import PaymentDetailsModal from "./PaymentDetailsModal"
+import { useState } from "react"
 
 interface AwaitngPaymentCardProps {
   booking: Booking
@@ -16,6 +18,8 @@ interface AwaitngPaymentCardProps {
 }
 
 export default function AwaitngPaymentCard({ booking, onViewDetails }: AwaitngPaymentCardProps) {
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
+  
   console.log('awaiting booking', booking)
   // Extract tasker name 
 
@@ -35,130 +39,147 @@ export default function AwaitngPaymentCard({ booking, onViewDetails }: AwaitngPa
     })
   }
 
+  const handleViewDetails = () => {
+    setIsDetailsModalOpen(true)
+    // Also call the original onViewDetails if provided
+    if (onViewDetails) {
+      onViewDetails(booking.id)
+    }
+  }
+
   return (
-    <Card className="shadow-none hover:shadow-md transition-shadow">
-      <CardContent className="">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center gap-3">
-            {/*  Tasker Avatar and Name */}
-            <Avatar className="h-12 w-12">
-              <AvatarImage
-                src={booking.tasker.user?.imageurl || ''}
-                alt={taskerName}
-              />
-              <AvatarFallback className="bg-primary/10 text-primary">
-                {taskerInitials}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="font-semibold text-lg">{taskerName}</h3>
-              <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                <span>{booking.tasker.rating}</span>
-                <span className="text-xs">({booking.tasker.totalReviews} reviews)</span>
+    <>
+      <Card className="shadow-none hover:shadow-md transition-shadow">
+        <CardContent className="">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-3">
+              {/*  Tasker Avatar and Name */}
+              <Avatar className="h-12 w-12">
+                <AvatarImage
+                  src={booking.tasker.user?.imageurl || ''}
+                  alt={taskerName}
+                />
+                <AvatarFallback className="bg-primary/10 text-primary">
+                  {taskerInitials}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h3 className="font-semibold text-lg">{taskerName}</h3>
+                <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                  <span>{booking.tasker.rating}</span>
+                  <span className="text-xs">({booking.tasker.totalReviews} reviews)</span>
+                </div>
               </div>
             </div>
+            {/*  Status Badge */}
+            <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200">
+              {booking.status}
+            </Badge>
           </div>
-          {/*  Status Badge */}
-          <Badge variant="secondary" className="bg-orange-100 text-orange-800 border-orange-200">
-            {booking.status}
-          </Badge>
-        </div>
-        {/*  Booking Details */}
-        {/* location */}
-        <div className="space-y-3 mb-4">
-          <div className="flex items-center gap-2 text-sm">
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">{booking.serviceRequest.location}</span>
+          {/*  Booking Details */}
+          {/* location */}
+          <div className="space-y-3 mb-4">
+            <div className="flex items-center gap-2 text-sm">
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">{booking.serviceRequest.location}</span>
+            </div>
+            {/* time and date */}
+            <div className="flex items-center gap-2 text-sm">
+              <Clock className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">
+                {booking.serviceRequest.preferedDate
+                  ? formatDate(booking.serviceRequest.preferedDate)
+                  : ''
+                }
+              </span>
+            </div>
+            {/* budget */}
+            <div className="flex items-center gap-2 text-sm">
+              <DollarSign className="w-4 h-4 text-muted-foreground" />
+              <span className="font-medium text-primary">
+                {booking.serviceRequest.budget?.toLocaleString()}
+              </span>
+            </div>
           </div>
-          {/* time and date */}
-          <div className="flex items-center gap-2 text-sm">
-            <Clock className="w-4 h-4 text-muted-foreground" />
-            <span className="text-muted-foreground">
-              {booking.serviceRequest.preferedDate
-                ? formatDate(booking.serviceRequest.preferedDate)
-                : ''
-              }
-            </span>
+          {/* description */}
+          <div className="mb-4">
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {booking.serviceRequest.description}
+            </p>
           </div>
-          {/* budget */}
-          <div className="flex items-center gap-2 text-sm">
-            <DollarSign className="w-4 h-4 text-muted-foreground" />
-            <span className="font-medium text-primary">
-              {booking.serviceRequest.budget?.toLocaleString()}
-            </span>
-          </div>
-        </div>
-        {/* description */}
-        <div className="mb-4">
-          <p className="text-sm text-muted-foreground line-clamp-2">
-            {booking.serviceRequest.description}
-          </p>
-        </div>
 
 
-        {/* Actions */}
-        <div className="flex gap-2 mt-2">
-          {booking.status === "AWAITING_PAYMENT" && (
-            <>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onViewDetails?.(booking.id)}
-                className="flex-1 py-5"
-              >
-                Details
-              </Button>
-
-              <PaymentConfirmModal
-                bookingId={booking.id}
-                amount={booking.serviceRequest?.budget || 0}
-              >
+          {/* Actions */}
+          <div className="flex gap-2 mt-2">
+            {booking.status === "AWAITING_PAYMENT" && (
+              <>
                 <Button
+                  variant="outline"
                   size="sm"
-                  className="flex-1 py-5 bg-primary text-primary-foreground hover:bg-primary/90"
+                  onClick={handleViewDetails}
+                  className="flex-1 py-5"
                 >
-                  Pay Now
+                  Details
                 </Button>
-              </PaymentConfirmModal>
-            </>
-          )}
 
-          {booking.status === "CONFIRMED" && (
-            <>
+                <PaymentConfirmModal
+                  bookingId={booking.id}
+                  amount={booking.serviceRequest?.budget || 0}
+                >
+                  <Button
+                    size="sm"
+                    className="flex-1 py-5 bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    Pay Now
+                  </Button>
+                </PaymentConfirmModal>
+              </>
+            )}
+
+            {booking.status === "CONFIRMED" && (
+              <>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleViewDetails}
+                  className="flex-1 py-5"
+                >
+                  View Details
+                </Button>
+                <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate || ''} bookingId={booking.id}>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="flex-1 py-5 border-primary text-primary"
+                  >
+                    <Clock className="w-4 h-4 mr-2" />
+                    Reschedule
+                  </Button>
+                </RescheduleRequestDialog>
+              </>
+            )}
+
+            {booking.status === "COMPLETED" && (
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => onViewDetails?.(booking.id)}
-                className="flex-1 py-5"
+                onClick={handleViewDetails}
+                className="w-full py-5"
               >
                 View Details
               </Button>
-              <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate} bookingId={booking.id}>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="flex-1 py-5 border-primary text-primary"
-                >
-                  <Clock className="w-4 h-4 mr-2" />
-                  Reschedule
-                </Button>
-              </RescheduleRequestDialog>
-            </>
-          )}
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
-          {booking.status === "COMPLETED" && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onViewDetails?.(booking.id)}
-              className="w-full py-5"
-            >
-              View Details
-            </Button>
-          )}
-        </div>
-      </CardContent>
-    </Card>
+      {/* Payment Details Modal */}
+      <PaymentDetailsModal
+        isOpen={isDetailsModalOpen}
+        onClose={() => setIsDetailsModalOpen(false)}
+        booking={booking}
+      />
+    </>
   )
 }
