@@ -40,7 +40,7 @@ export const fetchClientBookings = createAsyncThunk(
   "booking/fetchClientBookings",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await api.get("/bookings/me");
+      const response = await api.get("/bookings/user/me");
       console.log("client booking", response);
       return response.data;
     } catch (err: any) {
