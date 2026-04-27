@@ -1,6 +1,5 @@
-
 "use client";
-import { Search, MapPin, Mic } from "lucide-react";
+import { Search, MapPin, Mic, Loader2 } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,19 +17,21 @@ export default function SearchBar() {
   const { categories, selectedCategory } = useAppSelector(
     (state) => state.category
   );
-  const {loading,error,results } = useAppSelector(
+  const { loading, error, results } = useAppSelector(
     (state) => state.search
   );
-  console.log('result',results)
+  console.log('result', results)
 
   const [search, setSearch] = useState("");
   const [location, setLocation] = useState("");
   const [locationOpen, setLocationOpen] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const locale = useLocale();
   const dispatch = useAppDispatch();
   const t = useTranslations("searchBar");
-  const router=useRouter()
+  const router = useRouter()
 
   const {
     transcript,
@@ -110,6 +111,30 @@ export default function SearchBar() {
     router.push(`/${locale}/search?query=${encodeURIComponent(search)}`)
   };
 
+  // handle search input change with typing indicator
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    setIsTyping(true);
+    
+    // Clear typing indicator after user stops typing
+    const timeoutId = setTimeout(() => {
+      setIsTyping(false);
+    }, 500);
+    
+    return () => clearTimeout(timeoutId);
+  };
+
+  // handle search input focus
+  const handleSearchFocus = () => {
+    setIsFocused(true);
+    // Clear focus indicator after a short delay
+    const timeoutId = setTimeout(() => {
+      setIsFocused(false);
+    }, 1000);
+    
+    return () => clearTimeout(timeoutId);
+  };
+
   // filter locations
   const filteredLocations = useMemo(
     () =>
@@ -118,6 +143,9 @@ export default function SearchBar() {
       ),
     [location]
   );
+
+  // Determine if we should show loading state
+  const showLoading = loading || isTyping || isFocused;
 
   return (
     <section className="w-full px-4">
@@ -131,17 +159,22 @@ export default function SearchBar() {
 
           {/* SEARCH INPUT */}
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            {showLoading ? (
+              <Loader2 className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-primary animate-spin" />
+            ) : (
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            )}
 
             <Input
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={handleSearchChange}
+              onFocus={handleSearchFocus}
               placeholder={t("placeholder")}
-              className="pl-10 pr-20 border-0 shadow-none focus-visible:ring-0 py-5 sm:py-7"
+              className={`pl-10 pr-20 border-0 shadow-none focus-visible:ring-0 py-5 sm:py-7 ${showLoading ? 'text-muted-foreground' : ''}`}
             />
 
             {/* RESET ICON */}
-            {search && (
+            {search && !loading && (
               <button
                 type="button"
                 onClick={handleReset}
@@ -218,8 +251,16 @@ export default function SearchBar() {
           <Button
             type="submit"
             className="w-full sm:w-auto px-8 py-5 sm:py-7 rounded-none sm:rounded-r-lg"
+            disabled={loading}
           >
-            {t("button")}
+            {loading ? (
+              <>
+                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                {t("button")}
+              </>
+            ) : (
+              t("button")
+            )}
           </Button>
         </div>
       </form>
