@@ -16,6 +16,7 @@ export default function ServiceRequestDetail() {
   const requestParam = searchParams.get("invitation")
   const invitation = requestParam ? JSON.parse(requestParam) : null
   const locale=useLocale()
+  
   console.log('invitation in request detail page',invitation)
   return (
     <>
@@ -27,7 +28,7 @@ export default function ServiceRequestDetail() {
         Back
       </Link>
     <div className="py-4">
-        <RequestHeader status={invitation?.status} invitation={invitation.TaskerRequestInvitation} />
+        <RequestHeader status={invitation?.status} invitation={invitation.invitations} />
     <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-2 space-y-6">
         <RequestDetails 
