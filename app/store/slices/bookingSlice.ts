@@ -97,6 +97,20 @@ export const fetchAdminBookingById = createAsyncThunk(
     }
   },
 );
+
+export const payoutAdminBooking = createAsyncThunk(
+  "booking/payoutAdminBooking",
+  async (bookingId: string, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`/bookings/${bookingId}/payout`);
+      return res.data?.data ?? res.data;
+    } catch (err: any) {
+      return rejectWithValue(
+        err.response?.data || err.message || "Failed to payout booking",
+      );
+    }
+  },
+);
 // reschedule booking
 export const rescheduleBooking = createAsyncThunk(
   "booking/rescheduleBooking",
@@ -142,6 +156,19 @@ const bookingSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    const replaceBookingInLists = (state: BookingState, updatedBooking: Booking) => {
+      (["bookings", "adminBookings"] as const).forEach((key) => {
+        const index = state[key].findIndex((b) => b.id === updatedBooking.id);
+        if (index !== -1) {
+          state[key][index] = updatedBooking;
+        }
+      });
+
+      if (state.selectedAdminBooking?.id === updatedBooking.id) {
+        state.selectedAdminBooking = updatedBooking;
+      }
+    };
+
     // Fetch client bookings
     builder
       .addCase(fetchClientBookings.pending, (state) => {
@@ -214,18 +241,20 @@ const bookingSlice = createSlice({
         rescheduleBooking.fulfilled,
         (state, action: PayloadAction<Booking>) => {
           state.success=true
-          const updatedBooking = action.payload;
-
-          const index = state.bookings.findIndex(
-            (b) => b.id === updatedBooking.id,
-          );
-
-          if (index !== -1) {
-            state.bookings[index] = updatedBooking;
-          }
+          replaceBookingInLists(state, action.payload);
         },
       )
       .addCase(rescheduleBooking.rejected, (state, action) => {
+        state.error = action.payload as string;
+      })
+      .addCase(payoutAdminBooking.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(payoutAdminBooking.fulfilled, (state, action: PayloadAction<Booking>) => {
+        state.success = true;
+        replaceBookingInLists(state, action.payload);
+      })
+      .addCase(payoutAdminBooking.rejected, (state, action) => {
         state.error = action.payload as string;
       });
   },
