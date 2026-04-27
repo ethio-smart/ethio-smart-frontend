@@ -28,13 +28,13 @@ export default function Footer() {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <Image
-                src="/seralink-removebg-preview.png"
+                src="/seralink-logo-removebg-preview.png"
                 alt="Ethio Smart Logo"
                 width={40}
                 height={40}
                 className="h-10 w-auto"
               />
-              <span className="text-xl font-bold">Ethio Smart</span>
+              {/* <span className="text-xl font-bold">Ethio Smart</span> */}
             </div>
             
             <p className="text-white text-sm">
