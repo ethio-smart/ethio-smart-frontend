@@ -9,28 +9,41 @@ import { Notification } from "@/app/types/types"
 
 export default function NotificationCard({
   notification,
+  onClick,
 }: {
   notification: Notification
+  onClick?: (notification: Notification) => void
 }) {
+  const normalizedType = String(notification.type ?? "").trim().toUpperCase()
   const config =
-    notificationUIConfig[notification.type as keyof typeof notificationUIConfig]
+    notificationUIConfig[normalizedType as keyof typeof notificationUIConfig]
 
   const Icon = config?.icon
   // console.log('mmm',config)
 
   return (
     <div
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={() => onClick?.(notification)}
+      onKeyDown={(event) => {
+        if (!onClick) return
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault()
+          onClick(notification)
+        }
+      }}
       className={`flex items-start gap-4 p-4 rounded-xl border transition ${
-        !notification.isRead ? config.bg : "opacity-70"
+        !notification.isRead ? (config?.bg ?? "bg-muted") : "opacity-70"
       }`}
     >
       {/* icon */}
       <div
         className={`flex h-10 w-10 items-center justify-center rounded-lg ${
-          !notification.isRead ? config.bg : "bg-muted"
+          !notification.isRead ? (config?.bg ?? "bg-muted") : "bg-muted"
         }`}
       >
-        {Icon && <Icon className={`h-5 w-5 ${config.color}`} />}
+        {Icon && <Icon className={`h-5 w-5 ${config?.color ?? "text-muted-foreground"}`} />}
       </div>
 
       {/* content */}
