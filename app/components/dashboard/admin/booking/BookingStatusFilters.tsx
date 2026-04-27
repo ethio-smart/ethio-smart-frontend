@@ -2,10 +2,18 @@
 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import type { BookingStatus } from "@/app/(dashboard)/admin/booking-management/data";
-import { statusMeta } from "@/app/(dashboard)/admin/booking-management/data";
+import type { Booking } from "@/app/types/types";
 
-type StatusKey = "all" | BookingStatus;
+type StatusKey = "all" | Booking["status"];
+
+const statusLabelMap: Record<Booking["status"], string> = {
+  AWAITING_PAYMENT: "Awaiting Payment",
+  CONFIRMED: "Confirmed",
+  IN_PROGRESS: "In Progress",
+  COMPLETED: "Completed",
+  CANCELLED: "Cancelled",
+  DISPUTED: "Disputed",
+};
 
 export default function BookingStatusFilters({
   value,
@@ -18,18 +26,19 @@ export default function BookingStatusFilters({
 }) {
   const allStatuses: StatusKey[] = [
     "all",
-    "pending",
-    "active",
-    "completed",
-    "cancelled",
-    "disputed",
+    "AWAITING_PAYMENT",
+    "CONFIRMED",
+    "IN_PROGRESS",
+    "COMPLETED",
+    "CANCELLED",
+    "DISPUTED",
   ];
 
   return (
     <div className="flex flex-wrap gap-2">
       {allStatuses.map((s) => {
         const active = value === s;
-        const label = s === "all" ? "All" : statusMeta[s].label;
+        const label = s === "all" ? "All" : statusLabelMap[s];
         const count = counts[s] ?? 0;
 
         return (

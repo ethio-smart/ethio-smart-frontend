@@ -17,6 +17,8 @@ import {
 import Avatar from "./Avatar";
 import StatusBadge from "./StatusBadge";
 import type { Dispute } from "@/app/types/types";
+import { useRouter } from "next/navigation";
+import { useLocale } from "next-intl";
 
 const formatCurrency = (value?: number | null) =>
   value == null ? "—" : `$${Number(value).toLocaleString()}`;
@@ -47,12 +49,23 @@ export default function DetailModal({
   onClose: () => void;
   onResolve: (d: Dispute) => void;
 }) {
+  const router = useRouter();
+  const locale = useLocale();
+
   const raisedBy = dispute
     ? dispute.User_Dispute_raisedByIdToUser ?? dispute.booking?.user
     : null;
   const againstUser = dispute
     ? dispute.User_Dispute_againstUserIdToUser ?? dispute.booking?.tasker?.user
     : null;
+
+  const handleOpenBooking = () => {
+    if (!dispute?.bookingId) return;
+    onClose();
+    router.push(
+      `/${locale}/admin/booking-management?bookingId=${encodeURIComponent(dispute.bookingId)}&disputeId=${encodeURIComponent(dispute.id)}`,
+    );
+  };
 
   return (
     <Dialog open={!!dispute} onOpenChange={(v) => !v && onClose()}>
@@ -191,6 +204,15 @@ export default function DetailModal({
             <div className="flex flex-col gap-2 sm:flex-row">
               <Button type="button" variant="outline" className="flex-1 rounded-2xl" onClick={onClose}>
                 Close
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="flex-1 rounded-2xl"
+                onClick={handleOpenBooking}
+                disabled={!dispute.bookingId}
+              >
+                View Related Booking
               </Button>
               {!isResolvedDispute(dispute) ? (
                 <Button type="button" className="flex-1 rounded-2xl bg-primary text-primary-foreground hover:bg-primary/90" onClick={() => onResolve(dispute)}>
