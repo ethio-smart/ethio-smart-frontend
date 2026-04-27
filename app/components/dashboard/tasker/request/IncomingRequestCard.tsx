@@ -39,6 +39,7 @@ export default function IncomingRequestCard({ invitation, }: IncomingRequestCard
   const { incomingInvitations, loading } = useAppSelector(state => state.request)
 
   console.log('incoming invite from incoming request card ', request)
+  console.log('incoming invitation',invitation)
 
   const date = request.preferedDate
 
