@@ -168,7 +168,14 @@ export default function ServiceRequestFromModal({
       toast.success('invitation sent to tasker successfully')
     }
      setOpen(false)
-
+   setFormData({
+      // reset your original structure here
+        dynamicData: {},
+     
+        categoryId: categoryId || "",
+      location: "",
+      preferedDate: "",
+    })
   } catch (error) {
     console.error("Process failed:", error)
   } finally {
