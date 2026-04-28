@@ -56,14 +56,14 @@ export default function TaskerProfileHeader({
 
       {/* Trust Metrics */}
       <div className="grid grid-cols-3 gap-4 text-sm">
-        <div className="bg-gray-50 p-3 rounded-lg text-center shadow-2xs border border-gray-300">
+        {/* <div className="bg-gray-50 p-3 rounded-lg text-center shadow-2xs border border-gray-300"> */}
           {/* <p className="font-semibold">{tasker.bookings.length}+</p> */}
-          <p className="text-muted-foreground text-xs">Completed Jobs</p>
-        </div>
+          {/* <p className="text-muted-foreground text-xs">Completed Jobs</p>
+        </div> */}
 
         <div className="bg-gray-50 p-3 rounded-lg text-center shadow-2xs border border-gray-30">
           <p className="font-semibold">
-            12 Year&apos;s
+            2 Year&apos;s
             {/* {tasker.totalEarnings.toLocaleString()} ETB */}
           </p>
           <p className="text-muted-foreground text-xs">Exprience</p>
