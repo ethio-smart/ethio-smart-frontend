@@ -19,13 +19,13 @@ export default function TaskerProfilePage() {
   const [tasker, setTasker] = useState();
   //
 const STATS = [
-  {
-    label: 'Total Jobs Completed',
-    value: 47,
-    icon:   CircleCheckBig,
-    color: 'text-blue-600',
-    bg: 'bg-blue-100',
-  },
+  // {
+  //   label: 'Total Jobs Completed',
+  //   value: 47,
+  //   icon:   CircleCheckBig,
+  //   color: 'text-blue-600',
+  //   bg: 'bg-blue-100',
+  // },
   {
     label: 'Total Earnings',
     value: user?.tasker?.totalEarnings,
