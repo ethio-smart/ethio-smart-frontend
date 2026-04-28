@@ -11,11 +11,12 @@ export interface TaskerOverview {
 }
 
 export interface ClientOverview {
-  totalRequests: number
-  activeServices: number
-  completedServices: number
-  pendingResponses: number
-  totalInvested: number
+  totals: {
+    activeBookings: number
+    earnings: number
+    totalBookings: number
+    totalRequests: number
+  }
 }
 
 interface OverviewState {
