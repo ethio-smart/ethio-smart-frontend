@@ -4,6 +4,8 @@ import { Tasker } from "@/app/types/types"
 import { CheckCircle, SendHorizontal } from "lucide-react"
 import Link from "next/link"
 import { useLocale } from "next-intl"
+import ServiceRequestFromModal from "../modal/ServiceRequestFromModal"
+import { categoryFields } from "@/app/utils/constant"
 
 
 export default function SidebarCard({
@@ -31,11 +33,16 @@ export default function SidebarCard({
           </div>
         </div>
 
-        <Button className="w-full py-5">
+        {/* <Button className="w-full py-5">
           <SendHorizontal />
           Send Request
-        </Button>
+        </Button> */}
+<ServiceRequestFromModal categoryId="" taskerId={tasker.id} fields={categoryFields}>
 
+              <Button className="flex-1" >
+                Send Request
+              </Button>
+            </ServiceRequestFromModal>
 
 
         <Link
@@ -47,9 +54,11 @@ export default function SidebarCard({
           }}
         >
           {/* <FileText color="black"/> */}
+          <Link href={`/${locale}/resume`}>
           <Button variant="outline" className="w-full py-5">
             View Resume
           </Button>
+          </Link>
         </Link>
 
         <p className="text-xs text-muted-foreground text-center leading-relaxed">
