@@ -175,13 +175,13 @@ export default function OutgoingRequestCard({
             {invitation.status === "PENDING" && (
               <>
                 <EditRequestDialog request={invitation}>
-                  <Button
+                  {/* <Button
                     size="lg"
                     variant="outline"
                     className="border text-black px-10 hover:bg-primary hover:text-white"
                   >
                     <Edit /> Edit
-                  </Button>
+                  </Button> */}
                 </EditRequestDialog>
 
                 <CancelRequestDialog onConfirm={handleCancelRequest(invitation.id)}>

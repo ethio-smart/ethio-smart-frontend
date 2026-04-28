@@ -19,13 +19,13 @@ export default function TaskerProfilePage() {
   const [tasker, setTasker] = useState();
   //
 const STATS = [
-  {
-    label: 'Total Jobs Completed',
-    value: 47,
-    icon:   CircleCheckBig,
-    color: 'text-blue-600',
-    bg: 'bg-blue-100',
-  },
+  // {
+  //   label: 'Total Jobs Completed',
+  //   value: 47,
+  //   icon:   CircleCheckBig,
+  //   color: 'text-blue-600',
+  //   bg: 'bg-blue-100',
+  // },
   {
     label: 'Total Earnings',
     value: user?.tasker?.totalEarnings,
@@ -75,10 +75,10 @@ const locale=useLocale()
        <Link
           target="_blank"
           rel="noopener noreferrer"
-          href={
-             `/${locale}/resume/tasker`
-           
-          }
+          href={{
+            pathname: `/${locale}/resume/tasker`,
+            query: { taskerId: user?.tasker?.id },
+          }}
         >
           {/* <FileText color="black"/> */}
           <Button variant="outline" className="w-full py-5">

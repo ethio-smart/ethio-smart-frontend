@@ -200,6 +200,9 @@ export default function BookingDetailsDialog({
             {booking.status === "CANCELLED" && (
               <Button className="w-full" onClick={handlePayout} disabled={isPayouting || isPayouted}>
                 {isPayouting || isPayouted ? "Processing payout..." : "Payout Tasker"}
+            {booking.status === "COMPLETED" && (
+              <Button className="w-full" onClick={handlePayout} disabled={isPayouting}>
+                {isPayouting ? "Processing payout..." : "Payout Tasker"}
               </Button>
             )}
           </div>
