@@ -37,28 +37,28 @@ export default function SidebarCard({
           <SendHorizontal />
           Send Request
         </Button> */}
-<ServiceRequestFromModal categoryId="" taskerId={tasker.id} fields={categoryFields}>
+        <ServiceRequestFromModal categoryId="default" taskerId={tasker.id} fields={categoryFields}>
 
-              <Button className="flex-1" >
-                Send Request
-              </Button>
-            </ServiceRequestFromModal>
+          <Button className="w-full" >
+            Send Request
+          </Button>
+        </ServiceRequestFromModal>
 
 
         <Link
           target="_blank"
           rel="noopener noreferrer"
           href={{
-            pathname: `/${locale}/resume`,
+            pathname: `/${locale}/resume/tasker`,
             query: { taskerId: tasker.id },
           }}
         >
           {/* <FileText color="black"/> */}
-          <Link href={`/${locale}/resume`}>
-          <Button variant="outline" className="w-full py-5">
-            View Resume
-          </Button>
-          </Link>
+        
+            <Button variant="outline" className="w-full py-5">
+              View Resume
+            </Button>
+      
         </Link>
 
         <p className="text-xs text-muted-foreground text-center leading-relaxed">
