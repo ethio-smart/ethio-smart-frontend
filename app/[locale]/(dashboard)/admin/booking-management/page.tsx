@@ -16,7 +16,7 @@ import {
   fetchAdminBookingById,
   fetchAdminBookings,
 } from '@/app/store/slices/bookingSlice';
-import { Booking, mockBookings } from './data';
+//import { Booking, mockBookings } from './data';
 
 export default function BookingManagementPage() {
   const dispatch = useAppDispatch();
@@ -96,6 +96,7 @@ export default function BookingManagementPage() {
       CONFIRMED: 0,
       IN_PROGRESS: 0,
       COMPLETED: 0,
+      PAYED_OUT: 0,
       CANCELLED: 0,
       DISPUTED: 0,
     };

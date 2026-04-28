@@ -447,6 +447,7 @@ export type BookingStatus =
   | "CONFIRMED"
   | "IN_PROGRESS"
   | "COMPLETED"
+  | "PAYED_OUT"
   | "CANCELLED"
   | "DISPUTED";
 

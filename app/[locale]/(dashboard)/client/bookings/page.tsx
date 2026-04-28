@@ -41,6 +41,7 @@ export default function ClientBookingsPage() {
     { value: 'CONFIRMED' as BookingStatus, label: 'Confirmed', count: getBookingsByStatus('CONFIRMED').length },
     { value: 'IN_PROGRESS' as BookingStatus, label: 'In Progress', count: getBookingsByStatus('IN_PROGRESS').length },
     { value: 'COMPLETED' as BookingStatus, label: 'Completed', count: getBookingsByStatus('COMPLETED').length },
+    { value: 'PAYED_OUT' as BookingStatus, label: 'Payed Out', count: getBookingsByStatus('PAYED_OUT').length },
     { value: 'CANCELLED' as BookingStatus, label: 'Cancelled', count: getBookingsByStatus('CANCELLED').length },
     { value: 'DISPUTED' as BookingStatus, label: 'Disputed', count: getBookingsByStatus('DISPUTED').length },
   ]
@@ -88,7 +89,7 @@ export default function ClientBookingsPage() {
         </div>
       ) : (
         <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as BookingStatus)}>
-          <TabsList className="grid w-full grid-cols-6">
+          <TabsList className="grid w-full grid-cols-7">
             {tabData.map((tab) => (
               <TabsTrigger 
                 key={tab.value} 
@@ -116,6 +117,7 @@ export default function ClientBookingsPage() {
                       {tab.value === 'CONFIRMED' && 'Confirmed bookings will appear here.'}
                       {tab.value === 'IN_PROGRESS' && 'Bookings currently in progress will appear here.'}
                       {tab.value === 'COMPLETED' && 'Completed bookings will appear here.'}
+                      {tab.value === 'PAYED_OUT' && 'Paid out bookings will appear here.'}
                       {tab.value === 'CANCELLED' && 'Cancelled bookings will appear here.'}
                       {tab.value === 'DISPUTED' && 'Disputed bookings will appear here.'}
                     </p>
