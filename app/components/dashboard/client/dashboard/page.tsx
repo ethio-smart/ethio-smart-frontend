@@ -16,7 +16,7 @@ export default function StatsOverview() {
   const dispatch = useAppDispatch()
   const clientOverview = useAppSelector(selectClientOverview)
   const loading = useAppSelector(selectOverviewLoading)
-
+console.log('🐰😭',clientOverview)
   useEffect(() => {
     dispatch(fetchClientOverview())
   }, [dispatch])
@@ -34,33 +34,35 @@ export default function StatsOverview() {
   const stats = [
     {
       title: "Total Requests",
-      value: clientOverview?.totalRequests || 0,
-      description: "+12% from last 30 days",
+      value: clientOverview?.totals?.totalRequests || 0,
+      description: "service requests sent",
       icon: ClipboardList,
     },
     {
-      title: "Active Services",
-      value: clientOverview?.activeServices || 0,
-      description: "currently in progress",
+      title: "Total Bookings",
+      value: clientOverview?.totals?.totalBookings || 0,
+      description: "services booked",
       icon: Activity,
     },
     {
-      title: "Completed Services",
-      value: clientOverview?.completedServices || 0,
-      description: "successfully finished",
+      title: "Active Bookings",
+      value: clientOverview?.totals?.activeBookings || 0,
+      description: "currently in progress",
       icon: CheckCircle,
     },
     {
-      title: "Pending Responses",
-      value: clientOverview?.pendingResponses || 0,
-      description: "waiting tasker action",
-      icon: Clock,
+      title: "Earnings", 
+      value: `ETB ${clientOverview?.totals?.earnings || 0}`,
+      description: "total spent on services",
+      icon: DollarSign,
     },
     {
-      title: "Total Invested",
-      value: `ETB ${clientOverview?.totalInvested || 0}`,
-      description: "total platform spend",
-      icon: DollarSign,
+      title: "Completion Rate",
+      value: clientOverview?.totals?.totalBookings > 0 
+        ? Math.round(((clientOverview?.totals?.totalBookings - clientOverview?.totals?.activeBookings) / clientOverview?.totals?.totalBookings) * 100)
+        : 0,
+      description: "services completed",
+      icon: Clock,
     },
   ]
 
