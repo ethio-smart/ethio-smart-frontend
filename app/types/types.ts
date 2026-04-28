@@ -170,13 +170,31 @@ export type ServiceRequestFrom= {
 //   description: string
 
 // }
-export type NotificationType=
-   'SERVICE_REQUEST '|
- ' PAYMENT_UPDATE' |
- ' BOOKING_UPDATE '|
- ' DISPUTE_UPDATE' |
-  'REFUND_UPDATE' |
-  'TASKER_REQUEST' 
+export type NotificationType =
+  | "SERVICE_REQUEST"
+  | "PAYMENT_UPDATE"
+  | "BOOKING_UPDATE"
+  | "DISPUTE_UPDATE"
+  | "REFUND_UPDATE"
+  | "TASKER_REQUEST";
+
+export type NotificationEntityType =
+  | "BOOKING"
+  | "SERVICE_REQUEST"
+  | "PAYMENT"
+  | "DISPUTE"
+  | "TASKER"
+  | "USER";
+
+export type NotificationData = Record<string, string> & {
+  bookingId?: string;
+  serviceRequestId?: string;
+  requestId?: string;
+  disputeId?: string;
+  path?: string;
+  url?: string;
+  href?: string;
+};
 
   export type RegisterDeviceToken= {
   token: string;
@@ -188,7 +206,9 @@ export type Notification={
   title: string;
   message: string;
   type: NotificationType;
-  data?: Record<string, string>;
+  entityType?: NotificationEntityType;
+  entityId?: string;
+  data?: NotificationData;
    id: string
    isRead:boolean,
   createdAt: string;
