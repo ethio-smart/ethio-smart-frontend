@@ -36,6 +36,7 @@ export default function BookingDetailsDialog({
   const router = useRouter();
   const locale = useLocale();
   const [isPayouting, setIsPayouting] = useState(false);
+  const [isPayouted, setIsPayouted] = useState(false);
 
   const formatDate = (value?: string) => {
     if (!value) return "-";
@@ -81,6 +82,9 @@ export default function BookingDetailsDialog({
       setIsPayouting(true);
       await dispatch(payoutAdminBooking(booking.id)).unwrap();
       toast.success("Booking paid out successfully");
+      setIsPayouted(true);
+      // refresh current route (Next.js app router)
+      router.refresh();
     } catch (error) {
       toast.error(typeof error === "string" ? error : "Failed to payout booking");
     } finally {
@@ -193,6 +197,9 @@ export default function BookingDetailsDialog({
               </Button>
             )}
 
+            {booking.status === "CANCELLED" && (
+              <Button className="w-full" onClick={handlePayout} disabled={isPayouting || isPayouted}>
+                {isPayouting || isPayouted ? "Processing payout..." : "Payout Tasker"}
             {booking.status === "COMPLETED" && (
               <Button className="w-full" onClick={handlePayout} disabled={isPayouting}>
                 {isPayouting ? "Processing payout..." : "Payout Tasker"}
