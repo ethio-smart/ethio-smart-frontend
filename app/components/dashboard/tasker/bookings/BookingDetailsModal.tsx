@@ -37,7 +37,7 @@ export default function BookingDetailsModal({
   if (!booking) return null;
 
   const status: BookingStatus = booking.status;
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   // const paymentStatus: PaymentStatus =
   //   booking.payment?.status || 'PENDING';
 
