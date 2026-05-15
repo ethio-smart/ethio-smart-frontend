@@ -158,7 +158,9 @@ export default function BookingDetailsModal({
           // onSuccess={() => setOpen(false)}
 
           >
-            {booking.TaskCompletion.status === "PENDING" ? <Button className='py-5'>Complete Task</Button> : ""}
+            {booking.TaskCompletion.status === "PENDING" ?
+             <Button className='py-5'>Complete Task</Button>
+             : ""} 
 
           </CompleteTaskModal>
           {booking.status === "CONFIRMED" ?
