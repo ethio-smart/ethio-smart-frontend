@@ -1,6 +1,4 @@
-
 "use client"
-
 import { useEffect } from "react"
 import {
   ClipboardList,
@@ -22,8 +20,6 @@ export default function StatsOverview() {
   const dispatch = useAppDispatch()
   const clientOverview = useAppSelector(selectClientOverview)
   const loading = useAppSelector(selectOverviewLoading)
-
-  console.log("🐰😭", clientOverview)
 
   useEffect(() => {
     dispatch(fetchClientOverview())
