@@ -74,7 +74,7 @@ export default function BookingDetailsDialog({
     onClose();
     router.push(`/${locale}/admin/disputes${query}`);
   };
-
+//
   const handlePayout = async () => {
     if (!booking) return;
 
