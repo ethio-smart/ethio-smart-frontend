@@ -83,7 +83,6 @@ export default function BookingDetailsDialog({
       await dispatch(payoutAdminBooking(booking.id)).unwrap();
       toast.success("Booking paid out successfully");
       setIsPayouted(true);
-      // refresh current route (Next.js app router)
       router.refresh();
     } catch (error) {
       toast.error(typeof error === "string" ? error : "Failed to payout booking");
@@ -112,11 +111,15 @@ export default function BookingDetailsDialog({
         </DialogHeader>
 
         {isLoading && (
-          <div className="py-12 text-center text-sm text-muted-foreground">Loading booking details...</div>
+          <div className="py-12 text-center text-sm text-muted-foreground">
+            Loading booking details...
+          </div>
         )}
 
         {!isLoading && !booking && (
-          <div className="py-12 text-center text-sm text-muted-foreground">Booking details not found.</div>
+          <div className="py-12 text-center text-sm text-muted-foreground">
+            Booking details not found.
+          </div>
         )}
 
         {booking && (
@@ -151,7 +154,9 @@ export default function BookingDetailsDialog({
                   <Calendar className="size-4" />
                   Date
                 </span>
-                <span className="font-medium">{formatDate(booking.serviceRequest?.preferedDate || booking.createdAt)}</span>
+                <span className="font-medium">
+                  {formatDate(booking.serviceRequest?.preferedDate || booking.createdAt)}
+                </span>
               </div>
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-muted-foreground">
@@ -169,20 +174,26 @@ export default function BookingDetailsDialog({
                   <DollarSign className="size-4" />
                   Price
                 </span>
-                <span className="font-semibold">ETB {booking.payment?.amount ?? booking.serviceRequest?.budget ?? 0}</span>
+                <span className="font-semibold">
+                  ETB {booking.payment?.amount ?? booking.serviceRequest?.budget ?? 0}
+                </span>
               </div>
               <div className="flex items-center justify-between gap-3">
                 <span className="flex items-center gap-2 text-muted-foreground">
                   <MapPin className="size-4" />
                   Location
                 </span>
-                <span className="font-medium text-right">{booking.serviceRequest?.location ?? "-"}</span>
+                <span className="font-medium text-right">
+                  {booking.serviceRequest?.location ?? "-"}
+                </span>
               </div>
             </div>
 
             <div className="rounded-lg border bg-muted/30 p-3">
               <p className="text-xs text-muted-foreground">Description</p>
-              <p className="mt-1 text-sm leading-relaxed">{booking.serviceRequest?.description ?? "-"}</p>
+              <p className="mt-1 text-sm leading-relaxed">
+                {booking.serviceRequest?.description ?? "-"}
+              </p>
             </div>
 
             {booking.status === "DISPUTED" && (
@@ -200,6 +211,9 @@ export default function BookingDetailsDialog({
             {booking.status === "CANCELLED" && (
               <Button className="w-full" onClick={handlePayout} disabled={isPayouting || isPayouted}>
                 {isPayouting || isPayouted ? "Processing payout..." : "Payout Tasker"}
+              </Button>
+            )}
+
             {booking.status === "COMPLETED" && (
               <Button className="w-full" onClick={handlePayout} disabled={isPayouting}>
                 {isPayouting ? "Processing payout..." : "Payout Tasker"}
@@ -213,4 +227,3 @@ export default function BookingDetailsDialog({
     </Dialog>
   );
 }
-
