@@ -509,7 +509,7 @@ export type PendingTasker = {
   name: string;
   email: string;
   avatar: string;
-  bio: string;
+  bio?: string;
   skills: string[];
   backgroundCheck: "passed" | "failed" | "pending";
   idVerified: boolean;
