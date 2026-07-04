@@ -88,7 +88,7 @@ const toPendingTasker = (tasker: BackendTasker): PendingTasker => ({
   submittedDate: formatDate(tasker.createdAt),
   backgroundCheck: tasker.status === 'REJECTED' ? 'failed' : tasker.isVerified ? 'passed' : 'pending',
   idVerified: tasker.isVerified,
-  bio: tasker.bio ?? undefined,
+  bio: tasker.bio ?? '',
 });
 
 export default function TaskerAdministrationPage() {
