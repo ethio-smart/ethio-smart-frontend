@@ -502,6 +502,18 @@ export type AdminTaskerStatus = "active" | "suspended" | "pending";
 
 export type AdminVerificationStatus = "verified" | "unverified";
 
+export type PendingTasker = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  bio: string;
+  skills: string[];
+  backgroundCheck: "passed" | "failed" | "pending";
+  idVerified: boolean;
+  submittedDate: string;
+};
+
   // export type PaymentStatus= 
   // |'PENDING'
   // |'PAID'
