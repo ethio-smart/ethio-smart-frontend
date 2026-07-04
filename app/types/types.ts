@@ -485,6 +485,23 @@ export type BookingStatus =
   backendRole?: Role;
 };
 
+export type AdminTasker = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  skills: string[];
+  rating: number;
+  completedJobs: number;
+  status: string;
+  verificationStatus: string;
+  joinedDate: string;
+};
+
+export type AdminTaskerStatus = "active" | "suspended" | "pending";
+
+export type AdminVerificationStatus = "verified" | "unverified";
+
   // export type PaymentStatus= 
   // |'PENDING'
   // |'PAID'
