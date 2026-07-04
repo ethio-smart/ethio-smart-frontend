@@ -36,6 +36,7 @@ export default function PendingTaskersHeader({
   onRefresh,
 }: {
   search: string;
+  onSearchChange: (value: string) => void;
   stats: PendingTaskerStat[];
   loadingPending: boolean;
   status: TaskerApplicationStatus;
