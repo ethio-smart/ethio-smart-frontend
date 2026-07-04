@@ -496,6 +496,8 @@ export type AdminTasker = {
   status: string;
   verificationStatus: string;
   joinedDate: string;
+  location?: string;
+  bio?: string;
 };
 
 export type AdminTaskerStatus = "active" | "suspended" | "pending";
