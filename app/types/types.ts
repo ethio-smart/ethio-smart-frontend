@@ -500,7 +500,7 @@ export type AdminTasker = {
 
 export type AdminTaskerStatus = "active" | "suspended" | "pending";
 
-export type AdminVerificationStatus = "verified" | "unverified";
+export type AdminVerificationStatus = "verified" | "unverified" | "rejected" | "pending";
 
 export type PendingTasker = {
   id: string;
