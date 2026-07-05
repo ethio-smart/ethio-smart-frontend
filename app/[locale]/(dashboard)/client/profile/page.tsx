@@ -14,11 +14,13 @@ export default function ClientProfilePage() {
   const{user}=useAppSelector((state)=>state.auth)
   console.log('user from client profile',user)
   // const [user, setUser] = useState<UserProfile>(DUMMY_USER);
-  const [editUser, setEditUser] = useState<User>(user as User);
+  const [editUser, setEditUser] = useState<User | null>(user as User);
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    setEditUser(user);
+    if (user) {
+      setEditUser(user);
+    }
   }, [user]);
 
   const handleSave = () => {
@@ -27,12 +29,20 @@ export default function ClientProfilePage() {
     toast.success('Profile updated');
   };
 
+  if (!user) {
+    return (
+      <div className="max-w-4xl mx-auto p-6">
+        <p className="text-muted-foreground">Loading profile...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-bold">Client Profile</h1>
 
       <ProfileHeaderCard
-        user={isEditing ? editUser : user}
+        user={isEditing ? editUser! : user}
         isEditing={isEditing}
         onEditClick={() => setIsEditing(true)}
       />
@@ -40,8 +50,8 @@ export default function ClientProfilePage() {
       <ProfileDetailCard
         user={user}
         isEditing={isEditing}
-        editUser={editUser}
-        setEditUser={setEditUser}
+        editUser={editUser!}
+        setEditUser={setEditUser as React.Dispatch<React.SetStateAction<User>>}
         onSave={handleSave}
         onCancel={() => setIsEditing(false)}
       />
