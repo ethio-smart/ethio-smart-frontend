@@ -5,7 +5,7 @@ import { LucideIcon } from 'lucide-react';
 
 type Stat = {
   label: string;
-  value: string;
+  value: string | number | undefined;
   icon: LucideIcon;
   color: string;
   bg: string;
