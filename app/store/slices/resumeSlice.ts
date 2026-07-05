@@ -10,6 +10,7 @@ export interface Resume {
   Summary: string
   Experience: {
     title: string
+      company: string; 
     location: string
     date: string
     description: string
