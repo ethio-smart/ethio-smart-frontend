@@ -1,18 +1,31 @@
-
-
 import { Card, CardContent } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Star } from "lucide-react"
 
-export const ReviewCard = ({ review }) => {
+interface Review {
+  userName: string
+  avatarUrl?: string
+  avatarColor?: string
+  initials: string
+  rating: number
+  date: string
+  service: string
+  comment: string
+}
+
+interface ReviewCardProps {
+  review: Review
+}
+
+export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
     <Card className="shadow-sm">
-      <CardContent className="p- flex gap-4">
+      <CardContent className="p-4 flex gap-4">
         
         <Avatar size="lg">
           <AvatarImage src={review.avatarUrl} alt={review.userName} />
-          <AvatarFallback  className={review.avatarColor}>
+          <AvatarFallback className={review.avatarColor}>
             {review.initials}
           </AvatarFallback>
         </Avatar>
