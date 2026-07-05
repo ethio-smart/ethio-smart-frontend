@@ -9,7 +9,8 @@ import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/Profile
 import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
 import { fetchUser, setUser } from '@/app/store/slices/authSlice';
-import { User, Tasker } from '@/app/types/types';
+import { User } from '@/app/types/types';
+import { TaskerDetails } from '@/app/components/dashboard/tasker/profile/ProfileDetailCard';
 import {  CircleCheckBig, MessageSquare, Star, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
@@ -17,7 +18,6 @@ import { Button } from '@/components/ui/button';
 
 export default function TaskerProfilePage() {
     const{user}=useAppSelector((state)=>state.auth )
-  const [tasker, setTasker] = useState<Tasker | undefined>();
   //
 const STATS = [
   // {
@@ -51,7 +51,7 @@ const STATS = [
 ]
 
   const [editUser, setEditUser] = useState<User | null>(user);
-  const [editTasker, setEditTasker] = useState<{ bio?: string | null; languages?: string[] }>();
+  const [editTasker, setEditTasker] = useState<TaskerDetails>();
   const [isEditing, setIsEditing] = useState(false);
   const dispatch=useAppDispatch()
   // console.log('user from tasker page',user)
@@ -68,7 +68,6 @@ const STATS = [
     if (editUser) {
       setUser(editUser);
     }
-    setTasker(editTasker);
     setIsEditing(false);
     toast.success('Tasker profile updated');
   };
@@ -116,7 +115,7 @@ const locale=useLocale()
         editUser={editUser!}
         setEditUser={setEditUser as React.Dispatch<React.SetStateAction<User>>}
         editTasker={editTasker}
-        setEditTasker={setEditTasker}
+        setEditTasker={setEditTasker as React.Dispatch<React.SetStateAction<{ bio?: string | null; languages?: string[] }>>}
         onSave={handleSave}
         onCancel={() => setIsEditing(false)}
       />
