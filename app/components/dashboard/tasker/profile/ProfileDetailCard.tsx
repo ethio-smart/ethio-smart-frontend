@@ -24,7 +24,7 @@ interface Props {
   editUser: User;
   setEditUser: React.Dispatch<React.SetStateAction<User>>;
   editTasker?: TaskerDetails;
-  setEditTasker?: React.Dispatch<React.SetStateAction<TaskerDetails>>;
+  setEditTasker?: React.Dispatch<React.SetStateAction<TaskerDetails | undefined>>;
   onCancel: () => void;
   onSave: () => void;
 }
