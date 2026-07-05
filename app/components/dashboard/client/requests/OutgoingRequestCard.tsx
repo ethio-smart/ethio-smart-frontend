@@ -17,7 +17,7 @@ import RescheduleRequestDialog from "./RescheduleRequestDialog"
 import EditRequestDialog from "./EditRequestDialog"
 import Link from "next/link"
 
-import { Invitation } from "@/app/types/types"
+import { Request } from "@/app/types/types"
 import { cancelRequest } from "@/app/store/slices/requestSlice"
 import { useAppDispatch } from "@/app/hooks/hooks"
 import { toast } from "sonner"
@@ -25,10 +25,10 @@ import { toast } from "sonner"
 export default function OutgoingRequestCard({
   invitation,
 }: {
-  invitation: Invitation
+  invitation: Request
 }) {
   console.log('invitation ------',invitation)
-  console.log('invitation ------',invitation.TaskerRequestInvitation)
+  console.log('invitation ------',invitation.invitations)
   const date = invitation?.preferedDate
     ? new Date(invitation.preferedDate)
     : null
@@ -47,29 +47,29 @@ export default function OutgoingRequestCard({
   }
   // Pending taskers 
   const pendingTaskers =
-    invitation.TaskerRequestInvitation
+    invitation.invitations
       ?.filter((inv) => inv.status === "PENDING")
       .map((inv) => inv.tasker?.user)
       .filter(Boolean) || []
 
   const pendingNames = pendingTaskers
-    .map((user) => `${user.firstName} ${user.lastName}`)
+    .map((user) => `${user?.firstName || ''} ${user?.lastName || ''}`)
     .join(", ")
 
   // Accepted tasker 
   const acceptedTasker =
-    invitation.TaskerRequestInvitation?.find((inv) => inv.status === "ACCEPTED")
+    invitation.invitations?.find((inv) => inv.status === "ACCEPTED")
       ?.tasker?.user
 
   // Rejected taskers 
   const rejectedTaskers =
-    invitation.TaskerRequestInvitation
+    invitation.invitations
       ?.filter((inv) => inv.status === "REJECTED")
       .map((inv) => inv.tasker?.user)
       .filter(Boolean) || []
 
   const rejectedNames = rejectedTaskers
-    .map((user) => `${user.firstName} ${user.lastName}`)
+    .map((user) => `${user?.firstName || ''} ${user?.lastName || ''}`)
     .join(", ")
 
   return (
@@ -88,7 +88,7 @@ export default function OutgoingRequestCard({
               {invitation?.tittle || "No title"}
             </h3>
 
-            <StatusBadge status={invitation.status} />
+            <StatusBadge status={invitation.status || 'PENDING'} />
           </div>
 
           <p className="text-sm text-muted-foreground line-clamp-3">
@@ -175,13 +175,13 @@ export default function OutgoingRequestCard({
             {invitation.status === "PENDING" && (
               <>
                 <EditRequestDialog request={invitation}>
-                  {/* <Button
+                  <Button
                     size="lg"
                     variant="outline"
                     className="border text-black px-10 hover:bg-primary hover:text-white"
                   >
                     <Edit /> Edit
-                  </Button> */}
+                  </Button>
                 </EditRequestDialog>
 
                 <CancelRequestDialog onConfirm={handleCancelRequest(invitation.id)}>
@@ -203,7 +203,7 @@ export default function OutgoingRequestCard({
                   Pay
                 </Button> */}
 
-                <RescheduleRequestDialog>
+                {/* <RescheduleRequestDialog>
                   <Button
                     size="lg"
                     variant="outline"
@@ -211,7 +211,7 @@ export default function OutgoingRequestCard({
                   >
                     <Clock /> Reschedule
                   </Button>
-                </RescheduleRequestDialog>
+                </RescheduleRequestDialog> */}
               </>
             )}
 
