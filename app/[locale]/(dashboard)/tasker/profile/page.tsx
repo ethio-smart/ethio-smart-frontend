@@ -60,7 +60,6 @@ const STATS = [
     if (user) {
       setEditUser(user);
     }
-    setEditTasker(user.tasker ? { bio: user.tasker.bio, languages: user.tasker.languages } : undefined);
     dispatch(fetchUser())
   }, [user]);
 
@@ -115,7 +114,7 @@ const locale=useLocale()
         editUser={editUser!}
         setEditUser={setEditUser as React.Dispatch<React.SetStateAction<User>>}
         editTasker={editTasker}
-        setEditTasker={setEditTasker as React.Dispatch<React.SetStateAction<{ bio?: string | null; languages?: string[] }>>}
+        setEditTasker={setEditTasker}
         onSave={handleSave}
         onCancel={() => setIsEditing(false)}
       />
