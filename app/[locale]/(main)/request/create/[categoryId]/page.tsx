@@ -122,7 +122,7 @@ export default function Page() {
     dynamicData: {},
     description: "",
     budget: "",
-    title:""
+    tittle:""
   })
 
   const fields = categoryFields[name] || []
