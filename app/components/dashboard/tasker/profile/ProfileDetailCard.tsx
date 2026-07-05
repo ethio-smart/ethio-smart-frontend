@@ -12,7 +12,7 @@ import { X } from 'lucide-react';
 
 
 
-interface TaskerDetails {
+export interface TaskerDetails {
   bio?: string | null;
   languages?: string[];
 }
