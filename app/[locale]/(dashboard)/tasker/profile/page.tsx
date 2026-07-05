@@ -9,6 +9,7 @@ import ProfileDetailCard from '@/app/components/dashboard/tasker/profile/Profile
 import AccountSettingsCard from '@/app/components/dashboard/tasker/profile/AccountSettingCard';
 import { useAppDispatch, useAppSelector } from '@/app/hooks/hooks';
 import { fetchUser, setUser } from '@/app/store/slices/authSlice';
+import { User } from '@/app/types/types';
 import {  CircleCheckBig, MessageSquare, Star, Wallet } from 'lucide-react';
 import Link from 'next/link';
 import { useLocale } from 'next-intl';
@@ -49,25 +50,37 @@ const STATS = [
   }
 ]
 
-  const [editUser, setEditUser] = useState(user);
+  const [editUser, setEditUser] = useState<User | null>(user);
   const [editTasker, setEditTasker] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const dispatch=useAppDispatch()
   // console.log('user from tasker page',user)
 
   useEffect(() => {
-    setEditUser(user);
+    if (user) {
+      setEditUser(user);
+    }
     setEditTasker(tasker);
     dispatch(fetchUser())
   }, [user, tasker]);
 
   const handleSave = () => {
-    setUser(editUser);
+    if (editUser) {
+      setUser(editUser);
+    }
     setTasker(editTasker);
     setIsEditing(false);
     toast.success('Tasker profile updated');
   };
 const locale=useLocale()
+
+  if (!user) {
+    return (
+      <div className="max-w-5xl mx-auto p-6">
+        <p className="text-muted-foreground">Loading profile...</p>
+      </div>
+    );
+  }
   return (
     <div className="max-w-5xl mx-auto p-6 space-y-6">
       <div className="flex justify-between items-center">
@@ -88,7 +101,7 @@ const locale=useLocale()
       </div>
 
       <ProfileHeaderCard
-        user={isEditing ? editUser : user}
+        user={isEditing ? editUser! : user}
         // tasker={tasker}
         isEditing={isEditing}
         onEditClick={() => setIsEditing(true)}
@@ -100,8 +113,8 @@ const locale=useLocale()
         user={user}
         tasker={user?.tasker}
         isEditing={isEditing}
-        editUser={editUser}
-        setEditUser={setEditUser}
+        editUser={editUser!}
+        setEditUser={setEditUser as React.Dispatch<React.SetStateAction<User>>}
         editTasker={editTasker}
         setEditTasker={setEditTasker}
         onSave={handleSave}
