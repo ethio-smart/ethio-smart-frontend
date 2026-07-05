@@ -13,7 +13,7 @@ import { X } from 'lucide-react';
 
 
 interface TaskerDetails {
-  bio?: string;
+  bio?: string | null;
   languages?: string[];
 }
 
