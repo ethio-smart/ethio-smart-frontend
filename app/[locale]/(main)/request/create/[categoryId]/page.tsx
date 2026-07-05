@@ -148,7 +148,10 @@ export default function Page() {
   /* HANDLE SUBMIT  */
  const handleSubmit = async () => {
   try {
-    const createdRequest = await dispatch(createRequest(formData)).unwrap()
+    const createdRequest = await dispatch(createRequest({
+      ...formData,
+      budget: formData.budget ? Number(formData.budget) : undefined
+    })).unwrap()
     const requestId = createdRequest.id 
     router.push(`/${locale}/request/${requestId}/matches/${categoryId}`)
   } catch (error) {
