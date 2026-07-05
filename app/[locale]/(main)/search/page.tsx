@@ -26,12 +26,12 @@ function SearchMatches() {
     }))
   }, [query, dispatch])
 
-  const hasResults = results?.results && results.results.length > 0
+  const hasResults = results && results.length > 0
   const isLoading = loading
 
   return (
     <div className="space-y-6 w-full px-4 bg-[#F9FAFB]">
-      <MatchesHeader length={results?.results?.length ?? 0} />
+      <MatchesHeader length={results?.length ?? 0} />
 
       <div className="max-w-4xl mx-auto space-y-6">
         {isLoading ? (
@@ -65,7 +65,7 @@ function SearchMatches() {
           </div>
         ) : (
           // Results found
-          results?.results?.map((result) => (
+          results?.map((result) => (
             <TaskerMatchCard key={result.taskerId} result={result} />
           ))
         )}
@@ -73,7 +73,7 @@ function SearchMatches() {
       
       {hasResults && (
         <AppPagination 
-          totalPages={results?.results?.length} 
+          totalPages={results?.length} 
           currentPage={1} 
           onPageChange={(page) => console.log("Go to page:", page)} 
         />
