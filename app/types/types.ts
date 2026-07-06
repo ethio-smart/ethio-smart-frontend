@@ -516,6 +516,15 @@ export type PendingTasker = {
   submittedDate: string;
 };
 
+export type AdminAnalyticsSeriesItem = {
+  label: string;
+  totalBookings: number;
+  activeBookings: number;
+  totalRequests: number;
+  totalTaskers: number;
+  earnings: number;
+};
+
   // export type PaymentStatus= 
   // |'PENDING'
   // |'PAID'
