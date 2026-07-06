@@ -87,7 +87,7 @@ export default function PayoutDetailDialog({
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">
-                {payout.tasker}
+                {payout.taskerName}
               </p>
               <p className="text-xs text-muted-foreground">
                 {payout.taskerEmail}
