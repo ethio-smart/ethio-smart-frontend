@@ -36,7 +36,7 @@ export default function PayoutHeaderAndStats({
       value: `$${totalApprovedAmount.toLocaleString("en-US", {
         minimumFractionDigits: 2,
       })}`,
-      sub: `${payouts.filter((p) => p.status === "approved").length} payouts`,
+      sub: `${payouts.filter((p) => p.status === "COMPLETED").length} payouts`,
       icon: Download,
       color: "text-emerald-600",
       bg: "bg-emerald-100 dark:bg-emerald-900/30",
