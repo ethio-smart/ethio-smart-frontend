@@ -54,7 +54,7 @@ export default function RefundModal({ payment, open, onClose, onConfirm }: Props
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Client</p>
-                <p>{payment.client}</p>
+                <p>{payment.booking?.user ? `${payment.booking.user.firstName} ${payment.booking.user.lastName}` : 'N/A'}</p>
               </div>
             </div>
 
