@@ -31,17 +31,17 @@ export default function PendingHighlight({
           >
             <div
               className={`w-6 h-6 rounded-full ${getAvatarColor(
-                p.taskerAvatar,
+                p.taskerAvatar || 'T',
               )} flex items-center justify-center text-white text-xs font-medium`}
             >
-              {p.taskerAvatar}
+              {p.taskerAvatar || 'T'}
             </div>
             <div>
               <p className="text-xs font-medium text-foreground">
-                {p.tasker}
+                {p.taskerName}
               </p>
               <p className="text-xs text-muted-foreground font-data">
-                ${p.amount.toFixed(2)}
+                ${(p.amount || 0).toFixed(2)}
               </p>
             </div>
             <div className="flex gap-1 ml-2">
