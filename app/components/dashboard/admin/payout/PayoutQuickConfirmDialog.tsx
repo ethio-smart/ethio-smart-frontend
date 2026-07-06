@@ -63,10 +63,10 @@ export default function PayoutQuickConfirmDialog({
           </div>
           <p className="text-sm text-muted-foreground">
             {isApprove
-              ? `Approve payout of $${payout.amount.toFixed(
+              ? `Approve payout of $${(payout.amount || 0).toFixed(
                   2,
-                )} to ${payout.tasker}?`
-              : `Reject payout request from ${payout.tasker}?`}
+                )} to ${payout.taskerName}?`
+              : `Reject payout request from ${payout.taskerName}?`}
           </p>
         </div>
 
