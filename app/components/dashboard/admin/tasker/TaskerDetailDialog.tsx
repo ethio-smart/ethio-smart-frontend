@@ -52,12 +52,12 @@ export default function TaskerDetailDialog({
               <p className="text-sm text-muted-foreground">{tasker.email}</p>
               <div className="flex items-center gap-2 mt-1">
                 <span
-                  className={`px-2 py-0.5 text-xs font-semibold rounded-full ${statusColors[tasker.status]}`}
+                  className={`px-2 py-0.5 text-xs font-semibold rounded-full ${statusColors[tasker.status as keyof typeof statusColors]}`}
                 >
                   {tasker.status}
                 </span>
                 <span
-                  className={`px-2 py-0.5 text-xs font-semibold rounded-full ${verificationColors[tasker.verificationStatus]}`}
+                  className={`px-2 py-0.5 text-xs font-semibold rounded-full ${verificationColors[tasker.verificationStatus as keyof typeof verificationColors]}`}
                 >
                   {tasker.verificationStatus}
                 </span>
