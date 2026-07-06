@@ -50,7 +50,7 @@ export default function PayoutTable({
     return payouts.filter((p) => {
       const status = getStatus(p);
       const matchSearch =
-        p.tasker.toLowerCase().includes(state.search.toLowerCase()) ||
+        (p.taskerName || '').toLowerCase().includes(state.search.toLowerCase()) ||
         p.id.toLowerCase().includes(state.search.toLowerCase());
       const matchStatus =
         state.statusFilter === "all" || status === state.statusFilter;
