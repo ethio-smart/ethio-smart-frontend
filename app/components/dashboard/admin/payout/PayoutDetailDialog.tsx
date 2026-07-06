@@ -80,10 +80,10 @@ export default function PayoutDetailDialog({
           <div className="flex items-center gap-3 p-4 bg-muted/40 rounded-lg">
             <div
               className={`w-12 h-12 rounded-full ${getAvatarColor(
-                payout.taskerAvatar,
+                payout.taskerAvatar || 'T',
               )} flex items-center justify-center text-white text-base font-semibold`}
             >
-              {payout.taskerAvatar}
+              {payout.taskerAvatar || 'T'}
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">
@@ -115,7 +115,7 @@ export default function PayoutDetailDialog({
                   Gross Earnings
                 </span>
                 <span className="font-data text-foreground">
-                  ${payout.earnings.toFixed(2)}
+                  ${(payout.earnings || 0).toFixed(2)}
                 </span>
               </div>
               <div className="flex justify-between text-sm">
@@ -123,13 +123,13 @@ export default function PayoutDetailDialog({
                   Tax Withholding
                 </span>
                 <span className="font-data text-red-500">
-                  -${payout.tax.toFixed(2)}
+                  -${(payout.tax || 0).toFixed(2)}
                 </span>
               </div>
               <div className="border-t border-border pt-2 flex justify-between text-sm font-semibold">
                 <span className="text-foreground">Net Payout</span>
                 <span className="font-data text-emerald-600">
-                  ${payout.amount.toFixed(2)}
+                  ${(payout.amount || 0).toFixed(2)}
                 </span>
               </div>
             </div>
@@ -194,7 +194,7 @@ export default function PayoutDetailDialog({
           )}
         </div>
 
-        {payout.status === "pending" ? (
+        {payout.status === "PENDING" ? (
           <div className="flex justify-end gap-2 pt-2 border-t border-border">
             <Button
               type="button"
