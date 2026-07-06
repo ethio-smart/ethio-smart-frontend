@@ -54,7 +54,7 @@ export default function OverviewCharts() {
 
   const earningsData = useMemo(
     () =>
-      ((period === "weekly" ? weeklySeries?.data : monthlySeries?.data) ?? []).map((item) => ({
+      ((period === "weekly" ? weeklySeries?.data : monthlySeries?.data) ?? []).map((item: any) => ({
         month: item.label,
         revenue: item.earnings,
       })),
@@ -63,7 +63,7 @@ export default function OverviewCharts() {
 
   const bookingActivityData = useMemo(
     () =>
-      ((period === "weekly" ? weeklySeries?.data : monthlySeries?.data) ?? []).map((item) => ({
+      ((period === "weekly" ? weeklySeries?.data : monthlySeries?.data) ?? []).map((item: any) => ({
         period: item.label,
         bookings: item.totalBookings,
       })),
