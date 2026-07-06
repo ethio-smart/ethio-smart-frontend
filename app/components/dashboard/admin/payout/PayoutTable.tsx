@@ -172,14 +172,14 @@ export default function PayoutTable({
                       <div className="flex items-center gap-2">
                         <div
                           className={`w-8 h-8 rounded-full ${getAvatarColor(
-                            payout.taskerAvatar,
+                            payout.taskerAvatar || 'T',
                           )} flex items-center justify-center text-white text-xs font-medium shrink-0`}
                         >
-                          {payout.taskerAvatar}
+                          {payout.taskerAvatar || 'T'}
                         </div>
                         <div>
                           <p className="text-sm text-foreground">
-                            {payout.tasker}
+                            {payout.taskerName}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             {payout.completedJobs} jobs
@@ -188,10 +188,10 @@ export default function PayoutTable({
                       </div>
                     </TableCell>
                     <TableCell className="px-4 py-3.5 text-sm text-right font-semibold text-foreground font-data">
-                      ${payout.amount.toFixed(2)}
+                      ${(payout.amount || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="px-4 py-3.5 text-sm text-right text-muted-foreground font-data">
-                      ${payout.earnings.toFixed(2)}
+                      ${(payout.earnings || 0).toFixed(2)}
                     </TableCell>
                     <TableCell className="px-4 py-3.5 text-sm text-muted-foreground font-data">
                       {payout.requestDate}
@@ -213,7 +213,7 @@ export default function PayoutTable({
                         >
                           <Eye className="size-3.5 text-muted-foreground" />
                         </button>
-                        {status === "pending" && (
+                        {status === "PENDING" && (
                           <>
                             <button
                               type="button"
