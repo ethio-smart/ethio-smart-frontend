@@ -461,6 +461,18 @@ export interface Payout {
   // relations
   tasker?: Tasker;
   payment?: Payment;
+
+  // Additional properties for UI
+  taskerAvatar?: string;
+  taskerName?: string;
+  taskerEmail?: string;
+  completedJobs?: number;
+  earnings?: number;
+  tax?: number;
+  amount?: number;
+  bankLast4?: string;
+  requestDate?: string;
+  notes?: string;
 }
 export type BookingStatus =
   | "AWAITING_PAYMENT"
