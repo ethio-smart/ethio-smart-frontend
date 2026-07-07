@@ -152,9 +152,9 @@ export default function BookingDetailsModal({
             )}
           </RaiseDisputeModal>
           <CompleteTaskModal
-            serviceType={fields}
+            serviceType={serviceType.toLowerCase() as "tutoring" | "cleaning"}
             bookingId={booking.id}
-            fields={fields}
+            fields={fields as any}
           // onSuccess={() => setOpen(false)}
 
           >
