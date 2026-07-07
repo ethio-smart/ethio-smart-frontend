@@ -321,7 +321,7 @@ export default function BecomeTaskerModal({ children }: Props) {
                       multiple
                       accept=".pdf,.jpg,.jpeg,.png"
                       className="hidden"
-                      // onChange={(e) => handleFiles(e.target.files)}
+                      onChange={(e) => handleFiles(e.target.files)}
                     />
                   </div>
                 </div>
