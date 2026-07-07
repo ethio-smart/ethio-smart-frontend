@@ -92,14 +92,19 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
             </RescheduleRequestDialog>
           )}
           {/* Confirm Completion  */}
-          <ConfirmCompletionModal onConfirm={handleConfirm}>
-            <Button size="lg" variant="default">
-              Confirm Completion
-            </Button>
-          </ConfirmCompletionModal>
+          {invitation.length > 0 && (
+            <ConfirmCompletionModal
+              id={invitation[0].id}
+              bookingId={invitation[0].id}
+            >
+              <Button size="lg" variant="default">
+                Confirm Completion
+              </Button>
+            </ConfirmCompletionModal>
+          )}
           {/* Rating modal opens  */}
           <RatetaskerModal
-            
+             bookingId={invitation[0].id}
             open={rateOpen}
             onClose={() => setRateOpen(false)}
           />
