@@ -62,11 +62,13 @@ export default function TaskCompletionCard({ data }: Props) {
         >
           {loading.update.confirm ? "Confirming..." : "Confirm"}
         </Button> */}
-            <ConfirmCompletionModal bookingId={data.booking?.id} id={data.id}>
-              <Button size="lg" className="bg-primary text-white">
-                Confirm
-              </Button>
-            </ConfirmCompletionModal>
+            {data.booking?.id && (
+              <ConfirmCompletionModal bookingId={data.booking?.id} id={data.id}>
+                <Button size="lg" className="bg-primary text-white">
+                  Confirm
+                </Button>
+              </ConfirmCompletionModal>
+            )}
 
             <DeclineCompletionModal id={data.id}>
               <Button
