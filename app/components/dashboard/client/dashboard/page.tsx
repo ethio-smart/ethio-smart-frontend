@@ -61,20 +61,33 @@ export default function StatsOverview() {
       icon: DollarSign,
     },
     {
-      title: "Completion Rate",
-      value:
-        clientOverview?.totals?.totalBookings > 0
-          ? Math.round(
-              (
-                (clientOverview?.totals?.totalBookings -
-                  clientOverview?.totals?.activeBookings) /
-                clientOverview?.totals?.totalBookings
-              ) * 100
-            )
-          : 0,
-      description: "services completed",
-      icon: Clock,
-    },
+  title: "Completion Rate",
+  value: (() => {
+    const totalBookings = clientOverview?.totals?.totalBookings ?? 0;
+    const activeBookings = clientOverview?.totals?.activeBookings ?? 0;
+
+    return totalBookings > 0
+      ? Math.round(((totalBookings - activeBookings) / totalBookings) * 100)
+      : 0;
+  })(),
+  description: "services completed",
+  icon: Clock,
+},
+    // {
+    //   title: "Completion Rate",
+    //   value:
+    //     clientOverview?.totals?.totalBookings > 0
+    //       ? Math.round(
+    //           (
+    //             (clientOverview?.totals?.totalBookings -
+    //               clientOverview?.totals?.activeBookings) /
+    //             clientOverview?.totals?.totalBookings
+    //           ) * 100
+    //         )
+    //       : 0,
+    //   description: "services completed",
+    //   icon: Clock,
+    // },
   ]
 
   return (
