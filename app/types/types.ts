@@ -505,8 +505,8 @@ export type AdminTasker = {
   skills: string[];
   rating: number;
   completedJobs: number;
-  status: string;
-  verificationStatus: string;
+  status: AdminTaskerStatus;
+  verificationStatus: AdminVerificationStatus;
   joinedDate: string;
   location?: string;
   bio?: string;
