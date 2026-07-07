@@ -77,15 +77,20 @@ export default function RequestHeader({ status, invitation }: RequestHeaderProps
         {/* buttons  */}
         <div className="space-x-2 flex items-center">
           {/* Reschedule button */}
-          <RescheduleRequestDialog >
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary border text-primary"
+          {invitation.length > 0 && (
+            <RescheduleRequestDialog
+              bookingId={invitation[0].id}
+              currentSchedule={invitation[0].preferedDate || ''}
             >
-              <Clock /> Reschedule
-            </Button>
-          </RescheduleRequestDialog>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-primary border text-primary"
+              >
+                <Clock /> Reschedule
+              </Button>
+            </RescheduleRequestDialog>
+          )}
           {/* Confirm Completion  */}
           <ConfirmCompletionModal onConfirm={handleConfirm}>
             <Button size="lg" variant="default">
