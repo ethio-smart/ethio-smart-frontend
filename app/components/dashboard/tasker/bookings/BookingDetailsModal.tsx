@@ -70,7 +70,7 @@ export default function BookingDetailsModal({
   };
 
   const serviceType = booking.serviceRequest.category.name
-  const fields = completionFieldMap[serviceType];
+  const fields = completionFieldMap[serviceType as keyof typeof completionFieldMap];
 
 
   return (
