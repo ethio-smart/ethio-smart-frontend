@@ -3,6 +3,7 @@
 //user
 export type VerificationStatus = "Verified" | "Unverified";
 export type Role = "USER" | "SUPER_ADMIN" | "TASKER" | "SYSTEM_ADMIN";
+export type UserRole = Role;
 export type User = {
   id: string;
   firstName: string;
