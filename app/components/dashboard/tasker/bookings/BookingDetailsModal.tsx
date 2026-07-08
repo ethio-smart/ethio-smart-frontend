@@ -164,7 +164,7 @@ export default function BookingDetailsModal({
 
           </CompleteTaskModal>
           {booking.status === "CONFIRMED" ?
-            <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate} bookingId={booking.id}>
+            <RescheduleRequestDialog currentSchedule={booking.serviceRequest.preferedDate || ''} bookingId={booking.id}>
               <Button
                 size="sm"
                 variant="outline"
