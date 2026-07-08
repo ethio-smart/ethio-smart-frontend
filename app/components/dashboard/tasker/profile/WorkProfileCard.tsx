@@ -27,7 +27,7 @@ export default function ProfessionalInfoCard({
   editTasker,
   setEditTasker,
 }: Props) {
-  const displayedSkills = isEditing ? editTasker.skills : tasker.skills;
+  const displayedSkills = isEditing ? editTasker.certifications : tasker.certifications;
 
   return (
     <Card className="shadow-2xs">
@@ -73,7 +73,7 @@ export default function ProfessionalInfoCard({
                     onClick={() =>
                       setEditTasker((prev) => ({
                         ...prev,
-                        skills: prev.skills.filter((s) => s !== skill),
+                        certifications: prev.certifications.filter((s) => s !== skill),
                       }))
                     }
                   >
@@ -85,17 +85,17 @@ export default function ProfessionalInfoCard({
 
             {isEditing && (
               <Input
-                placeholder="Add skill..."
+                placeholder="Add certification..."
                 className="w-32 h-8 text-sm"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
                     const val = (e.target as HTMLInputElement).value.trim();
 
-                    if (val && !editTasker.skills.includes(val)) {
+                    if (val && !editTasker.certifications.includes(val)) {
                       setEditTasker((prev) => ({
                         ...prev,
-                        skills: [...prev.skills, val],
+                        certifications: [...prev.certifications, val],
                       }));
                       (e.target as HTMLInputElement).value = '';
                     }
@@ -118,25 +118,25 @@ export default function ProfessionalInfoCard({
           <div className="flex items-center gap-3">
             <span
               className={`text-sm ${
-                (isEditing ? editTasker.isAvailable : tasker.isAvailable)
+                (isEditing ? editTasker.availability : tasker.availability)
                   ? 'text-emerald-600'
                   : 'text-muted-foreground'
               }`}
             >
-              {(isEditing ? editTasker.isAvailable : tasker.isAvailable)
+              {(isEditing ? editTasker.availability : tasker.availability)
                 ? 'Online'
                 : 'Offline'}
             </span>
 
             <Switch
               checked={
-                isEditing ? editTasker.isAvailable : tasker.isAvailable
+                isEditing ? editTasker.availability : tasker.availability
               }
               onCheckedChange={(checked) =>
                 isEditing &&
                 setEditTasker((prev) => ({
                   ...prev,
-                  isAvailable: checked,
+                  availability: checked,
                 }))
               }
               disabled={!isEditing}
