@@ -145,12 +145,12 @@ export type Review ={
 }
 
 export type TaskCompletion= {
-  id:string,
+  id?:string,
   bookingId: string;
-  completionNote?: string;  
-  Imageurl:string    
+  completionNote?: string;
+  Imageurl:string
   status?:TaskCompletionStatus
-  dynamicData?: Record<string, any>; 
+  dynamicData?: Record<string, any>;
   createdAt?:string
   booking?:Booking
 
