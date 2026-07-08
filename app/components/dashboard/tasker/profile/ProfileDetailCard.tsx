@@ -49,7 +49,6 @@ export default function ProfileDetailCard({
     { label: 'Last Name', key: 'lastName' },
     { label: 'Email', key: 'email' },
     { label: 'Phone', key: 'phone' },
-    { label: 'Location', key: 'location' },
   ] as const;
 
   return (
@@ -81,7 +80,7 @@ export default function ProfileDetailCard({
 
               {isEditing ? (
                 <Input
-                  value={editUser[field.key] || ''}
+                  value={String(editUser[field.key as keyof User] || '')}
                   onChange={(e) =>
                     setEditUser((prev) => ({
                       ...prev,
@@ -91,7 +90,7 @@ export default function ProfileDetailCard({
                 />
               ) : (
                 <div className="px-3 py-2.5 bg-muted/50 rounded-md text-sm">
-                  {user[field.key] || user.tasker?.location || 'N/A'}
+                  {String(user[field.key as keyof User] || 'N/A')}
                 </div>
               )}
             </div>
