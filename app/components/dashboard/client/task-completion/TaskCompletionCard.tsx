@@ -62,7 +62,7 @@ export default function TaskCompletionCard({ data }: Props) {
         >
           {loading.update.confirm ? "Confirming..." : "Confirm"}
         </Button> */}
-            {data.booking?.id && (
+            {data.booking?.id && data.id && (
               <ConfirmCompletionModal bookingId={data.booking?.id} id={data.id}>
                 <Button size="lg" className="bg-primary text-white">
                   Confirm
@@ -70,15 +70,17 @@ export default function TaskCompletionCard({ data }: Props) {
               </ConfirmCompletionModal>
             )}
 
-            <DeclineCompletionModal id={data.id}>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-red-500 border-red-500 hover:bg-red-500 hover:text-white"
-              >
-                Decline
-              </Button>
-            </DeclineCompletionModal>
+            {data.id && (
+              <DeclineCompletionModal id={data.id}>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-red-500 border-red-500 hover:bg-red-500 hover:text-white"
+                >
+                  Decline
+                </Button>
+              </DeclineCompletionModal>
+            )}
 
             {/* <Button
           size="lg"
