@@ -58,10 +58,9 @@ export default function CompleteTaskModal({
     dynamicData: {},
   });
   const dispatch=useAppDispatch()
-  const{loading,task,error}=useAppSelector(state=>state.task)
-  
-console.log('task👍👍👍',task)
-console.log('error💥💥💥',error)
+  const{loading,success,error}=useAppSelector(state=>state.task)
+
+
 
   //  Root fields 
   const handleRootChange = (name: keyof TaskCompletion, value: any) => {
