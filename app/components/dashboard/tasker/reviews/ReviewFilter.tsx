@@ -6,12 +6,13 @@ import {
   SelectItem,
   SelectValue,
 } from "@/components/ui/select"
+import { Dispatch, SetStateAction } from "react"
 
 interface ReviewFiltersProps {
   ratingFilter: number | null;
-  setRatingFilter: (rating: number | null) => void;
-  sortBy: string;
-  setSortBy: (sort: string) => void;
+  setRatingFilter: Dispatch<SetStateAction<number | null>>;
+  sortBy: 'newest' | 'highest';
+  setSortBy: Dispatch<SetStateAction<'newest' | 'highest'>>;
 }
 
 export const ReviewFilters = ({
@@ -42,7 +43,7 @@ export const ReviewFilters = ({
         ))}
       </div>
 
-      <Select value={sortBy} onValueChange={setSortBy}>
+      <Select value={sortBy} onValueChange={(value) => setSortBy(value as 'newest' | 'highest')}>
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Sort" />
         </SelectTrigger>
