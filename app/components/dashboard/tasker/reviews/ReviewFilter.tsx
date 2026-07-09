@@ -7,12 +7,19 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+interface ReviewFiltersProps {
+  ratingFilter: number | null;
+  setRatingFilter: (rating: number | null) => void;
+  sortBy: string;
+  setSortBy: (sort: string) => void;
+}
+
 export const ReviewFilters = ({
   ratingFilter,
   setRatingFilter,
   sortBy,
   setSortBy,
-}) => {
+}: ReviewFiltersProps) => {
   return (
     <div className="flex justify-between flex-wrap gap-3">
       
