@@ -40,6 +40,12 @@ interface EditServiceModalProps {
   onClose: () => void;
 }
 
+interface FormErrors {
+  title?: string;
+  categoryId?: string;
+  price?: string;
+}
+
 export function EditServiceModal({
   categories,
   service,
@@ -49,7 +55,7 @@ export function EditServiceModal({
   const dispatch = useAppDispatch();
 
   const [form, setForm] = useState<Service>(service);
-  const [formErrors, setFormErrors] = useState<Partial<Service>>({});
+  const [formErrors, setFormErrors] = useState<FormErrors>({});
 
   
   useEffect(() => {
@@ -57,7 +63,7 @@ export function EditServiceModal({
   }, [service]);
 
   const validateForm = () => {
-    const errors: Partial<Service> = {};
+    const errors: FormErrors = {};
 
     if (!form.title.trim()) errors.title = 'Service title is required';
     if (!form.categoryId) errors.categoryId = 'Category is required';
