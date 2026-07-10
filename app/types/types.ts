@@ -368,6 +368,11 @@ export interface Dispute {
   User_Dispute_raisedByIdToUser?: DisputeUserSummary;
   User_Dispute_againstUserIdToUser?: DisputeUserSummary;
 }
+export interface CreateDisputePayload {
+  bookingId: string;
+  reason: string;
+  description?: string;
+}
 export type DisputeStatus =
   | "open"
   | "investigating"
