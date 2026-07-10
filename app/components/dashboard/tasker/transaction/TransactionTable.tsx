@@ -1,7 +1,7 @@
 'use client';
-import { DataTable, DataTableColumnDef } from '@/components/ui/data-table/DataTable';
+import { DataTable } from '@/components/ui/data-table/DataTable';
+import { ColumnDef } from '@tanstack/react-table';
 import Icon from '@/components/ui/AppIcon';
-;
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 import { useState } from 'react';
 import { TransactionDetailModal } from './TransactionDetailModal';
@@ -34,34 +34,34 @@ interface TransactionTableProps {
 export const TransactionTable = ({ transactions }: TransactionTableProps) => {
   const [viewingTx, setViewingTx] = useState<Transaction | null>(null);
 
-  const columns: DataTableColumnDef<Transaction>[] = [
+  const columns: ColumnDef<Transaction>[] = [
     { accessorKey: 'id', header: 'Transaction ID' },
     {
       accessorKey: 'bookingId',
       header: 'Booking ID',
-      cell: ({ row }) => (
+      cell: ({ row }: { row: any }) => (
         <span className="font-mono text-blue-600">{row.original.bookingId}</span>
       ),
     },
     { accessorKey: 'client', header: 'Client' },
     { accessorKey: 'amount', header: 'Amount',
-         cell: ({ row }) => `$${row.original.amount}` },
+         cell: ({ row }: { row: any }) => `$${row.original.amount}` },
     {
       accessorKey: 'platformFee',
       header: 'Platform Fee',
-      cell: ({ row }) => (
+      cell: ({ row }: { row: any }) => (
         <span className="font-mono text-red-600">-${row.original.platformFee}</span>
       ),
     },
     { accessorKey: 'netEarnings', header: 'Net Earnings',
-         cell: ({ row }) => (
+         cell: ({ row }: { row: any }) => (
         <span className="font-mono text-emerald-600">${row.original.netEarnings}</span>
          ),},
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => (
-        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig[row.original.status].className}`}>
+      cell: ({ row }: { row: any }) => (
+        <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${statusConfig[row.original.status as TxStatus].className}`}>
           {row.original.status}
         </span>
       ),
@@ -70,7 +70,7 @@ export const TransactionTable = ({ transactions }: TransactionTableProps) => {
     {
       id: 'actions',
       header: 'Actions',
-      cell: ({ row }) => (
+      cell: ({ row }: { row: any }) => (
         <Dialog>
           <DialogTrigger asChild>
             <button className='flex text-xs text-neutral-400 items-center gap-1'  onClick={() => setViewingTx(row.original)}>
