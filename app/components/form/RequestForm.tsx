@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { WiTime8 } from "react-icons/wi"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { locations } from "@/app/utils/constant"
 import {
   Command,
@@ -33,8 +33,8 @@ export function RequestForm({ formData, setFormData }: any) {
   const { categories, loading } = useAppSelector((state) => state.category)
 
   // Fetch categories on component mount
-  useMemo(() => {
-    dispatch(fetchCategories())
+  useEffect(() => {
+    dispatch(fetchCategories({}))
   }, [dispatch])
 
   // console.log("request form data ", formData)
