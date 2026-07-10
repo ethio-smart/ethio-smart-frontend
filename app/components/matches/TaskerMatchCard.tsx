@@ -142,7 +142,7 @@ export default function TaskerMatchCard({ result }: { result: Result }) {
 
           {/* ACTIONS */}
           <div className="flex  float-end gap-2 pt-2">
-            <ServiceRequestFromModal taskerId={result.taskerId} fields={categoryFields}>
+            <ServiceRequestFromModal categoryId="" taskerId={result.taskerId} fields={categoryFields}>
 
               <Button className="flex-1" >
                 Send Request
