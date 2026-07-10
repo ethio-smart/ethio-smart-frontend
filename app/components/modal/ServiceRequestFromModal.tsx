@@ -20,14 +20,7 @@ import { DynamicFormFields } from "../form/DynamicFormFields"
 
 import { RequestForm } from "../form/RequestForm"
 import { toast } from "sonner"
-
-type FieldConfig = {
-  name: string
-  label: string
-  type: "text" | "number" | "select" | "boolean" | "multiselect"
-  placeholder?: string
-  options?: string[]
-}
+import type { FieldConfig } from "@/app/utils/constant"
 
 type Props = {
   categoryId: string
