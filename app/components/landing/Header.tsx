@@ -149,7 +149,7 @@ const unreadCount = notifications.filter(
               </div>
             </Link>
 
-            <ProfileDropdownMenu role={user.role}>
+            <ProfileDropdownMenu>
               <Avatar className="cursor-pointer">
                 <AvatarImage src={user.imageurl} alt={user.firstName} />
                 <AvatarFallback className="bg-gray-200 text-gray-700 font-semibold">
