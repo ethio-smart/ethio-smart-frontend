@@ -2,7 +2,7 @@
 
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { api } from '@/app/utils/axiosinstance';
-import { Dispute } from '@/app/types/types';
+import { Dispute, CreateDisputePayload } from '@/app/types/types';
 
 
 
@@ -27,7 +27,7 @@ const initialState: DisputeState = {
 
 export const createDispute = createAsyncThunk(
   'dispute/createDispute',
-  async (data: Dispute, { rejectWithValue }) => {
+  async (data: CreateDisputePayload, { rejectWithValue }) => {
     try {
       const res = await api.post('/disputes', data);
 
