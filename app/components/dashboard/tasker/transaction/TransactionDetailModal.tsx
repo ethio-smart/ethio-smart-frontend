@@ -64,7 +64,7 @@ export const TransactionDetailModal = ({ transaction, onClose }: TransactionDeta
 
           <Button variant="outline" >Close</Button>
           </DialogClose>
-          <RaiseDisputeModal>
+          <RaiseDisputeModal bookingId={transaction.bookingId}>
 
           <button  className="flex items-center gap-2 px-3 py-2 rounded-lg border border-amber-300 text-amber-700 text-sm hover:bg-amber-50 transition-standard">
                 <Icon name="ExclamationTriangleIcon" size={14} variant="outline" /> Raise Dispute
