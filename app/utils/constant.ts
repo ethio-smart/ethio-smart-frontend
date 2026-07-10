@@ -21,13 +21,13 @@ export const locations = [
   "Jimma City, Oromia",
 ]
 
-type FieldType = "text" | "number" | "select" | "boolean" | "multiselect";
-interface FieldOption {
+export type FieldType = "text" | "number" | "select" | "boolean" | "multiselect";
+export interface FieldOption {
   label: string;
   value: string;
 }
 
-interface FieldConfig {
+export interface FieldConfig {
   name: string;
   label: string;
   type: FieldType;
