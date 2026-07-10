@@ -4,13 +4,13 @@ import { Badge } from "@/components/ui/badge"
 import { Star } from "lucide-react"
 
 interface Review {
-  userName: string
+  userName?: string
   avatarUrl?: string
   avatarColor?: string
   initials: string
   rating: number
-  date: string
-  service: string
+  date?: string
+  service?: string
   comment: string
 }
 
