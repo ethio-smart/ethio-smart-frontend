@@ -1,10 +1,10 @@
-import { TaskerType } from "@/app/types/types"
+import { Tasker } from "@/app/types/types"
 
 
 export default function TaskerAbout({
   bio,
 }: {
-  bio?: TaskerType["bio"]
+  bio?: Tasker["bio"]
 }) {
   if (!bio) return null
 
