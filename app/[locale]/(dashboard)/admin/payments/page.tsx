@@ -43,7 +43,7 @@ export default function AdminPaymentsPage() {
   const stats = useMemo(() => {
     const totalVolume = payments.reduce((sum, payment) => sum + Number(payment.amount ?? 0), 0);
     const paidCount = payments.filter(
-      (payment) => payment.status === "PAID" || payment.status === "COMPLETED",
+      (payment) => payment.status === "PAID" || payment.status === "RELEASED",
     ).length;
     const pendingCount = payments.filter((payment) => payment.status === "PENDING").length;
 
