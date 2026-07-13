@@ -53,7 +53,7 @@ export default function TaskerSkills({
                   {service.priceType}
                 </p>
               </div>
-              <ServiceRequestFromModal fields={categoryFields} serviceId={service.id} categoryId={service.categoryId}>
+              <ServiceRequestFromModal fields={categoryFields} taskerId={service.taskerId} categoryId={service.categoryId}>
 
               <Button size="sm">Send Request</Button>
               </ServiceRequestFromModal>
