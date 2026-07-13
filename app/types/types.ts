@@ -424,7 +424,7 @@ export type DisputeResolutionBody = {
   resolutionNote: string;
   refundAmount?: number;
 };
-export type PaymentStatus = "PENDING" | "PAID" | "COMPLETED" | "FAILED" | "REFUNDED"; // adjust if needed
+export type PaymentStatus = "PENDING" | "PAID" | "HELD" | "RELEASED" | "REFUNDED" | "FAILED"; 
 
 export interface Payment {
   
