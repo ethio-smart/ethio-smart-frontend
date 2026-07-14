@@ -24,13 +24,13 @@ const initialState: AdminUsersState = {
 const mapBackendRoleToUiRole = (role: AdminUserApiResponse["role"]): UserRole => {
   switch (role) {
     case "TASKER":
-      return "Tasker";
+      return "TASKER";
     case "USER":
-      return "Client";
+      return "USER";
     case "SUPER_ADMIN":
     case "SYSTEM_ADMIN":
     default:
-      return "Admin";
+      return "SUPER_ADMIN";
   }
 };
 
