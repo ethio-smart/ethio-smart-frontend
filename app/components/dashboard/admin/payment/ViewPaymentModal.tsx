@@ -21,7 +21,7 @@ export default function ViewPaymentModal({ payment, open, onClose }: Props) {
   if (!payment) return null;
 
   const statusClass =
-    payment.status === "PAID" || payment.status === "COMPLETED"
+    payment.status === "PAID" || payment.status === "RELEASED"
       ? "bg-emerald-100 text-emerald-700"
       : payment.status === "FAILED"
       ? "bg-red-100 text-red-700"
