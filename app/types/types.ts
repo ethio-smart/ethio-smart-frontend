@@ -541,16 +541,36 @@ export type AdminAnalyticsSeriesItem = {
   totalRequests: number;
   totalTaskers: number;
   earnings: number;
+  periodStart: string;
+  periodEnd: string;
 };
 
-  // export type PaymentStatus= 
-  // |'PENDING'
-  // |'PAID'
-  // |'HELD'
-  // |'RELEASED'
-  // |'REFUNDED'
-  // |'FAILED'
+export type AdminAnalyticsOverview = {
+  totals: {
+    totalBookings: number;
+    activeBookings: number;
+    earnings: number;
+    totalRequests: number;
+    totalTaskers: number;
+    approvedTaskers: number;
+  };
+};
 
+export type AdminAnalyticsPeriodSnapshot = {
+  periodStart: string;
+  periodEnd: string;
+  totalBookings: number;
+  activeBookings: number;
+  earnings: number;
+  totalRequests: number;
+  totalTaskers: number;
+};
+
+export type AdminAnalyticsSeriesResponse = {
+  data: AdminAnalyticsSeriesItem[];
+  weeks?: number;
+  months?: number;
+};
 
 export type PaymentState = {
   paymentResponse: PaymentResponse | null;
