@@ -572,12 +572,18 @@ export type AdminAnalyticsSeriesResponse = {
   months?: number;
 };
 
+export type PaymentResponse = {
+  payment: Payment;
+  checkoutUrl?: string;
+  message?: string;
+};
+
 export type PaymentState = {
   paymentResponse: PaymentResponse | null;
-      paymentHistory: Payment[],
+  paymentHistory: Payment[];
   loading: {
     createPayment: boolean;
-    paymentHistory:boolean;
+    paymentHistory: boolean;
   };
   error: string | null;
 };
