@@ -201,7 +201,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
 
     // INVITE
@@ -218,7 +218,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
 
     // FETCH OUTGOING
@@ -235,7 +235,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
 
     // FETCH INCOMING
@@ -252,7 +252,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
 
     // ACCEPT
@@ -276,7 +276,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
 
     // REJECT
@@ -302,14 +302,14 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     })
     // CANCEL
     builder.addCase(cancelRequest.pending, (state, action) => {
       const id = action.meta.arg 
       const req = state.outgoingInvitations.find(r => r.id === id)
       if(req){
-        req.status = "CANCELLED"
+        req.status = "CANCELLED" as any
       }
     })
     builder.addCase(cancelRequest.fulfilled, (state, action) => {
@@ -324,7 +324,7 @@ const requestSlice = createSlice({
       state.error =
         typeof action.payload === "string"
           ? action.payload
-          : action.payload?.message || "Something went wrong"
+          : (action.payload as any)?.message || "Something went wrong"
     }
     
     )
@@ -344,7 +344,7 @@ builder.addCase(createRequestFromService.rejected, (state, action) => {
   state.error =
     typeof action.payload === "string"
       ? action.payload
-      : action.payload?.message || "Something went wrong"
+      : (action.payload as any)?.message || "Something went wrong"
 })
   },
 })
