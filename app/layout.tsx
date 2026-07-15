@@ -19,8 +19,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ethio Smart",
+  title: "Seralink",
   description: "Service marketplace",
+  icons: {
+    icon: "/seralink-logo-removebg-preview.png",
+  },
 };
 
 export default function RootLayout({
