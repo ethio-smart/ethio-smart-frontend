@@ -59,7 +59,11 @@ export const fetchResume = createAsyncThunk<
     }
   }
 )
-export const fetchResumeTasker= createAsyncThunk(
+export const fetchResumeTasker= createAsyncThunk<
+  { resume: Resume },
+  void,
+  { rejectValue: string }
+>(
   "resume/fetchResumeTasker",
   async (_, { rejectWithValue }) => {
     try {
