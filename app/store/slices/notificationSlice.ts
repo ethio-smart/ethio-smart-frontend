@@ -136,7 +136,7 @@ const deviceTokenSlice = createSlice({
       })
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.loading = false
-        state.error = (action.payload as string) || "Request failed"
+        state.errornotification = (action.payload as string) || "Request failed"
       })
   },
 })
