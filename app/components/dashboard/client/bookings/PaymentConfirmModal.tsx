@@ -37,9 +37,9 @@ export default function PaymentConfirmModal({
       const result = await dispatch(createPayment(bookingId))
       
       if (createPayment.fulfilled.match(result)) {
-        const checkoutUrl = result.payload.data.checkout_url
+        const checkoutUrl = result.payload.checkoutUrl
 
-        
+
         if (checkoutUrl) {
       window.open(checkoutUrl, "_blank")
       setIsOpen(false)
