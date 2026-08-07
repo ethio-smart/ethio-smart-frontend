@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks"
 import { createRequest } from "@/app/store/slices/requestSlice"
 import { categoryFields } from "@/app/utils/constant"
 import { useLocale } from "next-intl"
+import { AlertCircle } from "lucide-react"
 
 
 
@@ -114,6 +115,8 @@ export default function Page() {
   const { loading ,request} = useAppSelector((state) => state.request)
    console.log('request👉👉👉👉',request)
   const [step, setStep] = useState(0)
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const [stepErrors, setStepErrors] = useState<Record<string, string>>({})
     const locale=useLocale()
   const [formData, setFormData] = useState<FormDataType>({
     categoryId: categoryId || "",
@@ -137,25 +140,80 @@ export default function Page() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }, [step])
 
+  const validateStep0 = (): boolean => {
+    const errs: Record<string, string> = {}
+
+    if (!formData.categoryId) errs.categoryId = "Please select a category"
+    if (!formData.tittle?.trim()) errs.tittle = "Title is required"
+    if (!formData.location?.trim()) errs.location = "Location is required"
+    if (!formData.description?.trim()) errs.description = "Description is required"
+    if (!formData.budget || Number(formData.budget) <= 0) errs.budget = "Please enter a valid budget"
+    if (!formData.preferedDate) errs.preferedDate = "Preferred date and time are required"
+
+    setStepErrors(errs)
+    return Object.keys(errs).length === 0
+  }
+
   const nextStep = () => {
+    if (step === 0 && !validateStep0()) return
+    setSubmitError(null)
+    setStepErrors({})
     setStep((prev) => Math.min(prev + 1, steps.length - 1))
   }
 
   const prevStep = () => {
+    setSubmitError(null)
+    setStepErrors({})
     setStep((prev) => Math.max(prev - 1, 0))
   }
 
   /* HANDLE SUBMIT  */
  const handleSubmit = async () => {
+  setSubmitError(null)
+  
+  // Final validation
+  if (!validateStep0()) {
+    setSubmitError("Please complete all required fields")
+    return
+  }
+
   try {
-    const createdRequest = await dispatch(createRequest({
-      ...formData,
-      budget: formData.budget ? Number(formData.budget) : undefined
-    })).unwrap()
+    // Clean payload - remove empty strings, convert to proper types
+    const payload: any = {
+      categoryId: formData.categoryId,
+      tittle: formData.tittle.trim(),
+      location: formData.location.trim(),
+      description: formData.description.trim(),
+      budget: Number(formData.budget),
+      preferedDate: formData.preferedDate,
+      dynamicData: formData.dynamicData || {}
+    }
+
+    const createdRequest = await dispatch(createRequest(payload)).unwrap()
     const requestId = createdRequest.id 
     router.push(`/${locale}/request/${requestId}/matches/${categoryId}`)
-  } catch (error) {
-    console.error("Request failed:", error)
+  } catch (error: any) {
+    console.error("Request creation failed")
+    console.error("Status:", error?.status)
+    console.error("Message:", error?.message)
+    console.error("Full error:", JSON.stringify(error, null, 2))
+    
+    const status = error?.status || error?.response?.status
+    const message = error?.message || error?.response?.data?.message
+
+    if (status === 401 || status === 403) {
+      setSubmitError("You need to be logged in to create a request")
+    } else if (status === 400) {
+      setSubmitError(message || "Some required fields are missing or invalid. Please review your request")
+    } else if (status === 404) {
+      setSubmitError("The selected category was not found. Please go back and try again")
+    } else if (status === 500) {
+      setSubmitError("Something went wrong on our end. Please try again in a moment")
+    } else if (!status) {
+      setSubmitError("Unable to connect to the server. Please check your internet connection")
+    } else {
+      setSubmitError(message || "Failed to create request. Please try again")
+    }
   }
 }
 
@@ -190,6 +248,7 @@ export default function Page() {
             <RequestForm
               formData={formData}
               setFormData={setFormData}
+              errors={stepErrors}
             />
           )}
 
@@ -208,7 +267,16 @@ export default function Page() {
           )}
 
           {/* Buttons */}
-          <div className="flex justify-between pt-4">
+          <div className="flex flex-col gap-3 pt-4">
+
+            {submitError && (
+              <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                {submitError}
+              </div>
+            )}
+
+            <div className="flex justify-between">
 
             {step === 0 ? (
               <Button variant="outline" onClick={() => router.back()}>
@@ -229,6 +297,8 @@ export default function Page() {
                 {loading.create ? "Finding tasker..." : "Confirm & Find Tasker"}
               </Button>
             )}
+
+            </div>
 
           </div>
 
