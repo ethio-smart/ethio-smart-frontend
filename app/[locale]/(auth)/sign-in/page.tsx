@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { Mail, Phone, Lock, Eye, EyeOff, ArrowLeft, Loader2 } from "lucide-react"
+import { Mail, Phone, Lock, Eye, EyeOff, ArrowLeft, Loader2, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -106,8 +106,22 @@ function SignIn() {
       }
 
     } catch (err: any) {
-      // dispatch(setError(err?.response?.data?.message || "Login failed"))
-      setError(err?.response?.data?.message || "Login failed")
+      const status = err?.response?.status
+      const message = err?.response?.data?.message
+
+      if (status === 401) {
+        setError("Incorrect email/phone or password")
+      } else if (status === 404) {
+        setError("No account found with these credentials")
+      } else if (status === 403) {
+        setError("Your account has been suspended. Please contact support")
+      } else if (status === 500) {
+        setError("Something went wrong on our end. Please try again in a moment")
+      } else if (!err?.response) {
+        setError("Unable to connect to the server. Please check your internet connection")
+      } else {
+        setError(message || "Sign in failed. Please try again")
+      }
 
     } finally {
       dispatch(setLoading(false))
@@ -188,7 +202,12 @@ function SignIn() {
             </div>
           </div>
 
-          {error && <p className="text-sm text-red-500">{error}</p>}
+          {error && (
+            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {error}
+            </div>
+          )}
 
           <div className="text-right">
             <Link href="/forgot-password" className="text-sm text-primary hover:underline">

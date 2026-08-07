@@ -114,6 +114,8 @@ function SignUp() {
 
   const [showPassword, setShowPassword] = useState(false)
 
+  const [generalError, setGeneralError] = useState<string | null>(null)
+
   const [errors, setErrors] = useState({
 
     firstName: "",
@@ -246,10 +248,8 @@ function SignUp() {
 
     const { name, value } = e.target
 
-
-
-    // Clear error for this field when user starts typing
-
+    // Clear errors when user starts typing
+    setGeneralError(null)
     setErrors((prev) => ({
 
       ...prev,
@@ -314,44 +314,32 @@ function SignUp() {
 
       console.error(error)
 
-      
+      const status = error.response?.status
+      const message = error.response?.data?.message || ""
 
-      // Handle API validation errors
-
-      if (error.response?.data?.errors) {
-
-        const apiErrors = error.response.data.errors;
-
-        setErrors((prev) => ({
-
-          ...prev,
-
-          ...apiErrors,
-
-        }));
-
-      } else if (error.response?.data?.message) {
-
-        // Handle general API error messages
-
-        const errorMessage = error.response.data.message;
-
-        if (errorMessage.toLowerCase().includes('email')) {
-
-          setErrors((prev) => ({ ...prev, email: errorMessage }));
-
-        } else if (errorMessage.toLowerCase().includes('phone')) {
-
-          setErrors((prev) => ({ ...prev, phone: errorMessage }));
-
+      if (status === 409) {
+        // Account already exists
+        if (message.toLowerCase().includes("phone")) {
+          setErrors((prev) => ({ ...prev, phone: "This phone number is already registered" }))
         } else {
-
-          // You could add a general error state here if needed
-
-          console.error('Signup error:', errorMessage);
-
+          setErrors((prev) => ({ ...prev, email: "This email is already registered" }))
         }
-
+      } else if (status === 422 || error.response?.data?.errors) {
+        // Validation errors from backend
+        const apiErrors = error.response.data.errors
+        if (apiErrors) {
+          setErrors((prev) => ({ ...prev, ...apiErrors }))
+        } else {
+          setGeneralError(message || "Please check your information and try again")
+        }
+      } else if (status === 400) {
+        setGeneralError(message || "Invalid information provided. Please check your details")
+      } else if (status === 500) {
+        setGeneralError("Something went wrong on our end. Please try again in a moment")
+      } else if (!error.response) {
+        setGeneralError("Unable to connect to the server. Please check your internet connection")
+      } else {
+        setGeneralError(message || "Sign up failed. Please try again")
       }
 
     } finally {
@@ -651,6 +639,13 @@ function SignUp() {
           </div>
 
 
+
+          {generalError && (
+            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-600 dark:border-red-800 dark:bg-red-950 dark:text-red-400">
+              <AlertCircle className="h-4 w-4 shrink-0" />
+              {generalError}
+            </div>
+          )}
 
           <Button type="submit" className="w-full" disabled={loading}>
 
