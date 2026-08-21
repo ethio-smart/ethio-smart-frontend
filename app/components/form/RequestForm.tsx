@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { MapPin, FileText, DollarSign, Calendar1, NotebookPen } from "lucide-react"
+import { MapPin, FileText, DollarSign, Calendar1, NotebookPen, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -25,7 +25,7 @@ import { fetchCategories } from "@/app/store/slices/categorySlice"
 
 
 
-export function RequestForm({ formData, setFormData }: any) {
+export function RequestForm({ formData, setFormData, errors = {} }: any) {
   const [locationOpen, setLocationOpen] = useState(false)
   const [location, setLocation] = useState("")
   
@@ -89,7 +89,7 @@ export function RequestForm({ formData, setFormData }: any) {
             value={formData.categoryId || ""}
             onValueChange={(value) => handleChange("categoryId", value)}
           >
-            <SelectTrigger className="w-full py-5">
+            <SelectTrigger className={`w-full py-5 ${errors.categoryId ? "border-red-500" : ""}`}>
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
@@ -106,6 +106,11 @@ export function RequestForm({ formData, setFormData }: any) {
               )}
             </SelectContent>
           </Select>
+          {errors.categoryId && (
+            <div className="flex items-center gap-1 text-red-500 text-sm">
+              <AlertCircle className="h-4 w-4" /> {errors.categoryId}
+            </div>
+          )}
         </div>
 
         {/* LOCATION */}
@@ -123,8 +128,13 @@ export function RequestForm({ formData, setFormData }: any) {
               handleChange("location", e.target.value)
               setLocationOpen(true)
             }}
-            className="w-full py-5"
+            className={`w-full py-5 ${errors.location ? "border-red-500" : ""}`}
           />
+          {errors.location && (
+            <div className="flex items-center gap-1 text-red-500 text-sm">
+              <AlertCircle className="h-4 w-4" /> {errors.location}
+            </div>
+          )}
 
           {locationOpen && (
             <div className="absolute w-full mt-1 border rounded-md bg-white shadow-md z-50">
@@ -157,9 +167,14 @@ export function RequestForm({ formData, setFormData }: any) {
           </Label>
           <Input
             placeholder="eg Deep cleaning for 2-bedroom apartment"
-            className="w-full py-5"
+            className={`w-full py-5 ${errors.tittle ? "border-red-500" : ""}`}
             onChange={(e) => handleChange("tittle", e.target.value)}
           />
+          {errors.tittle && (
+            <div className="flex items-center gap-1 text-red-500 text-sm">
+              <AlertCircle className="h-4 w-4" /> {errors.tittle}
+            </div>
+          )}
           <Label className="font-medium flex items-center gap-2">
             <FileText size={18} className="text-primary" />
             <span>Description</span>
@@ -167,11 +182,14 @@ export function RequestForm({ formData, setFormData }: any) {
 
           <Textarea
             placeholder="Provide details so the tasker knows what to do"
-            className="w-full h-32"
-            onChange={(e) =>
-              handleChange("description", e.target.value)
-            }
+            className={`w-full h-32 ${errors.description ? "border-red-500" : ""}`}
+            onChange={(e) => handleChange("description", e.target.value)}
           />
+          {errors.description && (
+            <div className="flex items-center gap-1 text-red-500 text-sm">
+              <AlertCircle className="h-4 w-4" /> {errors.description}
+            </div>
+          )}
         </div>
 
         {/* Budget */}
@@ -184,11 +202,14 @@ export function RequestForm({ formData, setFormData }: any) {
           <Input
             type="number"
             placeholder="Enter your budget in ETB"
-            className="w-full py-5"
-            onChange={(e) =>
-              handleChange("budget", Number(e.target.value))
-            }
+            className={`w-full py-5 ${errors.budget ? "border-red-500" : ""}`}
+            onChange={(e) => handleChange("budget", Number(e.target.value))}
           />
+          {errors.budget && (
+            <div className="flex items-center gap-1 text-red-500 text-sm">
+              <AlertCircle className="h-4 w-4" /> {errors.budget}
+            </div>
+          )}
         </div>
 
         {/* Date */}
@@ -201,11 +222,14 @@ export function RequestForm({ formData, setFormData }: any) {
             </Label>              
             <Input
               type="date"
-              className="w-full py-5"
-              onChange={(e) =>
-                handleDateTimeChange(e.target.value, "date")
-              }
+              className={`w-full py-5 ${errors.preferedDate ? "border-red-500" : ""}`}
+              onChange={(e) => handleDateTimeChange(e.target.value, "date")}
             />
+            {errors.preferedDate && (
+              <div className="flex items-center gap-1 text-red-500 text-sm">
+                <AlertCircle className="h-4 w-4" /> {errors.preferedDate}
+              </div>
+            )}
           </div>
 
           <div className="space-y-4 w-full">

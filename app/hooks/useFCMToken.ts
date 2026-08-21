@@ -21,7 +21,7 @@ const useFCMToken = () => {
 
         // Check if FCM is supported
         const isFCMSupported = await isSupported();
-        console.log('is fcm supported',isFCMSupported)
+        console.log("is fcm supported", isFCMSupported);
         if (!isFCMSupported) {
           console.warn(" FCM not supported in this browser");
           return;
@@ -34,13 +34,19 @@ const useFCMToken = () => {
         }
 
         console.log(" Getting FCM token...");
-        
+
+        const messagingInstance = await messaging();
+        if (!messagingInstance) {
+          console.warn(" Messaging instance not available");
+          return;
+        }
+
         // Get token with proper error handling
-        const currentToken = await getToken(messaging(), {
+        const currentToken = await getToken(messagingInstance, {
           vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY!,
-          serviceWorkerRegistration:await navigator.serviceWorker.register(
-            '/firebase-messaging-sw.js'
-          )
+          serviceWorkerRegistration: await navigator.serviceWorker.register(
+            "/firebase-messaging-sw.js"
+          ),
         });
 
         if (!currentToken) {

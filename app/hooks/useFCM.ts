@@ -13,21 +13,23 @@ const useFCM = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const msg = messaging();
-    if (!msg) return;
+    let unsubscribe: (() => void) | undefined;
 
-    const unsubscribe = onMessage(msg, (payload: MessagePayload) => {
-      console.log("🔥 Foreground message received:", payload);
+    messaging().then((msg) => {
+      if (!msg) return;
 
-      // IMPORTANT: use DATA, not notification
-      toast(payload.data?.title || "New Notification", {
-        description: payload.data?.body || "",
+      unsubscribe = onMessage(msg, (payload: MessagePayload) => {
+        console.log("🔥 Foreground message received:", payload);
+
+        toast(payload.data?.title || "New Notification", {
+          description: payload.data?.body || "",
+        });
+
+        setMessages((prev) => [...prev, payload]);
       });
-
-      setMessages((prev) => [...prev, payload]);
     });
 
-    return () => unsubscribe();
+    return () => unsubscribe?.();
   }, []);
 
   return { fcmToken, messages };

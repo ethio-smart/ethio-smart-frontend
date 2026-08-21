@@ -56,7 +56,11 @@ export const createRequest = createAsyncThunk(
       console.log('create request response', res.data)
       return res.data
     } catch (err: any) {
-      return rejectWithValue(err.response?.data)
+      return rejectWithValue({
+        status: err.response?.status,
+        message: err.response?.data?.message || err.message,
+        data: err.response?.data
+      })
     }
   }
 )
