@@ -81,7 +81,7 @@
     }
   },
   "about": {
-    "badge": "Maaliif Ethio-Smart?",
+    "badge": "Maaliif Seralink?",
     "title": "Nageenya Itoophiyaaf Ijaarame",
     "description": "Nuti marsariitii tarreeffamaa qofa miti. Nuti bu’uura teeknooloojii kan maatiiwwan biyyattii hundaaf qulqullinaa fi nageenya mirkaneessu dha.",
     "missionLabel": "ERGAMA KEENYA",
@@ -109,7 +109,7 @@
     "title": "Gaaffilee Yeroo Baay’ee Gaafataman",
     "items": [
       {
-        "question": "Ethio-Smart ServiceLink akkamitti ogeessa sirrii na waliin walqabsiisa?",
+        "question": "Seralink ServiceLink akkamitti ogeessa sirrii na waliin walqabsiisa?",
         "answer": "Nuti AI’n deeggaramee ibsa hojii, iddoo, baajata fi dandeettii barbaachisu qoranna. Sana booda odeeffannoo kana piroofaayilii ogeessota mirkanaa’an, seenaa hojii fi madaallii isaanii waliin walbira qabnee nama siif mijatu filanna."
       },
       {

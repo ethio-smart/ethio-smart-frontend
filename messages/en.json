@@ -111,7 +111,7 @@
   },
 
   "about": {
-    "badge": "Why Ethio-Smart?",
+    "badge": "Why Seralink?",
     "title": "Security Built for Ethiopia",
     "description": "We are more than a listing site. We are a technical infrastructure that guarantees quality and safety for every household in the country.",
     "missionLabel": "OUR MISSION",
@@ -140,7 +140,7 @@
     "title": "Frequently Asked Questions",
     "items": [
       {
-        "question": "How does Ethio-Smart ServiceLink match me with the right tasker?",
+        "question": "How does Seralink ServiceLink match me with the right tasker?",
         "answer": "We use AI-powered semantic matching to analyze your task description, location, budget, and required skills. The system compares this with verified tasker profiles, experience history, and ratings to suggest the most suitable professionals."
       },
       {
@@ -196,7 +196,7 @@
     "title": "Monetize Your Skills Today.",
     "description": "Are you a skilled pro? Join Ethiopia's most prestigious service network. Get access to high-paying clients and grow your business with secure payments.",
     "stats": {
-      "clients": "15,000+ Active Clients",
+      "clients": "150+ Active Clients",
       "payments": "Guaranteed Payments"
     },
     "button": "Become a tasker",
